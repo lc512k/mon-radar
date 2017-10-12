@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>hello world</title>
+</head>
+<body>
+	<form method="POST" action="/api/subscribe">
+		<label for="mons">Which mons do you care about?</label>
+		<input id="mons" type="text" name="mons" placeholder="[143,131]">
+		<button id="submit">Submit</button>
+	</form>
+<br>
+<button hidden disabled class="js-push-btn">
+Enable Push
+</button>
+<script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
+<script type="text/javascript" src="client.js"></script>
+<script type="text/javascript" src="push.js"></script>
+</body>
+</html>
