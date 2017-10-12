@@ -2,32 +2,45 @@ const webpush = require('web-push');
 const env = require('node-env-file');
 const fs = require('fs');
 env(__dirname + '/../.env');
+const fetchMons = require('../lib/map');
 
-webpush.setGCMAPIKey('AIzaSyAQQ8SwlBJAoxkw82Rw5lUtxFpzmK8nZ5s');
-webpush.setVapidDetails(
-	process.env.EMAIL,
-	process.env.PUBLIC_KEY,
-	process.env.PRIVATE_KEY
-);
+async function init () {
+	const mons = await fetchMons();
+	console.log(mons);
 
-const data = fs.readFileSync('./data/subs.json', 'utf8');
-const dataJSON = JSON.parse(data);
+	webpush.setGCMAPIKey('AIzaSyAQQ8SwlBJAoxkw82Rw5lUtxFpzmK8nZ5s');
+	webpush.setVapidDetails(
+		process.env.EMAIL,
+		process.env.PUBLIC_KEY,
+		process.env.PRIVATE_KEY
+	);
 
-console.log('dataJSON');
-console.log(dataJSON);
+	const data = fs.readFileSync('./data/subs.json', 'utf8');
+	const dataJSON = JSON.parse(data);
 
-for (const uuid in dataJSON) {
-	if (dataJSON.hasOwnProperty(uuid)) {
-		console.log(uuid);
+	console.log('dataJSON');
+	console.log(dataJSON);
 
-		const sub = dataJSON[uuid];
+	for (const uuid in dataJSON) {
+		if (dataJSON.hasOwnProperty(uuid)) {
+			console.log(uuid);
 
-		const pushSubscription = sub.subscription;
+			const sub = dataJSON[uuid];
 
-		webpush.sendNotification(pushSubscription, `${sub.mons} nearby!`).catch(function (e) {
-			console.log(e);
-		});
+			const pushSubscription = sub.subscription;
+
+			for (const key in mons) {
+				if (mons.hasOwnProperty(key)) {
+					const mon = mons[key];
+
+					webpush.sendNotification(pushSubscription, `${mon.name} nearby for ${mon.despawn} more minutes`).catch(function (e) {
+						console.log(e);
+					});
+				}
+			}
+		}
 	}
+
 }
 
-
+init();

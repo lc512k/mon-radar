@@ -1,5 +1,4 @@
 const express = require('express');
-const fetchMons = require('./lib/map');
 const db = require('./lib/db');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -10,7 +9,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', async function (req, res) {
-	const mons = await fetchMons();
 	res.index();
 });
 

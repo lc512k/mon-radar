@@ -104,14 +104,7 @@ function unsubscribeUser () {
 }
 
 function initialiseUI () {
-	// pushButton.addEventListener('click', function () {
-	// 	pushButton.disabled = true;
-		// if (isSubscribed) {
-		// 	unsubscribeUser();
-		// } else {
-			subscribeUser();
-		// }
-	// });
+	subscribeUser();
 
 	// Set the initial subscription value
 	swRegistration.pushManager.getSubscription()
