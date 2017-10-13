@@ -15,7 +15,7 @@ async function init () {
 		process.env.PRIVATE_KEY
 	);
 
-	const data = fs.readFileSync('./data/subs.json', 'utf8');
+	const data = fs.readFileSync('/Users/laura.carvajal/personal/mon-radar/data/subs.json', 'utf8');
 	const dataJSON = JSON.parse(data);
 
 	console.log('dataJSON');
@@ -33,7 +33,7 @@ async function init () {
 				if (mons.hasOwnProperty(key)) {
 					const mon = mons[key];
 
-					webpush.sendNotification(pushSubscription, `${mon.name} nearby for ${mon.despawn} more minutes`).catch(function (e) {
+					webpush.sendNotification(pushSubscription, `${mon.name} is ${mon.distance}m away for ${mon.despawn} more minutes`).catch(function (e) {
 						console.log(e);
 					});
 				}
