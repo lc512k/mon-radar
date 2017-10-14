@@ -1,0 +1,1 @@
+console.warn('no client tests found');

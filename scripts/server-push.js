@@ -32,7 +32,6 @@ async function init () {
 			for (const key in mons) {
 				if (mons.hasOwnProperty(key)) {
 					const mon = mons[key];
-
 					webpush.sendNotification(pushSubscription, `${mon.name} is ${mon.distance}m away for ${mon.despawn} more minutes`).catch(function (e) {
 						console.log(e);
 					});
@@ -40,7 +39,7 @@ async function init () {
 			}
 		}
 	}
-
+	return mons;
 }
 
-init();
+module.exports = init;

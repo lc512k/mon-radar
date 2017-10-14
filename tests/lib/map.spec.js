@@ -11,10 +11,13 @@ beforeEach(() => {
 	map = proxyquire('../../lib/map', {
 		'isomorphic-fetch': fetchStub.returns(Promise.resolve({json: function () {return Promise.resolve(testData);}}))
 	});
+
+	// process.env.ACCEPTABLE_RADIUS = 2000;
 });
 
 afterEach(() => {
 	fetchStub.reset();
+	// delete process.env.ACCEPTABLE_RADIUS;
 });
 
 describe('The map library', () => {
