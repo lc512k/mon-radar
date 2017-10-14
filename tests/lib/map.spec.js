@@ -1,35 +1,56 @@
 const assert = require('assert');
-const rewire = require('rewire');
 const sinon = require('sinon');
-// const fetchMock = require('fetch-mock');
-const map = rewire('../../lib/map');
-// const map = require('../../lib/map');
+const proxyquire = require('proxyquire');
+const testData = require('../../data/stub.json');
 
-// fetch doesn't get call if test env var
-// fetch does get called if no test env var
-// find returns an array of objects with name despawn and distance
-	// name is a string, not a number
-	// despawn is a time
-	// distance is an natural number
-// find returns an empty array with certain params
-// fetchLondongPogoMap calls fetch
-// fetchLondongPogoMap returns a promise
-// fetchLondongPogoMap with a bad url, error is caught
+let map;
+let fetchStub;
 
 beforeEach(() => {
-	// const fetchStub = sinon.stub(this, 'fetch', function () {
-	// });
+ 	fetchStub = sinon.stub();
+	map = proxyquire('../../lib/map', {
+		'isomorphic-fetch': fetchStub.returns(Promise.resolve({json: function () {return Promise.resolve(testData);}}))
+	});
 });
 
+afterEach(() => {
+	fetchStub.reset();
+});
 
-describe('fetchLondongPogoMap', () => {
-	it('should return a promise', () => {
-		// TODO make sure fetch is stubbed first
-		const fetchLondongPogoMap = map.__get__('fetchLondongPogoMap');
-		const promise = fetchLondongPogoMap();
-		assert.equal('function', typeof promise.then);
+describe('The map library', () => {
+	it('should call fetch if no TEST env is set', async () => {
+		await map();
+		sinon.assert.called(fetchStub);
 	});
-	it('should fail silently with a bad URL', () => {
-		assert.equal(-1, [1,2,3].indexOf(4));
+	it('should not call fetch if TEST env is set', () => {
+		process.env.TEST = 'true';
+		map();
+		sinon.assert.notCalled(fetchStub);
+		delete process.env.TEST;
+	});
+	it('should return a promise', () => {
+		assert.equal('function', typeof map().then);
+	});
+	it('should return an array', async () => {
+		const mons = await map();
+		assert(mons.length > 0);
+	});
+	it('should return an array of objects with a name', async () => {
+		const mons = await map();
+		const firstMon = mons[0];
+		assert(firstMon.name !== undefined);
+		assert('string', typeof firstMon.name);
+	});
+	it('should return an array of objects with a despawn time', async () => {
+		const mons = await map();
+		const firstMon = mons[0];
+		assert(firstMon.despawn !== undefined);
+		assert('string', typeof firstMon.despawn);
+	});
+	it('should return an array of objects with a numeric distance', async () => {
+		const mons = await map();
+		const firstMon = mons[0];
+		assert(firstMon.distance !== undefined);
+		assert('number', typeof parseInt(firstMon.distance, 10));
 	});
 });
