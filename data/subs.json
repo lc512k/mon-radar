@@ -11,5 +11,18 @@
         "auth": "HoGxY7ImFFc0gTPX22o0jg=="
       }
     }
+  },
+  "c8d78fe1-2b62-4689-a5ff-6707e6d899fb": {
+    "mons": [
+      "Snorlax"
+    ],
+    "subscription": {
+      "endpoint": "https://fcm.googleapis.com/fcm/send/foUpADRtruI:APA91bGTh7Afzbb-_Esdmk-QaYthBxGhK9KlNFVZ85T8jgOiMmW3Zgv8wt0-JCaB3pm4UcfEbrtPQyUnG2FQFQXYN8qAXyuKU6k_--Ofxjm-1KbuSWUaQxZ536CWAgEF23r_gogNU3A3",
+      "expirationTime": null,
+      "keys": {
+        "p256dh": "BJ_J6yo2W_C7MKw_uZUyJI0tLPOXeLi74sTuopxdu9Tr-KR2VWnuK9susEdG_YXGjHecDpLpoSfJWtLFV7W93Gg=",
+        "auth": "dNttGTHlqrBlQxdhKk7d1Q=="
+      }
+    }
   }
 }

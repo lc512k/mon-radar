@@ -1,5 +1,5 @@
 const assert = require('assert');
-const geo = require('../../util/geo');
+const geo = require('../../../util/geo');
 
 describe('The geo utility', () => {
 

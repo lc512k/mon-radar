@@ -1,7 +1,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
-const testData = require('../../data/stub.json');
+const testData = require('../../../data/stub.json');
 
 describe('The map library', () => {
 
@@ -10,7 +10,7 @@ describe('The map library', () => {
 
 	beforeEach(() => {
 	 	fetchStub = sinon.stub();
-		map = proxyquire('../../lib/map', {
+		map = proxyquire('../../../lib/map', {
 			'isomorphic-fetch': fetchStub.returns(Promise.resolve({json: function () {return Promise.resolve(testData);}}))
 		});
 
