@@ -2,6 +2,22 @@ const sinon = require('sinon');
 
 describe('The client script:', function () {
 
+	describe('Submit', function () {
+		const button = document.createElement('button');
+		button.id = 'submit';
+		document.body.appendChild(button);
+
+		let fetchStub = sinon.stub();
+		fetch = fetchStub;
+		require('../../public/client');
+
+		it('should call fetch once when clicking the submit button', function () {
+			const submitBtn = document.querySelector('#submit');
+			submitBtn.click();
+			sinon.assert.calledOnce(fetchStub);
+		});
+	});
+
 	// TODO fix cookie deletion
 	// describe('The Cookie', function () {
 	// 	const button = document.createElement('button');
@@ -34,20 +50,4 @@ describe('The client script:', function () {
 	// 		// assert(typeof document.cookie, 'string');
 	// 	});
 	// });
-
-	describe('Submit', function () {
-		const button = document.createElement('button');
-		button.id = 'submit';
-		document.body.appendChild(button);
-
-		let fetchStub = sinon.stub();
-		fetch = fetchStub;
-		require('../../public/client');
-
-		it('should call fetch once when clicking the submit button', function () {
-			const submitBtn = document.querySelector('#submit');
-			submitBtn.click();
-			sinon.assert.calledOnce(fetchStub);
-		});
-	});
 });
