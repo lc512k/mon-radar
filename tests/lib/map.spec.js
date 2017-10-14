@@ -14,12 +14,12 @@ describe('The map library', () => {
 			'isomorphic-fetch': fetchStub.returns(Promise.resolve({json: function () {return Promise.resolve(testData);}}))
 		});
 
-		// process.env.ACCEPTABLE_RADIUS = 2000;
+		process.env.ACCEPTABLE_RADIUS = 2000;
 	});
 
 	afterEach(() => {
 		fetchStub.reset();
-		// delete process.env.ACCEPTABLE_RADIUS;
+		delete process.env.ACCEPTABLE_RADIUS;
 	});
 
 	it('should call fetch if no TEST env is set', async () => {
