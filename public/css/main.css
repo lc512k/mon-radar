@@ -1,0 +1,16 @@
+.mon {
+	display: inline-block;
+	text-align: center;
+    margin: 0 1vw 3vh 1vw;
+}
+
+div.part {
+    width: 90vw;
+    margin: 20px;
+    text-align: center;
+    min-height: 150px;
+}
+
+div.part.submit-card {
+	min-height: 0;
+}

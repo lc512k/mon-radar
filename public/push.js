@@ -5,8 +5,6 @@ let swRegistration = null;
 
 const pushButton = document.querySelector('#update-push');
 const submitButton = document.querySelector('#submit');
-const pushStatus = document.querySelector('#push-status');
-const subsInfo = document.querySelector('#subs-info');
 
 function urlB64ToUint8Array (base64String) {
 	const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -34,13 +32,9 @@ function updateBtn () {
   if (isSubscribed) {
     pushButton.textContent = 'Disable Push';
     submitButton.disabled = false;
-    pushStatus.innerHTML = '✅ Push is enabled';
-    subsInfo.innerHTML = 'You may subscribe to Pokémon notifications';
   } else {
     pushButton.textContent = 'Enable Push';
     submitButton.disabled = true;
-    pushStatus.innerHTML = '🚫 Push is disabled';
-    subsInfo.innerHTML = 'Please enable push to subscribe to Pokémon notifications';
   }
 
   pushButton.disabled = false;

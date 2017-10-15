@@ -14,16 +14,15 @@ app.get('/', async function (req, res) {
 	res.index();
 });
 
-app.post('/api/update-mons', function (req, res) {
-	logger.received(req);
-	db.updateMons(req);
-	res.sendStatus(200);
+app.post('/api/subscribe', function (req, res) {
+	logger.received(req, req.path);
+	db.subscribe(req, res);
 });
 
-app.post('/api/subscribe', function (req, res) {
-	logger.received(req);
-	db.subscribe(req);
-	res.sendStatus(200);
+app.post('/api/update-mons', function (req, res) {
+	logger.received(req, req.path);
+	db.updateMons(req, res);
 });
+
 
 app.listen(process.env.PORT || 8888);

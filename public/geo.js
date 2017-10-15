@@ -8,8 +8,13 @@ if (navigator.geolocation) {
 }
 
 function showPosition (position) {
-    locationContainer.innerHTML = 'Latitude: ' + position.coords.latitude +
-    '<br>Longitude: ' + position.coords.longitude;
+	window.lat = position.coords.latitude;
+	window.lng = position.coords.longitude;
+
+	const displayLat = Math.round((100 - window.lat * 100) * 100) / 100;
+	const displayLng = Math.round((100 - window.lng * 100) * 100) / 100;
+
+    locationContainer.innerHTML = `<b>Lat</b>: ${displayLat}, <b>Long</b>: ${displayLng}<br>(Map soon)`;
 }
 
 // function initMap () {

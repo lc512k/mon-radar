@@ -5,11 +5,7 @@ env(__dirname + '/../.env');
 const fetchMons = require('../lib/map');
 
 async function init () {
-	console.log('server-push');
-	const mons = await fetchMons();
-
-	console.log('mons');
-	console.log(mons);
+	console.log('server-push init');
 
 	webpush.setGCMAPIKey('AIzaSyAQQ8SwlBJAoxkw82Rw5lUtxFpzmK8nZ5s');
 	webpush.setVapidDetails(
@@ -19,7 +15,7 @@ async function init () {
 	);
 
 	// FIX rel path
-	const data = fs.readFileSync('/Users/laura.carvajal/personal/mon-radar/data/subs.json', 'utf8');
+	const data = fs.readFileSync(process.env.DB_PATH, 'utf8');
 	const dataJSON = JSON.parse(data);
 
 	console.log('subs');
@@ -30,35 +26,35 @@ async function init () {
 			const sub = dataJSON[uuid];
 			const pushSubscription = sub.subscription;
 
-			// FIX fetch mons here, per users location
+			// TODO if duplicate locations (or close enough) fire off a single request
+			const mons = await fetchMons(sub.radius, sub.mons, sub.location);
+
+			console.log('mons');
+			console.log(mons);
 
 			for (const key in mons) {
 				if (mons.hasOwnProperty(key)) {
+					console.log('key', key)
 					const foundMon = mons[key];
+					console.log('mons[key]',mons[key])
 
-					// FIX consider user location, not default
-					const isNearUser = parseInt(foundMon.distance, 10) <= parseInt(sub.radius, 10);
+					// TODO this will go
+					// const isNearUser = parseInt(foundMon.distance, 10) <= parseInt(sub.radius, 10);
+					// const userWantsIt = sub.mons.find((wantedMon) => {
+					// 	return wantedMon.toLowerCase() === foundMon.name.toLowerCase();
+					// });
+					// const userCares = isNearUser && userWantsIt;
 
-					const userWantsIt = sub.mons.find((wantedMon) => {
-						return wantedMon.toLowerCase() === foundMon.name.toLowerCase();
+					// if (userCares) {
+					// END TODO
+					webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
+						console.log(e);
 					});
-
-					// console.log('sub.mons', sub.mons);
-					// console.log('foundMon.name', foundMon.name);
-					// console.log('userWantsIt', userWantsIt);
-
-					const userCares = isNearUser && userWantsIt;
-
-					if (userCares) {
-						webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
-							console.log(e);
-						});
-					}
+					// }
 				}
 			}
 		}
 	}
-	return mons;
 }
 
 module.exports = init;
