@@ -17,7 +17,6 @@ async function init () {
 		process.env.PRIVATE_KEY
 	);
 
-	// FIX rel path
 	const data = fs.readFileSync(process.env.DB_PATH, 'utf8');
 	const dataJSON = JSON.parse(data);
 
@@ -37,23 +36,12 @@ async function init () {
 
 			for (const key in mons) {
 				if (mons.hasOwnProperty(key)) {
-					console.log('key', key)
+					console.log('key', key);
 					const foundMon = mons[key];
-					console.log('mons[key]',mons[key])
-
-					// TODO this will go
-					// const isNearUser = parseInt(foundMon.distance, 10) <= parseInt(sub.radius, 10);
-					// const userWantsIt = sub.mons.find((wantedMon) => {
-					// 	return wantedMon.toLowerCase() === foundMon.name.toLowerCase();
-					// });
-					// const userCares = isNearUser && userWantsIt;
-
-					// if (userCares) {
-					// END TODO
+					console.log('mons[key]',mons[key]);
 					webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
 						console.log(e);
 					});
-					// }
 				}
 			}
 		}
