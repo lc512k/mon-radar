@@ -27,7 +27,7 @@ app.get('/', async function (req, res) {
 	const subRadius = sub && sub.radius? sub.radius : 1000;
 	const baseMons = process.env.MONS.split(',');
 
-	console.log(sub, subRadius);
+	console.log('this sub', sub);
 
 	const mons = baseMons.map((monNumber) => {
 		return {
