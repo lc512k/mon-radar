@@ -20,9 +20,11 @@ app.use(cookieParser());
 app.get('/', async function (req, res) {
 
 	const sub = db.find(req);
-	const subMons = sub ? sub.mons : [];
-	const subRadius = sub ? sub.radius : 1000;
+	const subMons = sub && sub.mons? sub.mons : [];
+	const subRadius = sub && sub.radius? sub.radius : 1000;
 	const baseMons = process.env.MONS.split(',');
+
+	console.log(sub, subRadius)
 
 	const mons = baseMons.map((monNumber) => {
 		return {

@@ -17,7 +17,6 @@ submitBtn.addEventListener('click', (e) => {
 		return;
 	}
 
-
 	const mons = [].filter.call(document.querySelectorAll('input[type=checkbox]'), (c) => c.checked).map(c => c.value);
 
 	console.log('mons');
@@ -41,6 +40,9 @@ submitBtn.addEventListener('click', (e) => {
 		}),
 		credentials: 'same-origin',
 		timeout: 5000
+	})
+	.then((res) => {
+		console.log(res.status, res.statusText);
 	});
 });
 
