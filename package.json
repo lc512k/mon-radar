@@ -27,7 +27,6 @@
     "karma-webpack": "^2.0.5",
     "mocha": "^4.0.1",
     "mock-cookie": "^0.3.2",
-    "node-env-file": "^0.1.8",
     "proxyquire": "^1.8.0",
     "sinon": "^4.0.1",
     "uuid": "^3.1.0",
@@ -37,6 +36,7 @@
     "node": "^8.0.0"
   },
   "dependencies": {
+    "node-env-file": "^0.1.8",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
