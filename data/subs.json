@@ -14,20 +14,38 @@
   },
   "ea66b1ca-df79-44c4-b1c0-ae10c3fc1566": {
     "mons": [
-      "71,25,179"
+      "Snorlax"
     ],
     "subscription": {
-      "endpoint": "https://fcm.googleapis.com/fcm/send/esNrDcCJmvU:APA91bGM6zWX7ecLAEE5BYS0h_D7vUOPxwq-BhxZfbVMelm00-HRh4tMIAXuPPK9nBbk6RaraT4KPrWc1NPN-CC1ju7wDu-jTXPzuqTGjpw5FQBOgbj_LmABETdvJiNhETngWovuFX4F",
+      "endpoint": "https://fcm.googleapis.com/fcm/send/d0b8Lkys7H8:APA91bEJe9morMSCK64Yq-h0RnJhTVphIGVKOt7TNTwt2QjeZeDQLAOdYPywpSCgznwvVGfeNnFG2PErEg3Do7Q-JZRuf15UlTfhyIxyw4NpFFwl1LPYUmJ8lWV5WMveNWe6-kBQtMhB",
       "expirationTime": null,
       "keys": {
-        "p256dh": "BFJpMfvdB9f91xsUKfGMPMbP8JhArvxPGogPBCga_f0w4VvLbaUx3pKObWFghUat3fW6rQU_gFLFk8hWrXtaya8=",
-        "auth": "F_ZwiGuqrXZPhckDDg7AHA=="
+        "p256dh": "BJWgVVRpQLU1fg7MRicnGwuW73W9rL_24MaV2N-WrkqMNwiLy2pialgP9HP08_7eDjmWFUe3kqwn0U4ysq8gEEI=",
+        "auth": "3owwu44e1EztF4gvjPPWfQ=="
       }
     },
     "radius": "1000",
     "location": {
-      "lat": 51.583357899999996,
-      "lng": -0.2824464
+      "lat": 51.5833209,
+      "lng": -0.2824422
+    }
+  },
+  "99316167-36bf-4945-b69b-0a2213ec96ca": {
+    "mons": [
+      "25,143,152,155,179,191,201,246,247"
+    ],
+    "subscription": {
+      "endpoint": "https://fcm.googleapis.com/fcm/send/fFX9rFFEfoM:APA91bGffjiv3qltYUvdHPLsLzX9okpgVrWIIdUKNO98LW7OkHQW9IidM7gINA34pSqCTf7eQxXgkYTlsDPF3_QKKI-dUJvx8U6moGopAGn931ZBNsCgy-vD9-aPRo9Yxf1krH0L9EB5",
+      "expirationTime": null,
+      "keys": {
+        "p256dh": "BLYzX5isN1LxINvS8ZzgwtTl8o0-fjuf7lPFNlTL26Ur9MDT9V24eRA4s3JGiMuJQB6NrDtqIG6qdvuN30_SzZ8=",
+        "auth": "tK8GukM717_oNFwH9y3Czw=="
+      }
+    },
+    "radius": "5000",
+    "location": {
+      "lat": 51.5833903,
+      "lng": -0.2825059
     }
   }
 }

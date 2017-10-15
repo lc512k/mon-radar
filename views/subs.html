@@ -1,0 +1,19 @@
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	<header class="mdl-layout__header">
+		<div class="mdl-layout__header-row">
+			<span class="mdl-layout-title">Pokémon Radar</span>
+			<div class="mdl-layout-spacer"></div>
+		</div>
+	</header>
+	<main class="mdl-layout__content">
+		<div class="page-content">
+			<form method="POST" action="/api/subscribe">
+				{{>pokemon}}
+				{{>radius}}
+				{{>location}}
+				{{>submit}}
+				{{>push-status}}
+			</form>
+		</div>
+	</main>
+</div>

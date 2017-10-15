@@ -1,0 +1,13 @@
+<div class="part mdl-card mdl-shadow--2dp">
+	<div class="mdl-card__title">
+		<h2 class="mdl-card__title-text">Pokémon</h2>
+	</div>
+	<div class="mdl-card__supporting-text">
+		{{#each mons}}
+		<div class="mon">
+			<label for="{{.}}"><img width="50" src="img/{{.}}.png"></label><br>
+			<input type="checkbox" id="{{.}}" name="mons" value="{{.}}">
+		</div>
+		{{/each}}
+	</div>
+</div>

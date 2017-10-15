@@ -44,7 +44,7 @@ submitBtn.addEventListener('click', (e) => {
 	});
 });
 
-radiusField.addEventListener('input', (e) => {
+radiusField.addEventListener('input', () => {
 	metresDisplay.innerText = `${radiusField.value}m`;
 });
 
