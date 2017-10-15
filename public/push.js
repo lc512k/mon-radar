@@ -3,7 +3,9 @@ const applicationServerPublicKey = 'BOEwwTyknxDzuCzEEhZEj4Gu0P0ZnwBbhgaxRVIdwvhE
 let isSubscribed = false;
 let swRegistration = null;
 
-const pushButton = document.querySelector('.js-push-btn');
+const pushButton = document.querySelector('#update-push');
+const submitButton = document.querySelector('#submit');
+const pushStatus = document.querySelector('#push-status');
 
 function urlB64ToUint8Array (base64String) {
 	const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -30,8 +32,12 @@ function updateBtn () {
 
   if (isSubscribed) {
     pushButton.textContent = 'Disable Push';
+    submitButton.disabled = false;
+    pushStatus.innerText = 'Push is enabled √';
   } else {
     pushButton.textContent = 'Enable Push';
+    submitButton.disabled = true;
+    pushStatus.innerText = 'Push is disabled X. Please enable it if you wish to receive notifications.';
   }
 
   pushButton.disabled = false;
@@ -39,7 +45,7 @@ function updateBtn () {
 
 function updateSubscriptionOnServer (subscription) {
 	// TODO: if subscription es null, remove from server
-	console.log('send to server here', JSON.stringify(subscription, null, 2));
+	console.log('sending subs to server', JSON.stringify(subscription, null, 2));
 
 	fetch('/api/subscribe', {
 		method: 'POST',
@@ -48,7 +54,7 @@ function updateSubscriptionOnServer (subscription) {
 		},
 		credentials: 'same-origin',
 		timeout: 2000,
-		body: JSON.stringify(subscription)
+		body: subscription ? JSON.stringify(subscription) : subscription
 	})
 	.catch(e => {console.error(e);});
 
@@ -104,19 +110,26 @@ function unsubscribeUser () {
 }
 
 function initialiseUI () {
-	subscribeUser();
+
+	pushButton.addEventListener('click', function () {
+	  pushButton.disabled = true;
+	  if (isSubscribed) {
+	    unsubscribeUser();
+	  } else {
+	    subscribeUser();
+	  }
+	});
 
 	// Set the initial subscription value
 	swRegistration.pushManager.getSubscription()
 	.then(function (subscription) {
 		isSubscribed = !(subscription === null);
 
-		updateSubscriptionOnServer(subscription);
-
 		if (isSubscribed) {
 			console.log('User IS subscribed.');
 		} else {
 			console.log('User is NOT subscribed.');
+			subscribeUser();
 		}
 		updateBtn();
 	});

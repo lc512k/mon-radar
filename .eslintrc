@@ -17,6 +17,7 @@
 		"no-extend-native": 2,
 		"no-irregular-whitespace": 2,
 		"no-loop-func": 2,
+		"no-console": 0,
 		"no-multi-spaces": 2,
 		"no-undef": 2,
 		"no-underscore-dangle": 0,
