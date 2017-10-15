@@ -46,12 +46,14 @@ app.get('/', async function (req, res) {
 app.post('/api/subscribe', function (req, res) {
 	logger.received(req, req.path);
 	const status = db.subscribe(req);
+	console.log(`${req.path} responded with ${status}`);
 	res.sendStatus(status);
 });
 
 app.post('/api/update-mons', function (req, res) {
 	logger.received(req, req.path);
 	const status = db.updateMons(req);
+	console.log(`${req.path} responded with ${status}`);
 	res.sendStatus(status);
 });
 
