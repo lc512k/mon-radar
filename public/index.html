@@ -1,24 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>hello world</title>
+	<title>Pokémon Radar</title>
 </head>
 <body>
-	<h1>Mon Radar</h1>
-	<h2>Subscribe</h2>
-	<form method="POST" action="/api/subscribe">
-		<label for="mons">Which mons do you care about?</label>
-		<input id="mons" type="text" name="mons" placeholder="[143,131]">
-		<button id="submit">Submit</button>
-	</form>
+	<h1>Pokémon Radar</h1>
 
 	<h2>Push Notification Satus</h2>
+	<span id="push-status"></span>
 	<button disabled id="update-push">
 	Enable Push
 	</button>
-	<small id="push-status"></small>
+
+	<h2>Subscription</h2>
+	<p id="subs-info"></p>
+	<form method="POST" action="/api/subscribe">
+		<fieldset>
+			<legend>Pokémon</legend>
+			<label for="mons">Which Pokémon do you care about?</label>
+			<br>
+			<input id="mons" type="text" name="mons" placeholder="Snorlax Unown">
+		</fieldset>
+		<br>
+		<fieldset>
+			<legend>Radius</legend>
+			<label for="mons">How far are you willing to run for them (metres)?</label>
+			<br>
+			<input id="radius" type="text" name="radius" placeholder="800">
+		</fieldset>
+		<br>
+		<fieldset>
+			<legend>Location</legend>
+			<label for="mons">Where are you?</label>
+			<div id="location"></div>
+			<div id="map"></div>
+		</fieldset>
+		<br>
+		<button id="submit">Submit</button>
+	</form>
+<!-- 	<h3>Currently subscribed to:</h3>
+	<ul>
+		<li>TODO</li>
+	</ul> -->
+
 	<script type="text/javascript" src="lib/js.cookie.js"></script>
 	<script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
+	<script type="text/javascript" src="geo.js"></script>
 	<script type="text/javascript" src="client.js"></script>
 	<script type="text/javascript" src="push.js"></script>
 </body>

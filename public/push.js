@@ -6,6 +6,7 @@ let swRegistration = null;
 const pushButton = document.querySelector('#update-push');
 const submitButton = document.querySelector('#submit');
 const pushStatus = document.querySelector('#push-status');
+const subsInfo = document.querySelector('#subs-info');
 
 function urlB64ToUint8Array (base64String) {
 	const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -33,18 +34,19 @@ function updateBtn () {
   if (isSubscribed) {
     pushButton.textContent = 'Disable Push';
     submitButton.disabled = false;
-    pushStatus.innerText = 'Push is enabled √';
+    pushStatus.innerHTML = '✅ Push is enabled';
+    subsInfo.innerHTML = 'You may subscribe to Pokémon notifications';
   } else {
     pushButton.textContent = 'Enable Push';
     submitButton.disabled = true;
-    pushStatus.innerText = 'Push is disabled X. Please enable it if you wish to receive notifications.';
+    pushStatus.innerHTML = '🚫 Push is disabled';
+    subsInfo.innerHTML = 'Please enable push to subscribe to Pokémon notifications';
   }
 
   pushButton.disabled = false;
 }
 
 function updateSubscriptionOnServer (subscription) {
-	// TODO: if subscription es null, remove from server
 	console.log('sending subs to server', JSON.stringify(subscription, null, 2));
 
 	fetch('/api/subscribe', {
@@ -57,17 +59,6 @@ function updateSubscriptionOnServer (subscription) {
 		body: subscription ? JSON.stringify(subscription) : subscription
 	})
 	.catch(e => {console.error(e);});
-
-	// const subscriptionJson = document.querySelector('.js-subscription-json');
-	// const subscriptionDetails =
-	//   document.querySelector('.js-subscription-details');
-
-	// if (subscription) {
-	//   subscriptionJson.textContent = JSON.stringify(subscription);
-	//   subscriptionDetails.classList.remove('is-invisible');
-	// } else {
-	//   subscriptionDetails.classList.add('is-invisible');
-	// }
 }
 
 function subscribeUser () {
@@ -129,7 +120,6 @@ function initialiseUI () {
 			console.log('User IS subscribed.');
 		} else {
 			console.log('User is NOT subscribed.');
-			subscribeUser();
 		}
 		updateBtn();
 	});

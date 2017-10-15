@@ -28,12 +28,12 @@ describe('The server-push script', () => {
 		fsStub.readFileSync = new sinon.stub().returns(twoSubsFixture.toString());
 
 		process.env.TEST = 'true';
-		process.env.ACCEPTABLE_RADIUS = 2000;
+		process.env.MAX_RADIUS = 2000;
 	});
 
 	afterEach(() => {
 		delete process.env.TEST;
-		delete process.env.ACCEPTABLE_RADIUS;
+		delete process.env.MAX_RADIUS;
 		webPushStub.reset();
 		fsStub.reset();
 	});

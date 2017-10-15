@@ -1,22 +1,17 @@
 {
-  "b2c1a049-8370-43ac-9bfa-6b51b42f84ef": {
+  "8ddcc9cc-6c9a-4744-998b-bef4961533af": {
     "mons": [
-      "Mew"
-    ],
-    "subscription": {}
-  },
-  "c8d78fe1-2b62-4689-a5ff-6707e6d899fb": {
-    "mons": [
-      "1",
-      "123"
+      "Snorlax",
+      "sunkern"
     ],
     "subscription": {
-      "endpoint": "https://fcm.googleapis.com/fcm/send/e9SCOdtSDOo:APA91bE5AWbaWwepndBMxj2giP8dUwXbmRDD3q8Omfny9vk7R8GP0RRO3d45NnWBLSlZWeOb2hkJ3DAzqLGkweZUnNVNbwvokRO2Fwu1e3-l9tgchFZnSkFR5W8WShCW52tfZVKYBdWb",
+      "endpoint": "https://fcm.googleapis.com/fcm/send/coT4YWTfwWw:APA91bFdFZaJF4xMuI4lSWVZZwUuDFb8P73MRbL34jk-Fnph4ic7l_nwQUC_aDePOJxa27yHIqzadYfKUVq07Pod_QN_sxw3vzAMgs7QD76nCfcDb4VYCHS9jB2YTuDQv4vevvvtU1ml",
       "expirationTime": null,
       "keys": {
-        "p256dh": "BEGpaEc0asdiR7Tg2i0TLYsbUDYNw2XI1QpPg01zYbKcWRPXJ_LBg6zZe6ofaRQ9Fq2aI-KlAg7w8V5hirc7o60=",
-        "auth": "Jutxigsiky263NQPtOgW9w=="
+        "p256dh": "BBErvC7tuCqGmjh_z-VLnYgoTk3oIiEeee4saW8kVQH7Fk-hROQxuPrhmWQ-5ya062_Nk_vZed6OGZzLOfRam7Q=",
+        "auth": "TKyYphV-Ms_b4Hwp_xf1ig=="
       }
-    }
+    },
+    "radius": "1000"
   }
 }
