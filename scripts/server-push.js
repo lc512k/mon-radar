@@ -4,7 +4,7 @@ const fs = require('fs');
 const fetchMons = require('../lib/map');
 
 if (!process.env.PRODUCTION) {
-	env(__dirname + '/../.env');
+	env(__dirname + '/.env');
 }
 
 async function init () {
