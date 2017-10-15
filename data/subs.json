@@ -1,51 +1,22 @@
 {
-  "e7574a15-832f-4ecc-ac6c-a422e4372ae5": {
-    "mons": [
-      "Mew"
-    ],
-    "subscription": {
-      "endpoint": "https://fcm.googleapis.com/fcm/send/cpteWI9Tij8:APA91bHnsPN0YEWWf9CZNatNVp8Oqenjf76rQ7y_7IgX8uebBTTxiuNm_nKE2XJ_zzNU7RzwCYhXwgzu0r-CoInctUO58OgEywK46_c0_-m4OvCnSC7aJbXDvEK1b2i-WFszPApl19h2",
-      "expirationTime": null,
-      "keys": {
-        "p256dh": "BM-1pDwzUJy_e18F5rN2MuyRQ21mbc4AECLaeuOoJM7YdBUM7dDwn0QmO_3ExP49OW1jnLl7C5LyAGDOtfbXuZg=",
-        "auth": "Js3AEFed6WAe23ZwC60BIg=="
-      }
-    }
-  },
-  "ea66b1ca-df79-44c4-b1c0-ae10c3fc1566": {
-    "mons": [
-      "Snorlax"
-    ],
-    "subscription": {
-      "endpoint": "https://fcm.googleapis.com/fcm/send/d0b8Lkys7H8:APA91bEJe9morMSCK64Yq-h0RnJhTVphIGVKOt7TNTwt2QjeZeDQLAOdYPywpSCgznwvVGfeNnFG2PErEg3Do7Q-JZRuf15UlTfhyIxyw4NpFFwl1LPYUmJ8lWV5WMveNWe6-kBQtMhB",
-      "expirationTime": null,
-      "keys": {
-        "p256dh": "BJWgVVRpQLU1fg7MRicnGwuW73W9rL_24MaV2N-WrkqMNwiLy2pialgP9HP08_7eDjmWFUe3kqwn0U4ysq8gEEI=",
-        "auth": "3owwu44e1EztF4gvjPPWfQ=="
-      }
-    },
-    "radius": "1000",
-    "location": {
-      "lat": 51.5833209,
-      "lng": -0.2824422
-    }
-  },
   "99316167-36bf-4945-b69b-0a2213ec96ca": {
     "mons": [
-      "25,143,152,155,179,191,201,246,247"
+      "71",
+      "201",
+      "236"
     ],
     "subscription": {
-      "endpoint": "https://fcm.googleapis.com/fcm/send/fFX9rFFEfoM:APA91bGffjiv3qltYUvdHPLsLzX9okpgVrWIIdUKNO98LW7OkHQW9IidM7gINA34pSqCTf7eQxXgkYTlsDPF3_QKKI-dUJvx8U6moGopAGn931ZBNsCgy-vD9-aPRo9Yxf1krH0L9EB5",
+      "endpoint": "https://fcm.googleapis.com/fcm/send/fNuRJ8VrCdU:APA91bEn32TwFVyxK6PCRJF3cYhC04iW__TM2sw6CXVckZ7AUzNUn8U2cmG6jINDEtMselaeGywimXoeOu6BfAM9lfAuxfpitYECEJAJoz4c_2V7Ez-LLQWeaP_QZ3DMrdMv4RSxoc32",
       "expirationTime": null,
       "keys": {
-        "p256dh": "BLYzX5isN1LxINvS8ZzgwtTl8o0-fjuf7lPFNlTL26Ur9MDT9V24eRA4s3JGiMuJQB6NrDtqIG6qdvuN30_SzZ8=",
-        "auth": "tK8GukM717_oNFwH9y3Czw=="
+        "p256dh": "BHlw-c61YbBwyiiFgay88kQ0slrcD113UhBa328buWKtamq9jFI2AFnaUQvLMZWaA9zJG2nYgFYS4I36_UkCOHs=",
+        "auth": "Xnkgx5CFDR343Dm8iaYMcQ=="
       }
     },
-    "radius": "5000",
+    "radius": "2500",
     "location": {
-      "lat": 51.5833903,
-      "lng": -0.2825059
+      "lat": 51.5833139,
+      "lng": -0.282495
     }
   }
 }

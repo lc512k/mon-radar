@@ -32,7 +32,7 @@ submitBtn.addEventListener('click', (e) => {
 			'content-type': 'application/json'
 		},
 		body: JSON.stringify({
-			mons: mons.toString(), // TODO unit test this is always space separated, and always called mons. Also, POST same-origin and app/json
+			mons: mons, // TODO unit test this is always space separated, and always called mons. Also, POST same-origin and app/json
 			radius: radius,
 			location: {
 				lat: window.lat,

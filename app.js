@@ -17,28 +17,37 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-console.log(process.env.MONS.split(','));
-
 app.get('/', async function (req, res) {
+
+	const sub = db.find(req);
+	const subMons = sub ? sub.mons : [];
+	const subRadius = sub ? sub.radius : 1000;
+	const baseMons = process.env.MONS.split(',');
+
+	const mons = baseMons.map((monNumber) => {
+		return {
+			number: monNumber,
+			checked: subMons.includes(monNumber) ? 'checked' : ''
+		};
+	});
+
 	req.app.locals.layout = 'main';
 	res.render('subs', {
-		mons: process.env.MONS.split(',')
+		mons: mons,
+		radius: subRadius
 	});
-	// TODO set values
 });
 
 app.post('/api/subscribe', function (req, res) {
 	logger.received(req, req.path);
-	const status = db.subscribe(req, res);
+	const status = db.subscribe(req);
 	res.sendStatus(status);
-	// TODO res render / with status
 });
 
 app.post('/api/update-mons', function (req, res) {
 	logger.received(req, req.path);
-	const status = db.updateMons(req, res);
+	const status = db.updateMons(req);
 	res.sendStatus(status);
-	// TODO res render / with status
 });
 
 

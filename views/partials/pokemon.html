@@ -5,8 +5,8 @@
 	<div class="mdl-card__supporting-text">
 		{{#each mons}}
 		<div class="mon">
-			<label for="{{.}}"><img width="50" src="img/{{.}}.png"></label><br>
-			<input type="checkbox" id="{{.}}" name="mons" value="{{.}}">
+			<label for="{{number}}"><img width="50" src="img/{{number}}.png"></label><br>
+			<input type="checkbox" id="{{number}}" name="mons" value="{{number}}" {{checked}}>
 		</div>
 		{{/each}}
 	</div>
