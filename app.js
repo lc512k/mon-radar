@@ -5,7 +5,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('./util/logger');
 const env = require('node-env-file');
-env(__dirname + '/.env');
+
+if (!process.env.PRODUCTION) {
+	env(__dirname + '/.env');
+}
 
 const app = new express();
 
@@ -24,7 +27,7 @@ app.get('/', async function (req, res) {
 	const subRadius = sub && sub.radius? sub.radius : 1000;
 	const baseMons = process.env.MONS.split(',');
 
-	console.log(sub, subRadius)
+	console.log(sub, subRadius);
 
 	const mons = baseMons.map((monNumber) => {
 		return {
