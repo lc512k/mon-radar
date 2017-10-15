@@ -1,8 +1,11 @@
 const webpush = require('web-push');
 const env = require('node-env-file');
 const fs = require('fs');
-env(__dirname + '/../.env');
 const fetchMons = require('../lib/map');
+
+if (!process.env.PRODUCTION) {
+	env(__dirname + '/../.env');
+}
 
 async function init () {
 	console.log('server-push init');
