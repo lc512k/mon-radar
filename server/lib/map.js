@@ -37,8 +37,12 @@ function fetchPogoMap (radius, wanted, location) {
 			pragma: 'no-cache'
 		}
 	})
-	.then(response => response.json())
+	.then(response => {
+		console.log('lpm respnse');
+		return response.json();
+	})
 	.then((data) => {
+		console.log('lpm data');
 		return find(data, radius, location);
 	})
 	.catch((e) => {
