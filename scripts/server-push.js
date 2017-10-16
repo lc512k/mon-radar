@@ -2,6 +2,7 @@ const webpush = require('web-push');
 const env = require('node-env-file');
 const fs = require('fs');
 const fetchMons = require('../lib/map');
+const path = require('path');
 
 if (!process.env.PRODUCTION) {
 	env(__dirname + '/.env');
@@ -17,7 +18,8 @@ async function init () {
 		process.env.PRIVATE_KEY
 	);
 
-	const data = fs.readFileSync(process.env.DB_PATH, 'utf8');
+	const subsPath = path.join(__dirname, '..', '/data/subs.json');
+	const data = fs.readFileSync(subsPath, 'utf8');
 	const dataJSON = JSON.parse(data);
 
 	console.log('subs');
