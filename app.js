@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const exphbs = require('express-handlebars');
 const db = require('./lib/db');
 const bodyParser = require('body-parser');
@@ -48,6 +49,10 @@ app.post('/api/subscribe', function (req, res) {
 	const status = db.subscribe(req);
 	console.log(`${req.path} responded with ${status}`);
 	res.sendStatus(status);
+
+	//TODO remove
+	const data = fs.readFileSync(process.env.DB_PATH, 'utf8');
+	console.log('state of things', data);
 });
 
 app.post('/api/update-mons', function (req, res) {
@@ -55,6 +60,10 @@ app.post('/api/update-mons', function (req, res) {
 	const status = db.updateMons(req);
 	console.log(`${req.path} responded with ${status}`);
 	res.sendStatus(status);
+
+	//TODO remove
+	const data = fs.readFileSync(process.env.DB_PATH, 'utf8');
+	console.log('state of things', data);
 });
 
 
