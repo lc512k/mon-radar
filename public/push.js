@@ -22,22 +22,27 @@ function urlB64ToUint8Array (base64String) {
 }
 
 function updateBtn () {
-  if (Notification.permission === 'denied') {
-    pushButton.textContent = 'Push Messaging Blocked.';
-    pushButton.disabled = true;
-    updateSubscriptionOnServer(null);
-    return;
-  }
+	if (Notification.permission === 'denied') {
+		pushButton.textContent = 'Push Messaging Blocked.';
+		pushButton.disabled = true;
+		updateSubscriptionOnServer(null);
+		return;
+	}
 
-  if (isSubscribed) {
-    pushButton.textContent = 'Disable Push';
-    submitButton.disabled = false;
-  } else {
-    pushButton.textContent = 'Enable Push';
-    submitButton.disabled = true;
-  }
+	if (isSubscribed) {
+		pushButton.textContent = 'Disable Push';
+		if (!window.geoPending) {
+			submitButton.disabled = false;
+		}
+	}
+	else {
+		pushButton.textContent = 'Enable Push';
+		submitButton.disabled = true;
+	}
 
-  pushButton.disabled = false;
+	if (!window.geoPending) {
+		submitButton.disabled = false;
+	}
 }
 
 function updateSubscriptionOnServer (subscription) {
@@ -67,7 +72,7 @@ function subscribeUser () {
 		updateSubscriptionOnServer(subscription);
 
 		isSubscribed = true;
-    	updateBtn();
+			updateBtn();
 	})
 	.catch(function (err) {
 		console.log('Failed to subscribe the user: ', err);
@@ -95,15 +100,17 @@ function unsubscribeUser () {
 }
 
 function initialiseUI () {
-
-	pushButton.addEventListener('click', function () {
-	  pushButton.disabled = true;
-	  if (isSubscribed) {
-	    unsubscribeUser();
-	  } else {
-	    subscribeUser();
-	  }
-	});
+	// pushButton.addEventListener('click', function () {
+	//   pushButton.disabled = true;
+	//   if (isSubscribed) {
+	//     unsubscribeUser();
+	//   } else {
+	//     subscribeUser();
+	//     console.log('after subs user')
+	//   }
+	// });
+	// TODO remove this if bringing back pushButton
+	subscribeUser();
 
 	// Set the initial subscription value
 	swRegistration.pushManager.getSubscription()
@@ -114,6 +121,9 @@ function initialiseUI () {
 			console.log('User IS subscribed.');
 		} else {
 			console.log('User is NOT subscribed.');
+			console.log('Subscribing.');
+			// TODO remove this if bringing back pushButton
+			subscribeUser();
 		}
 		updateBtn();
 	});
