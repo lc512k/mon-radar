@@ -7,14 +7,14 @@ if (!process.env.PRODUCTION) {
 
 module.exports = async function (req, res) {
 
-	let sub = {};
+	let sub;
 
 	if (req.cookies && req.cookies.uuid) {
 		sub = await SubscriptionModel.findOne({_id: req.cookies.uuid});
 	}
 
-	const subMons = sub.mons || [];
-	const subRadius = sub.radius || 1000;
+	const subMons = sub && sub.mons ? sub.mons : [];
+	const subRadius = sub && sub.radius ? sub.radius : 1000;
 	const baseMons = process.env.MONS.split(',');
 
 	console.log('this sub', sub);
