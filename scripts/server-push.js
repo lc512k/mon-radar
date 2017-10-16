@@ -20,7 +20,7 @@ async function init () {
 
 	// const subsPath = path.join(__dirname, '..', '/data/subs.json');
 	// console.log('READING FROM', subsPath);
-	console.log('READING FROM', process.env.DB_PATH);
+	console.log('READING FROM PATH', process.env.DB_PATH);
 	const data = fs.readFileSync(process.env.DB_PATH, 'utf8');
 	const dataJSON = JSON.parse(data);
 
