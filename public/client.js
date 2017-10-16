@@ -1,4 +1,4 @@
-/* global uuidv4 */
+/* global uuidv4 initDialog */
 const randomUuid = uuidv4();
 
 if (!document.cookie){
@@ -23,7 +23,7 @@ submitBtn.addEventListener('click', (e) => {
 	console.log(mons);
 
 	// TODO tell them if their mon is misspelled
-	const radius = radiusField.value || '1000';
+	const radius = radiusField.value;
 
 	window.fetch('/api/update-mons', {
 		method: 'POST',
@@ -31,7 +31,7 @@ submitBtn.addEventListener('click', (e) => {
 			'content-type': 'application/json'
 		},
 		body: JSON.stringify({
-			mons: mons, // TODO unit test this is always space separated, and always called mons. Also, POST same-origin and app/json
+			mons: mons,
 			radius: radius,
 			location: {
 				lat: window.lat,
@@ -42,11 +42,10 @@ submitBtn.addEventListener('click', (e) => {
 		timeout: 5000
 	})
 	.then((res) => {
-		console.log(res.status, res.statusText);
+		initDialog(res);
 	});
 });
 
 radiusField.addEventListener('input', () => {
 	metresDisplay.innerText = `${radiusField.value}m`;
 });
-

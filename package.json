@@ -2,7 +2,7 @@
   "name": "mon-radar",
   "version": "1.0.0",
   "description": "",
-  "main": ".eslintrc.js",
+  "main": "server/app.js",
   "scripts": {
     "test": "mocha tests/server/* && karma start --single-run true karma.conf.js"
   },
@@ -41,8 +41,8 @@
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "forever": "^0.15.3",
-    "fs": "0.0.1-security",
     "isomorphic-fetch": "^2.2.1",
+    "mongoose": "^4.12.2",
     "node-env-file": "^0.1.8",
     "path": "^0.12.7",
     "web-push": "^3.2.3"

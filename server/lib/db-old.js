@@ -7,7 +7,6 @@ if (!process.env.PRODUCTION) {
 }
 
 const STORAGE = process.env.DB_PATH;
-const DEFAULT_MON_LIST = ['Snorlax'];
 
 const save = (file, contents) => {
 	// TODO fix paths
@@ -30,7 +29,7 @@ const updateMons = (req) => {
 			// TODO subscribe to push on page load
 		}
 		else {
-			sub.mons = (userMons.length > 0 && userMons[0] !== '') ? userMons : DEFAULT_MON_LIST;
+			sub.mons = (userMons.length > 0 && userMons[0] !== '') ? userMons : process.env.DEFAULT_MON_LIST;
 			sub.radius = req.body.radius;
 			sub.location = req.body.location;
 			save(STORAGE, currentSubs);
@@ -61,7 +60,7 @@ const subscribe = (req) => {
 		else if (!currentSubs[req.cookies.uuid]) {
 			console.log(`Sub doesn\'t exist for ${req.cookies.uuid}. Creating one.`);
 			currentSubs[req.cookies.uuid] = {
-				mons: DEFAULT_MON_LIST,
+				mons: process.env.DEFAULT_MON_LIST,
 				subscription: req.body
 			};
 			status = 201; // Created
