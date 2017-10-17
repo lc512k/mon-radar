@@ -35,23 +35,24 @@ async function init () {
 				// TODO if duplicate locations (or close enough) fire off a single request
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
-				if (!mons) {
-					console.log('nope')
-					return;
+				if (mons) {
+					for (const key in mons) {
+						if (mons.hasOwnProperty(key)) {
+							const foundMon = mons[key];
+							console.log('pushing mons[key]',mons[key]);
+							webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
+								console.log(e);
+							});
+						}
+					}
+				}
+				else {
+					console.log('no mons for', sub)
 				}
 
 				// console.log('mons');
 				// console.log(mons);
 
-				for (const key in mons) {
-					if (mons.hasOwnProperty(key)) {
-						const foundMon = mons[key];
-						console.log('pushing mons[key]',mons[key]);
-						webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
-							console.log(e);
-						});
-					}
-				}
 			}
 
 		});

@@ -28,7 +28,7 @@ function find (data, radius, location) {
 
 function fetchPogoMap (radius, wanted, location) {
 
-	if (!wanted) {
+	if (wanted) {
 		console.log('Ignoring entry with no mons \o/')
 		return;
 	}
