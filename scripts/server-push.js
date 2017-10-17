@@ -25,7 +25,7 @@ async function init () {
 		SubscriptionModel.find({}, async (err, result) => {
 			dataJSON = result;
 
-			// console.log('\n\ndataJSON', dataJSON);
+			console.log('\n\ndataJSON');
 			// console.log(dataJSON);
 
 			for (let sub of dataJSON) {
@@ -34,6 +34,11 @@ async function init () {
 
 				// TODO if duplicate locations (or close enough) fire off a single request
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
+
+				if (!mons) {
+					console.log('nope')
+					return;
+				}
 
 				// console.log('mons');
 				// console.log(mons);
