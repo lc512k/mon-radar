@@ -38,11 +38,12 @@ function fetchPogoMap (radius, wanted, location) {
 		}
 	})
 	.then(response => {
-		console.log('lpm respnse');
+		console.log('\n\n\nlpm respnse');
+		console.log('lpm respnse', response);
 		return response.json();
 	})
 	.then((data) => {
-		console.log('lpm data');
+		console.log('lpm data', data);
 		return find(data, radius, location);
 	})
 	.catch((e) => {

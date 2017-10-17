@@ -25,6 +25,7 @@ async function init () {
 		SubscriptionModel.find({}, async (err, result) => {
 			dataJSON = result;
 
+			console.log('\n\ndataJSON', dataJSON);
 			console.log(dataJSON);
 
 			for (let sub of dataJSON) {
@@ -39,9 +40,8 @@ async function init () {
 
 				for (const key in mons) {
 					if (mons.hasOwnProperty(key)) {
-						console.log('key', key);
 						const foundMon = mons[key];
-						console.log('mons[key]',mons[key]);
+						console.log('pushing mons[key]',mons[key]);
 						webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
 							console.log(e);
 						});
