@@ -28,6 +28,7 @@ function find (data, radius, location) {
 
 function fetchPogoMap (radius, wanted, location) {
 
+	console.log('wanted', wanted);
 	const url = process.env.URL + wanted.toString();
 	// 83,113,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,179,181,191,192,196,201,214,222,225,235,236,237,242,243,244,245,246,247,248,249,250,251
 	return fetch(url, {
