@@ -1,4 +1,4 @@
-/* global uuidv4 initDialog */
+/* global uuidv4 initDialog Cookies */
 const randomUuid = uuidv4();
 
 if (!document.cookie){
@@ -49,3 +49,8 @@ submitBtn.addEventListener('click', (e) => {
 radiusField.addEventListener('input', () => {
 	metresDisplay.innerText = `${radiusField.value}m`;
 });
+
+
+// UUID in the header
+const uuidContainer = document.querySelector('.uuid');
+uuidContainer.innerHTML = Cookies.get('uuid');
