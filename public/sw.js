@@ -127,7 +127,7 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', function (event) {
 	console.log('Activating new service worker...');
-
+	// TODO tell the server about the new SW in subscribe??
 	const cacheWhitelist = ['monradarv2'];
 
 	event.waitUntil(
