@@ -72,7 +72,6 @@ self.addEventListener('install', (e) => {
  e.waitUntil(
 	 caches.open('mon-radar').then((cache) => {
 		 return cache.addAll([
-			 '/',
 			 '/lib/js.cookie.js',
 			 '/lib/material.min.css',
 			 '/lib/material.min.js',
