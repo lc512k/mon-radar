@@ -38,7 +38,12 @@ function fetchPogoMap (radius, wanted, location) {
 		}
 	})
 	.then(response => {
-		console.log('lpm respnse', url, response.status);
+		console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
+		if (response.status !== 200) {
+			const oops = response.json();
+			console.log('oops, not 200');
+			console.log(oops);
+		}
 		return response.json();
 	})
 	.then((data) => {
