@@ -41,7 +41,14 @@ async function init () {
 					if (mons.hasOwnProperty(key)) {
 						const foundMon = mons[key];
 						console.log('pushing mons[key]',mons[key]);
-						webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
+
+						const payload = {
+							message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
+							title: foundMon.name,
+							icon: `img/${foundMon.id}.png`
+						};
+
+						webpush.sendNotification(pushSubscription, JSON.stringify(payload)).catch(function (e) {
 							console.log(e);
 							//TODO delete broken subscription here
 						});

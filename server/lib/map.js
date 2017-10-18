@@ -18,6 +18,7 @@ function find (data, radius, location) {
 			// console.log('nearby mon', mon);
 			nearbyMons.push({
 				name: dex[mon.pokemon_id],
+				id: mon.pokemon_id,
 				despawn: time(new Date(mon.despawn*1000) - new Date()),
 				distance: Math.ceil(distance)
 			});

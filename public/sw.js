@@ -20,11 +20,11 @@ self.addEventListener('push', function (event) {
 	console.log(`[Service Worker] Push Received ${event.data}`);
 	console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
-	const title = 'Mon Radar';
+	const payload = event.data.json();
+	const title = payload.title;
 	const options = {
-		body: event.data.text(),
-		icon: 'images/icon.png',
-		badge: 'images/badge.png'
+		body: payload.message,
+		icon: payload.icon
 	};
 
 	event.waitUntil(self.registration.showNotification(title, options));
