@@ -71,7 +71,7 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 self.skipWaiting();
  e.waitUntil(
-	 caches.open('mon-radar').then((cache) => {
+	 caches.open('monradar').then((cache) => {
 		 return cache.addAll([
 			 '/lib/js.cookie.js',
 			 '/lib/material.min.css',
