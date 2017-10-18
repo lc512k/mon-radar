@@ -1,0 +1,26 @@
+.mon {
+	display: inline-block;
+	text-align: center;
+	margin: 0 1vw 3vh;
+}
+div.part {
+	width: 90vw;
+	text-align: center;
+	min-height: 150px;
+	margin: 20px auto;
+}
+.visually-hidden {
+	position: absolute;
+	text-indent: -9999px;
+}
+.uuid {
+	font-size: 10px;
+    font-weight: 200;
+    margin-top: 2px;
+}
+.header {
+	padding: 0 6vw;
+}
+div.part.submit-card {
+	min-height: 0;
+}
