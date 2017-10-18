@@ -44,12 +44,12 @@ function fetchPogoMap (radius, wanted, location) {
 		if (response.status !== 200) {
 			const oops = bodyJSON;
 			console.log('oops, not 200');
-			console.log(oops);
+			console.log(oops, response.text());
 		}
 		return bodyJSON;
 	})
 	.then((data) => {
-		console.log('lpm data', data);
+		console.log('lpm data');
 		return find(data, radius, location);
 	})
 	.catch((e) => {
