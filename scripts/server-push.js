@@ -25,8 +25,7 @@ async function init () {
 		SubscriptionModel.find({}, async (err, result) => {
 			dataJSON = result;
 
-			console.log('\n\ndataJSON');
-			// console.log(dataJSON);
+			console.log(dataJSON);
 
 			for (let sub of dataJSON) {
 
@@ -35,24 +34,18 @@ async function init () {
 				// TODO if duplicate locations (or close enough) fire off a single request
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
-				if (mons) {
-					for (const key in mons) {
-						if (mons.hasOwnProperty(key)) {
-							const foundMon = mons[key];
-							console.log('pushing mons[key]',mons[key]);
-							webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
-								console.log(e);
-							});
-						}
+				console.log('mons');
+				console.log(mons);
+
+				for (const key in mons) {
+					if (mons.hasOwnProperty(key)) {
+						const foundMon = mons[key];
+						console.log('pushing mons[key]',mons[key]);
+						webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
+							console.log(e);
+						});
 					}
 				}
-				else {
-					console.log('no mons for', sub)
-				}
-
-				// console.log('mons');
-				// console.log(mons);
-
 			}
 
 		});
