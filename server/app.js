@@ -7,7 +7,6 @@ const mongoClient = require('./lib/mongo');
 const mainController = require('./controllers/main');
 const subsController = require('./controllers/subscribe');
 const updateController = require('./controllers/update');
-const requireHTTPS = require('./util/https');
 
 const app = new express();
 app.use(compression());
@@ -19,9 +18,9 @@ app.set('view engine', '.html');
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(requireHTTPS);
 
 app.get('/', mainController);
+app.get('/test', mainController);
 app.post('/api/subscribe', subsController);
 app.post('/api/update-mons', updateController);
 
