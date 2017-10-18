@@ -34,6 +34,7 @@ async function init () {
 				// TODO if duplicate locations (or close enough) fire off a single request
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
+				console.log('uuid', sub._id);
 				console.log('mons');
 				console.log(mons);
 

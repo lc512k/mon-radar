@@ -40,12 +40,13 @@ function fetchPogoMap (radius, wanted, location) {
 	})
 	.then(response => {
 		console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
+		const bodyJSON = response.json();
 		if (response.status !== 200) {
-			const oops = response.json();
+			const oops = bodyJSON;
 			console.log('oops, not 200');
 			console.log(oops);
 		}
-		return response.json();
+		return bodyJSON;
 	})
 	.then((data) => {
 		console.log('lpm data');
