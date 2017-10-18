@@ -24,15 +24,19 @@ submitBtn.addEventListener('click', (e) => {
 
 	const radius = radiusField.value;
 
-
-
+	// TODO tidy
 	navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
 	  // Do we already have a push message subscription?
 		serviceWorkerRegistration.pushManager.getSubscription()
 		.then(function (pushSubscription) {
 			console.log('pushSubscription', pushSubscription);
 			if (!pushSubscription) {
-				throw 'not subscribed to push';
+
+				// TODO tidy
+				initDialog({
+					status: 'Not subscribed',
+					statusText: 'Please try again'
+				});
 			}
 			window.fetch('/api/update-mons', {
 				method: 'POST',
