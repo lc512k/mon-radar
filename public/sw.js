@@ -69,6 +69,7 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 
 // OFFLINE
 self.addEventListener('install', (e) => {
+self.skipWaiting();
  e.waitUntil(
 	 caches.open('mon-radar').then((cache) => {
 		 return cache.addAll([
