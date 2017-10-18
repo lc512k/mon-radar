@@ -49,7 +49,7 @@ function fetchPogoMap (radius, wanted, location) {
 		return bodyJSON;
 	})
 	.then((data) => {
-		console.log('lpm data');
+		console.log('lpm data', data);
 		return find(data, radius, location);
 	})
 	.catch((e) => {
