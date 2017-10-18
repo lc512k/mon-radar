@@ -17,7 +17,8 @@ const updateMons = async (req) => {
 	const body = {
 		mons: (userMons.length > 0 && userMons[0] !== '') ? userMons : process.env.DEFAULT_MON_LIST,
 		radius: req.body.radius,
-		location: req.body.location
+		location: req.body.location,
+		subscription: req.body.subscription
 	};
 	console.log('body', body)
 

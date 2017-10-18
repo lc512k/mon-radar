@@ -50,6 +50,7 @@ function fetchPogoMap (radius, wanted, location) {
 	})
 	.then((data) => {
 		console.log('lpm data');
+		console.log(data);
 		return find(data, radius, location);
 	})
 	.catch((e) => {

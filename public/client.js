@@ -22,27 +22,40 @@ submitBtn.addEventListener('click', (e) => {
 	console.log('mons');
 	console.log(mons);
 
-	// TODO tell them if their mon is misspelled
 	const radius = radiusField.value;
 
-	window.fetch('/api/update-mons', {
-		method: 'POST',
-		headers: {
-			'content-type': 'application/json'
-		},
-		body: JSON.stringify({
-			mons: mons,
-			radius: radius,
-			location: {
-				lat: window.lat,
-				lng: window.lng
+
+
+	navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
+	  // Do we already have a push message subscription?
+		serviceWorkerRegistration.pushManager.getSubscription()
+		.then(function (pushSubscription) {
+			console.log('pushSubscription', pushSubscription);
+			if (!pushSubscription) {
+				throw 'not subscribed to push';
 			}
-		}),
-		credentials: 'same-origin',
-		timeout: 5000
-	})
-	.then((res) => {
-		initDialog(res);
+			window.fetch('/api/update-mons', {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json'
+				},
+				body: JSON.stringify({
+					mons: mons,
+					radius: radius,
+					location: {
+						lat: window.lat,
+						lng: window.lng
+					},
+					subscription: pushSubscription
+				}),
+				credentials: 'same-origin',
+				timeout: 5000
+			})
+			.then((res) => {
+				initDialog(res);
+			});
+		})
+		.catch(e =>{console.log(e);});
 	});
 });
 
