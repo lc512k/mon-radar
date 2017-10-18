@@ -14,7 +14,7 @@ module.exports = async function (req, res) {
 	}
 
 	const subMons = sub && sub.mons ? sub.mons : [];
-	const subRadius = sub && sub.radius ? sub.radius : 1000;
+	const subRadius = sub && sub.radius ? sub.radius : 500;
 	const baseMons = process.env.MONS.split(',');
 
 	console.log('this sub', sub);

@@ -3,7 +3,6 @@ const locationContainer = document.querySelector('#location');
 if (navigator.geolocation) {
 	console.log(navigator.geolocation);
 	const submitButton = document.querySelector('#submit');
-	console.log('GEO PENDING SET', submitButton);
 	submitButton.disabled = true;
 	window.geoPending = true;
     navigator.geolocation.getCurrentPosition(showPosition);
