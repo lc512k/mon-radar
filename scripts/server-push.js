@@ -43,6 +43,7 @@ async function init () {
 						console.log('pushing mons[key]',mons[key]);
 						webpush.sendNotification(pushSubscription, `${foundMon.name} is ${foundMon.distance}m away for ${foundMon.despawn} more minutes`).catch(function (e) {
 							console.log(e);
+							//TODO delete subscription here
 						});
 					}
 				}
