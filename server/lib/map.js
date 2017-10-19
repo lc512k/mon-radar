@@ -41,7 +41,7 @@ function fetchPogoMap (radius, wanted, location) {
 	.then(response => {
 		// console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
 		if (response.status !== 200) {
-			console.log('[MAP] oops, lpm responded not 200');
+			console.log('[MAP] oops, lpm responded not 200 to', url);
 			console.log(response.text());
 		}
 		else {
