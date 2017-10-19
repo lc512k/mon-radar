@@ -4,7 +4,7 @@ const time = require('../util/time');
 const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const env = require('node-env-file');
-const ip = require('../util/ip');
+const ip = require('../lib/ip');
 
 if (!process.env.PRODUCTION) {
 	env(__dirname + '/../../.env');
