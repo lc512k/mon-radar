@@ -1,4 +1,5 @@
 const webpush = require('web-push');
+const sleep = require('sleep');
 const env = require('node-env-file');
 const fetchMons = require('../server/lib/map');
 const mongoClient = require('../server/lib/mongo');
@@ -21,12 +22,9 @@ function init () {
 	let dataJSON;
 
 	mongoClient.then(() => {
-		// console.log('mongo client done');
 		SubscriptionModel.find({}, async (err, result) => {
-			dataJSON = result;
 
-			// console.log('All Subs');
-			// console.log(dataJSON);
+			dataJSON = result;
 
 			for (let sub of dataJSON) {
 
@@ -53,11 +51,14 @@ function init () {
 
 							webpush.sendNotification(pushSubscription, JSON.stringify(payload)).catch(function (e) {
 								console.log('[SERVER PUSH] sent for', sub._id);
-								// console.log(e);
+								console.log(e);
 							});
 						}
 					}
 				}
+
+				console.log('sleeping for 10s');
+				sleep.sleep(10);
 			}
 
 		});
