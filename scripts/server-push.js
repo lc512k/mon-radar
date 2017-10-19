@@ -21,11 +21,12 @@ async function init () {
 	let dataJSON;
 
 	mongoClient.then(() => {
-		console.log('mongo client done');
+		// console.log('mongo client done');
 		SubscriptionModel.find({}, async (err, result) => {
 			dataJSON = result;
 
-			console.log(dataJSON);
+			// console.log('All Subs');
+			// console.log(dataJSON);
 
 			for (let sub of dataJSON) {
 
@@ -34,14 +35,14 @@ async function init () {
 				// TODO if duplicate locations (or close enough) fire off a single request
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
-				console.log('uuid', sub._id);
-				console.log('mons');
-				console.log(mons);
+				console.log('\n\n\nuuid', sub._id);
+				// console.log('mons');
+				// console.log(mons);
 
 				for (const key in mons) {
 					if (mons.hasOwnProperty(key)) {
 						const foundMon = mons[key];
-						console.log('pushing mons[key]',mons[key]);
+						console.log(`notifying ${sub._id} about ${mons[key]}`);
 
 						const payload = {
 							message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
@@ -50,8 +51,8 @@ async function init () {
 						};
 
 						webpush.sendNotification(pushSubscription, JSON.stringify(payload)).catch(function (e) {
-							console.log(e);
-							//TODO delete broken subscription here
+							console.log('PUSH ERROR for', sub._id);
+							// console.log(e);
 						});
 					}
 				}

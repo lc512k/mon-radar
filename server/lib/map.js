@@ -39,22 +39,24 @@ function fetchPogoMap (radius, wanted, location) {
 		}
 	})
 	.then(response => {
-		console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
-		const bodyJSON = response.json();
+		// console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
 		if (response.status !== 200) {
-			const oops = bodyJSON;
-			console.log('oops, not 200');
-			console.log(oops, response.text());
+			console.log('[MAP] oops, lpm responded not 200');
+			console.log(response.text());
 		}
+		else {
+			console.log('[MAP] lpm responded ok');
+		}
+		const bodyJSON = response.json();
 		return bodyJSON;
 	})
 	.then((data) => {
-		console.log('lpm data');
-		console.log(data);
+		// console.log('lpm data');
+		// console.log(data);
 		return find(data, radius, location);
 	})
 	.catch((e) => {
-		console.log(e);
+		console.log('[MAP] Error fetching lpm');
 	});
 }
 
