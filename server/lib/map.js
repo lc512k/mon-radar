@@ -46,9 +46,9 @@ async function fetchPogoMap (radius, wanted, location) {
 		return find(jsonResponse, radius, location);
 	}
 	else {
-		console.log('[MAP] oops, lpm responded not 200 to', url);
 		const textResponse = await response.text();
-		return `${response.status} ${textResponse}`;
+		console.log('[MAP] oops, lpm responded not 200 to', url);
+		console.log(`${response.status} ${textResponse}`);
 	}
 	// return fetch(url, options)
 	// .then(response => {

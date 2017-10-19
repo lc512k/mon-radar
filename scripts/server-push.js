@@ -35,24 +35,27 @@ function init () {
 				// TODO if duplicate locations (or close enough) fire off a single request
 				// const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
-				console.log('\n\n[SERVER PUSH] uuid', sub._id);
-				console.log('[SERVER PUSH] mons fetched:', mons.length);
 
-				for (const key in mons) {
-					if (mons.hasOwnProperty(key)) {
-						const foundMon = mons[key];
-						console.log(`notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
+				if (mons) {
+					console.log('\n\n[SERVER PUSH] uuid', sub._id);
+					console.log('[SERVER PUSH] mons fetched:', mons.length);
 
-						const payload = {
-							message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
-							title: foundMon.name,
-							icon: `img/${foundMon.id}.png`
-						};
+					for (const key in mons) {
+						if (mons.hasOwnProperty(key)) {
+							const foundMon = mons[key];
+							console.log(`notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
 
-						webpush.sendNotification(pushSubscription, JSON.stringify(payload)).catch(function (e) {
-							console.log('[SERVER PUSH] sent for', sub._id);
-							// console.log(e);
-						});
+							const payload = {
+								message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
+								title: foundMon.name,
+								icon: `img/${foundMon.id}.png`
+							};
+
+							webpush.sendNotification(pushSubscription, JSON.stringify(payload)).catch(function (e) {
+								console.log('[SERVER PUSH] sent for', sub._id);
+								// console.log(e);
+							});
+						}
 					}
 				}
 			}
