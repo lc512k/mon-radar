@@ -1,3 +1,4 @@
+const webpush = require('web-push');
 const logger = require('../util/logger');
 const SubscriptionModel = require('../models/sub');
 
@@ -5,7 +6,7 @@ const updateMons = async (req) => {
 
 	const uuid = req.cookies && req.cookies.uuid ? req.cookies.uuid : null;
 
-	console.log('updateMons', uuid)
+	console.log('\nupdateMons()', uuid);
 
 	if (!uuid) {
 		// TODO subscribe to push on page load
@@ -17,15 +18,27 @@ const updateMons = async (req) => {
 	const body = {
 		mons: (userMons.length > 0 && userMons[0] !== '') ? userMons : process.env.DEFAULT_MON_LIST,
 		radius: req.body.radius,
-		location: req.body.location,
-		subscription: req.body.subscription
+		location: req.body.location
 	};
-	console.log('body', body)
 
-	SubscriptionModel.update({_id: uuid}, body, {upsert: true, setDefaultsOnInsert: true}, (err, result) => {
-		console.log(`update.js Subs Added/Modified: ${JSON.stringify(result)}`);
-		return 200;
-	});
+	// Find why sometimes subscription is null from the client here
+	if (req.body.subscription) {
+		body.subscription = req.body.subscription;
+
+		SubscriptionModel.update({_id: uuid}, body, {upsert: true, setDefaultsOnInsert: true}, (err, result) => {
+			console.log(`update.js Subs Added/Modified: ${JSON.stringify(result)}`);
+
+			webpush.sendNotification(req.body.subscription, JSON.stringify({title: 'Push set up correctly'})).catch(function (e) {
+				console.log(e);
+			});
+			return 200;
+		});
+	}
+	else {
+		console.log('****NO SUBS*****');
+	}
+
+	console.log('body', body);
 
 	// TODO remove
 	return 200;

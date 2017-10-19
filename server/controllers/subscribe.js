@@ -2,7 +2,7 @@ const logger = require('../util/logger');
 const SubscriptionModel = require('../models/sub');
 
 const subscribe = async (req) => {
-	console.log('subscribe');
+	console.log('\nsubscribe()');
 	let status;
 
 	try {

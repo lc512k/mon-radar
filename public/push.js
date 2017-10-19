@@ -51,16 +51,16 @@ function updateBtn () {
 function updateSubscriptionOnServer (subscription) {
 	console.log('sending subs to server', JSON.stringify(subscription, null, 2));
 
-	// fetch('/api/subscribe', {
-	// 	method: 'POST',
-	// 	headers: {
-	// 		'content-type': 'application/json'
-	// 	},
-	// 	credentials: 'same-origin',
-	// 	timeout: 2000,
-	// 	body: subscription ? JSON.stringify(subscription) : subscription
-	// })
-	// .catch(e => {console.error(e);});
+	fetch('/api/subscribe', {
+		method: 'POST',
+		headers: {
+			'content-type': 'application/json'
+		},
+		credentials: 'same-origin',
+		timeout: 2000,
+		body: subscription ? JSON.stringify(subscription) : subscription
+	})
+	.catch(e => {console.error(e);});
 }
 
 function subscribeUser () {
@@ -125,8 +125,8 @@ function initialiseUI () {
 		} else {
 			console.log('User is NOT subscribed.');
 			// TODO remove this if bringing back pushButton
-			// console.log('Subscribing.');
-			// subscribeUser();
+			console.log('Subscribing.');
+			subscribeUser();
 		}
 		updateBtn();
 	});

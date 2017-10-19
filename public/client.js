@@ -56,7 +56,13 @@ submitBtn.addEventListener('click', (e) => {
 				timeout: 5000
 			})
 			.then((res) => {
-				initDialog(res);
+				try {
+					initDialog(res);
+				}
+				catch(e) {
+					// FIX if thrown, called twice
+					console.log(e);
+				}
 			});
 		})
 		.catch(e =>{console.log(e);});

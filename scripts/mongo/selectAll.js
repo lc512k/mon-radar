@@ -9,4 +9,3 @@ mongoClient.then(() => {
 		console.log(a, b);
 	});
 });
-

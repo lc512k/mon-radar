@@ -4,6 +4,7 @@ const time = require('../util/time');
 const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const env = require('node-env-file');
+const ip = require('../util/ip');
 
 if (!process.env.PRODUCTION) {
 	env(__dirname + '/../../.env');
@@ -28,7 +29,6 @@ function find (data, radius, location) {
 }
 
 async function fetchPogoMap (radius, wanted, location) {
-
 	const url = process.env.URL + wanted.toString();
 	const options = {
 		headers: {
@@ -47,32 +47,10 @@ async function fetchPogoMap (radius, wanted, location) {
 	}
 	else {
 		const textResponse = await response.text();
-		console.log('[MAP] oops, lpm responded not 200 to', url);
+		console.log('[MAP] lpm fetch failed', response.status);
+		console.log('[MAP] ip: ', ip.log());
 		console.log(`${response.status} ${textResponse.indexOf('banned') ? 'IP Banned' : textResponse}`);
 	}
-	// return fetch(url, options)
-	// .then(response => {
-	// 	// console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
-	// 	if (response.status !== 200) {
-	// 		console.log('[MAP] oops, lpm responded not 200 to', url);
-	// 		const text = response.text();
-	// 		console.log(text);
-	// 		return text;
-	// 	}
-	// 	else {
-	// 		console.log('[MAP] lpm responded ok');
-	// 	}
-	// 	const bodyJSON = response.json();
-	// 	return bodyJSON;
-	// })
-	// .then((data) => {
-	// 	console.log('lpm data');
-	// 	console.log(radius);
-	// 	return find(data, radius, location);
-	// })
-	// .catch((e) => {
-	// 	console.log('[MAP] Error fetching lpm');
-	// });
 }
 
 function fetchTestData (data) {
