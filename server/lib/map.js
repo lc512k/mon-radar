@@ -4,7 +4,7 @@ const time = require('../util/time');
 const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const env = require('node-env-file');
-const ip = require('../util/ip');
+const ip = require('../lib/ip');
 
 if (!process.env.PRODUCTION) {
 	env(__dirname + '/../../.env');
@@ -41,13 +41,13 @@ async function fetchPogoMap (radius, wanted, location) {
 	const response = await fetch(url,options);
 
 	if (response.status === 200) {
-		console.log('[MAP] lpm responded ok');
+		console.log('\n\n[MAP] lpm responded ok');
 		const jsonResponse = await response.json();
 		return find(jsonResponse, radius, location);
 	}
 	else {
 		const textResponse = await response.text();
-		console.log('[MAP] lpm fetch failed', response.status);
+		console.log('\n\n[MAP] lpm fetch failed', response.status);
 		console.log('[MAP] ip: ', ip.log());
 		console.log(`${response.status} ${textResponse.indexOf('banned') ? 'IP Banned' : textResponse}`);
 	}

@@ -35,7 +35,7 @@ function init () {
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
 				if (mons) {
-					console.log('\n\n[SERVER PUSH] uuid', sub._id);
+					console.log('[SERVER PUSH] uuid', sub._id);
 					console.log('[SERVER PUSH] mons fetched:', mons.length);
 
 					for (const key in mons) {
