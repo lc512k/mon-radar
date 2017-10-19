@@ -3,9 +3,23 @@ const sinon = require('sinon');
 describe('The client script:', function () {
 
 	describe('Submit', function () {
-		const button = document.createElement('button');
-		button.id = 'submit';
-		document.body.appendChild(button);
+		const submitBtn = document.createElement('button');
+		submitBtn.id = 'submit';
+		const radiusBtn = document.createElement('button');
+		radiusBtn.id = 'radius';
+		const metresBtn = document.createElement('button');
+		metresBtn.id = 'metres';
+		const uuid = document.createElement('div');
+		metresBtn.className = 'uuid';
+		document.body.appendChild(submitBtn);
+		document.body.appendChild(radiusBtn);
+		document.body.appendChild(metresBtn);
+		document.body.appendChild(uuid);
+
+		window.lat = 'foo';
+		window.lng = 'foo';
+		console.log('navigator.serviceWorker.ready')
+		console.log(navigator.serviceWorker.ready)
 
 		let fetchStub = sinon.stub();
 		fetch = fetchStub;

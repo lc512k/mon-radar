@@ -1,3 +1,5 @@
+/* global clients */
+
 const applicationServerPublicKey = 'BMsYwcbTzJziGq_ZUWclTO1OtYqmhP0K6xN94616BinBNTfxJyiEhIMS7B4iFpIkY2h79d6aAb1rkUhPeC41Ii8';
 
 function urlB64ToUint8Array (base64String) {
@@ -26,7 +28,6 @@ self.addEventListener('push', function (event) {
 		body: payload.message,
 		icon: payload.icon
 	};
-
 	event.waitUntil(self.registration.showNotification(title, options));
 });
 
@@ -34,7 +35,6 @@ self.addEventListener('notificationclick', function (event) {
 	console.log('[Service Worker] Notification click Received.');
 
 	event.notification.close();
-
 	event.waitUntil(
 		clients.openWindow('https://londonpogomap.com')
 	);
@@ -50,22 +50,9 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 		})
 		.then(function (newSubscription) {
 			console.log('[Service Worker] New subscription: ', newSubscription);
-
-			// fetch('/api/subscribe', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'content-type': 'application/json'
-			// 	},
-			// 	credentials: 'same-origin',
-			// 	timeout: 2000,
-			// 	body: JSON.stringify(newSubscription)
-			// })
-			// .catch(e => {console.error(e);});
 		})
 	);
 });
-
-
 
 // OFFLINE
 self.addEventListener('install', (e) => {
@@ -127,7 +114,6 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', function (event) {
 	console.log('Activating new service worker...');
-	// TODO tell the server about the new SW in subscribe??
 	const cacheWhitelist = ['monradarv2'];
 
 	event.waitUntil(

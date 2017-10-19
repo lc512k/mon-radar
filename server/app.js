@@ -5,11 +5,12 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const mongoClient = require('./lib/mongo');
 const mainController = require('./controllers/main');
-const subsController = require('./controllers/subscribe');
-const updateController = require('./controllers/update');
+const saveController = require('./controllers/save');
+const sslRedirect = require('./middleware/https');
 
 const app = new express();
 app.use(compression());
+app.use(sslRedirect());
 
 let handlebars = exphbs.create({extname: '.html'});
 app.engine('html', handlebars.engine);
@@ -21,8 +22,7 @@ app.use(cookieParser());
 
 app.get('/', mainController);
 app.get('/test', mainController);
-app.post('/api/subscribe', subsController);
-app.post('/api/update-mons', updateController);
+app.post('/api/save', saveController);
 
 // wait until we're connected to mongo
 const listen = mongoClient

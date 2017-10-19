@@ -1,10 +1,10 @@
 const fetch = require('isomorphic-fetch');
-const geo = require('../util/geo');
-const time = require('../util/time');
+const geo = require('./geo');
+const time = require('./time');
 const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const env = require('node-env-file');
-const ip = require('../lib/ip');
+const ip = require('./ip');
 
 if (!process.env.PRODUCTION) {
 	env(__dirname + '/../../.env');
@@ -16,7 +16,6 @@ function find (data, radius, location) {
 	for (const mon of data.pokemons) {
 		const distance = geo.getDistance(location.lat, location.lng, mon.lat, mon.lng);
 		if (distance < radius) {
-			// console.log('nearby mon', mon);
 			nearbyMons.push({
 				name: dex[mon.pokemon_id],
 				id: mon.pokemon_id,
