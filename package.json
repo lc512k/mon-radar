@@ -29,7 +29,7 @@
     "mocha": "^4.0.1",
     "mock-cookie": "^0.3.2",
     "proxyquire": "^1.8.0",
-    "sinon": "^4.0.1",
+    "sinon": "^2.1.0",
     "uuid": "^3.1.0",
     "webpack": "^1.15.0"
   },
