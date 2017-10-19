@@ -27,37 +27,52 @@ function find (data, radius, location) {
 	return nearbyMons;
 }
 
-function fetchPogoMap (radius, wanted, location) {
+async function fetchPogoMap (radius, wanted, location) {
 
 	const url = process.env.URL + wanted.toString();
-	// 83,113,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,179,181,191,192,196,201,214,222,225,235,236,237,242,243,244,245,246,247,248,249,250,251
-	return fetch(url, {
+	const options = {
 		headers: {
 			token: process.env.TOKEN,
 			referer: process.env.REFERER,
 			pragma: 'no-cache'
 		}
-	})
-	.then(response => {
-		// console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
-		if (response.status !== 200) {
-			console.log('[MAP] oops, lpm responded not 200 to', url);
-			console.log(response.text());
-		}
-		else {
-			console.log('[MAP] lpm responded ok');
-		}
-		const bodyJSON = response.json();
-		return bodyJSON;
-	})
-	.then((data) => {
-		// console.log('lpm data');
-		// console.log(data);
-		return find(data, radius, location);
-	})
-	.catch((e) => {
-		console.log('[MAP] Error fetching lpm');
-	});
+	};
+
+	const response = await fetch(url,options);
+
+	if (response.status === 200) {
+		console.log('[MAP] lpm responded ok');
+		const jsonResponse = await response.json();
+		return find(jsonResponse, radius, location);
+	}
+	else {
+		console.log('[MAP] oops, lpm responded not 200 to', url);
+		const textResponse = await response.text();
+		return `${response.status} ${textResponse}`;
+	}
+	// return fetch(url, options)
+	// .then(response => {
+	// 	// console.log('lpm respnse', url, response.status, process.env.TOKEN, process.env.REFERER);
+	// 	if (response.status !== 200) {
+	// 		console.log('[MAP] oops, lpm responded not 200 to', url);
+	// 		const text = response.text();
+	// 		console.log(text);
+	// 		return text;
+	// 	}
+	// 	else {
+	// 		console.log('[MAP] lpm responded ok');
+	// 	}
+	// 	const bodyJSON = response.json();
+	// 	return bodyJSON;
+	// })
+	// .then((data) => {
+	// 	console.log('lpm data');
+	// 	console.log(radius);
+	// 	return find(data, radius, location);
+	// })
+	// .catch((e) => {
+	// 	console.log('[MAP] Error fetching lpm');
+	// });
 }
 
 function fetchTestData (data) {

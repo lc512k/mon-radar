@@ -8,8 +8,8 @@ if (!process.env.PRODUCTION) {
 	env(__dirname + '/../.env');
 }
 
-async function init () {
-	console.log('server-push init');
+function init () {
+	console.log('[SERVER PUSH]');
 
 	webpush.setGCMAPIKey('AIzaSyAQQ8SwlBJAoxkw82Rw5lUtxFpzmK8nZ5s');
 	webpush.setVapidDetails(
@@ -33,16 +33,15 @@ async function init () {
 				const pushSubscription = sub.subscription;
 
 				// TODO if duplicate locations (or close enough) fire off a single request
+				// const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
-
-				console.log('\n\n\nuuid', sub._id);
-				// console.log('mons');
-				// console.log(mons);
+				console.log('\n\n[SERVER PUSH] uuid', sub._id);
+				console.log('[SERVER PUSH] mons fetched:', mons.length);
 
 				for (const key in mons) {
 					if (mons.hasOwnProperty(key)) {
 						const foundMon = mons[key];
-						console.log(`notifying ${sub._id} about ${mons[key]}`);
+						console.log(`notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
 
 						const payload = {
 							message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
@@ -51,7 +50,7 @@ async function init () {
 						};
 
 						webpush.sendNotification(pushSubscription, JSON.stringify(payload)).catch(function (e) {
-							console.log('PUSH ERROR for', sub._id);
+							console.log('[SERVER PUSH] sent for', sub._id);
 							// console.log(e);
 						});
 					}
