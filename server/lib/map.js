@@ -28,6 +28,7 @@ function find (data, radius, location) {
 }
 
 async function fetchPogoMap (radius, wanted, location) {
+	console.log(radius, wanted, location);
 	const url = process.env.URL + wanted.toString();
 	const options = {
 		headers: {
@@ -47,17 +48,17 @@ async function fetchPogoMap (radius, wanted, location) {
 	else {
 		const textResponse = await response.text();
 		console.log('\n\n[MAP] lpm fetch failed', response.status);
-		console.log('[MAP] ip: ', ip.log());
-		console.log(`${response.status} ${textResponse.indexOf('banned') ? 'IP Banned' : textResponse}`);
+		// console.log('[MAP] ip: ', ip.log());
+		// console.log(`${response.status} ${textResponse.indexOf('banned') ? 'IP Banned' : textResponse}`);
 	}
 }
 
-function fetchTestData (data) {
-	return find(data);
+function fetchTestData (data, radius, location) {
+	return find(data, radius, location);
 }
 
 function init (radius, wanted, location) {
-	return process.env.TEST ? fetchTestData(testData) : fetchPogoMap(radius, wanted, location);
+	return process.env.TEST ? fetchTestData(testData, radius, location) : fetchPogoMap(radius, wanted, location);
 }
 
 module.exports = init;

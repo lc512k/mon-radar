@@ -2,12 +2,13 @@ const dialog = document.querySelector('dialog');
 
 const title = dialog.querySelector('.mdl-dialog__title');
 const content = dialog.querySelector('.mdl-dialog__content');
+const close = dialog.querySelector('.close');
 
-dialog.querySelector('.close').addEventListener('click', () => {
+close.addEventListener('click', () => {
    dialog.close();
 });
 
-const initDialog = (res) => {
+initDialog = (res) => {
 	// TODO add all possibilities
 	title.innerText = 'Server says:';
 	content.innerText = `${res.status} ${res.statusText}`;
