@@ -33,6 +33,7 @@ const updateMons = async (req) => {
 	console.log(`[SAVE] Subs Added/Modified: ${JSON.stringify(result)}`);
 
 	await webpush.send(req.body.subscription, {title: 'Mon Radar 🤖', message:`Watching ${body.mons.length} pokémon in a ${body.radius}m radius`});
+
 	return 200;
 };
 
