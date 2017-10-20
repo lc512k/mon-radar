@@ -19,7 +19,7 @@ async function init () {
 
 		if (mons) {
 			console.log('[SERVER PUSH] uuid', sub._id);
-			// console.log('[SERVER PUSH] mons fetched:', mons);
+			console.log('[SERVER PUSH] mons fetched:', mons);
 
 			for (const key in mons) {
 				if (mons.hasOwnProperty(key)) {
@@ -32,13 +32,12 @@ async function init () {
 						icon: `img/${foundMon.id}.png`
 					};
 
-					// console.log('calling webpush', webpush.send.isSinonProxy);
 					await webpush.send(pushSubscription, payload);
 				}
 			}
 		}
 
-		// console.log('sleeping for 10s');
+		console.log('sleeping for 10s');
 		sleep.sleep(10);
 	}
 }
