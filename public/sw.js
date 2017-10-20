@@ -63,6 +63,8 @@ self.addEventListener('install', (e) => {
 				'/lib/js.cookie.js',
 				'/lib/material.min.css',
 				'/lib/material.min.js',
+				'/lib/material.min.css.map',
+				'/lib/material.min.js.map',
 				'/lib/uuid-v4.js',
 				'/img/25.png',
 				'/img/26.png',
