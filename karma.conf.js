@@ -57,25 +57,3 @@ module.exports = function (config) {
     }
   });
 };
-
-// module.exports = function (config) {
-//   config.set({
-//     // base path that will be used to resolve all patterns (eg. files, exclude)
-//     basePath: '',
-//     frameworks: ['mocha', 'sinon'],
-//     files: [ '**/*.spec.js' ],
-//     // preprocess matching files before serving them to the browser
-//     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-//     preprocessors: {
-//       '**/*.spec.js': ['webpack']
-//     },
-//     reporters: ['spec'],
-//     port: 9876, // karma web server port
-//     colors: true,
-//     logLevel: config.LOG_INFO,
-//     autoWatch: false,
-//     browsers: ['Chrome'],
-//     singleRun: true,
-//     concurrency: Infinity
-//   });
-// };
