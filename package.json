@@ -30,10 +30,7 @@
     "minify": "^3.0.2",
     "mocha": "^4.0.1",
     "mock-cookie": "^0.3.2",
-    "phantomjs": "^2.1.7",
     "proxyquire": "^1.8.0",
-    "puppeteer": "^0.12.0",
-    "simple-headless-chrome": "^4.3.10",
     "sinon": "^4.0.1",
     "uuid": "^3.1.0",
     "webpack": "^1.15.0"

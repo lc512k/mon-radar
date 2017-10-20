@@ -1,61 +1,66 @@
-// const sinon = require('sinon');
-// const assert = require('assert');
-// const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+const assert = require('assert');
+const proxyquire = require('proxyquire');
+const fakeMons = require('../../../server/data/stub-found.json');
 
-// const twoSubsFixture = '{"1":{"mons": ["Snorlax"],"subscription": {"endpoint": "https://fcm.googleapis.com/fcm/send/ffjqfsC-Jak:APA91bG23YCnksD_TjRBHgjMtdVEprvVHmk8HTRqoUXDHjH-PFChplrsk692PoW871-pEdM_kAlPH1l0CLseqInyNXY9o7ApVlTUZzaIfiNRN3OaGOZuhivo_SZfxdX0vLYVAT5nUI0I","expirationTime": null,"keys": {"p256dh": "BEYHWryugz3l3PB5_qDCahaj7NNI2rD-dhv6bxUH62H8ysvduen7PIhKcikTc2exc5PdyyjPeJI4ZmjUgEYdb34=","auth": "HoGxY7ImFFc0gTPX22o0jg=="}}},"2":{"mons": ["Pikachu"],"subscription": {"endpoint": "https://fcm.googleapis.com/fcm/send/ffjqfsC-Jak:APA91bG23YCnksD_TjRBHgjMtdVEprvVHmk8HTRqoUXDHjH-PFChplrsk692PoW871-pEdM_kAlPH1l0CLseqInyNXY9o7ApVlTUZzaIfiNRN3OaGOZuhivo_SZfxdX0vLYVAT5nUI0I","expirationTime": null,"keys": {"p256dh": "BEYHWryugz3l3PB5_qDCahaj7NNI2rD-dhv6bxUH62H8ysvduen7PIhKcikTc2exc5PdyyjPeJI4ZmjUgEYdb34=","auth": "HoGxY7ImFFc0gTPX22o0jg=="}}}}';
+let serverPush;
 
-// describe('The server-push script', () => {
+const twoSubsFixture = '[{"location":{"lng":"-0.14498865", "lat":"51.64362086"}, "mons": ["143"],"subscription": {"endpoint": "https://fcm.googleapis.com/fcm/send/ffjqfsC-Jak:APA91bG23YCnksD_TjRBHgjMtdVEprvVHmk8HTRqoUXDHjH-PFChplrsk692PoW871-pEdM_kAlPH1l0CLseqInyNXY9o7ApVlTUZzaIfiNRN3OaGOZuhivo_SZfxdX0vLYVAT5nUI0I","expirationTime": null,"keys": {"p256dh": "BEYHWryugz3l3PB5_qDCahaj7NNI2rD-dhv6bxUH62H8ysvduen7PIhKcikTc2exc5PdyyjPeJI4ZmjUgEYdb34=","auth": "HoGxY7ImFFc0gTPX22o0jg=="}}},{"mons": ["0"],"subscription": {"endpoint": "https://fcm.googleapis.com/fcm/send/ffjqfsC-Jak:APA91bG23YCnksD_TjRBHgjMtdVEprvVHmk8HTRqoUXDHjH-PFChplrsk692PoW871-pEdM_kAlPH1l0CLseqInyNXY9o7ApVlTUZzaIfiNRN3OaGOZuhivo_SZfxdX0vLYVAT5nUI0I","expirationTime": null,"keys": {"p256dh": "BEYHWryugz3l3PB5_qDCahaj7NNI2rD-dhv6bxUH62H8ysvduen7PIhKcikTc2exc5PdyyjPeJI4ZmjUgEYdb34=","auth": "HoGxY7ImFFc0gTPX22o0jg=="}}}]';
 
-// 	let serverPush;
-// 	let webPushStub;
-// 	let fsStub;
+describe('The server-push script', () => {
 
-// 	beforeEach(() => {
-// 	 	webPushStub = sinon.stub();
-// 	 	fsStub = sinon.stub();
-// 		serverPush = proxyquire('../../../scripts/server-push', {
-// 			'web-push': webPushStub.returns({
-// 				setGCMAPIKey: function () {},
-// 				setVapidDetails: function () {},
-// 				sendNotification: function () {}
-// 			}),
-// 			'fs': fsStub.returns({
-// 				readFileSync: function () {}
-// 			})
-// 		});
+	let webPushStub;
+	let sleepStub;
+	let subModelStub;
 
-// 		webPushStub.sendNotification = new sinon.stub().returns(Promise.resolve());
-// 		fsStub.readFileSync = new sinon.stub().returns(twoSubsFixture.toString());
+	beforeEach(() => {
+	 	sleepStub = sinon.stub();
+	 	webPushStub = sinon.stub();
+	 	subModelStub = sinon.stub();
+		serverPush = proxyquire('../../../scripts/server-push', {
+			'sleep': sleepStub.returns({
+				sleep: function (){}
+			}),
+			'../server/lib/webpush': webPushStub.returns({
+				send: function (){}
+			}),
+			'../server/lib/map': new sinon.stub().returns(Promise.resolve(fakeMons)),
+			'../server/models/sub': subModelStub.returns({
+				find: function (){}
+			})
+		});
 
-// 		process.env.TEST = 'true';
-// 		process.env.MAX_RADIUS = 2000;
-// 	});
+		webPushStub.send = new sinon.stub().returns(Promise.resolve());
+		sleepStub.sleep = new sinon.stub().returns(function (){});
+		subModelStub.find = new sinon.stub().returns(Promise.resolve([]));
+		subModelStub.find = new sinon.stub().returns(Promise.resolve(JSON.parse(twoSubsFixture)));
 
-// 	afterEach(() => {
-// 		delete process.env.TEST;
-// 		delete process.env.MAX_RADIUS;
-// 		webPushStub.reset();
-// 		fsStub.reset();
-// 	});
+		process.env.TEST = 'true';
+		process.env.MAX_RADIUS = 2000;
+	});
 
-// 	it('exports anonymous init function', () => {
-// 		assert.equal(typeof serverPush, 'function');
-// 	});
+	afterEach(() => {
+		delete process.env.TEST;
+		delete process.env.MAX_RADIUS;
+		webPushStub.reset();
+		sleepStub.reset();
+		subModelStub.reset();
+	});
 
-// 	it('anonymous init function exported retunrs an array', async () => {
-// 		const mons = await serverPush();
-// 		assert.equal(typeof mons.length, 'number');
-// 	});
+	it('exports anonymous init function', () => {
+		assert.equal(typeof serverPush, 'function');
+	});
 
-// 	it('calls web push', async () => {
-// 		await serverPush();
-// 		sinon.assert.called(webPushStub.sendNotification);
-// 	});
+	it('calls web push', async () => {
+		await serverPush();
+		sinon.assert.called(webPushStub.send);
+	});
 
-// 	it('calls webpush once per pokemon found, per subscription', async () => {
-// 		const mons = await serverPush();
-// 		const numberOfSubs = Object.keys(JSON.parse(twoSubsFixture)).length;
-// 		sinon.assert.calledOnce(fsStub.readFileSync);
-// 		sinon.assert.callCount(webPushStub.sendNotification, mons.length * numberOfSubs);
-// 	});
-// });
+	it('calls webpush once per pokemon found, per subscription', async () => {
+		await serverPush();
+		const numSubs = Object.keys(JSON.parse(twoSubsFixture)).length;
+		sinon.assert.callCount(webPushStub.send, fakeMons.length * numSubs);
+	});
+
+	// TODO fetch gets called only once per sub
+});

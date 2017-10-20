@@ -28,7 +28,6 @@ function find (data, radius, location) {
 }
 
 async function fetchPogoMap (radius, wanted, location) {
-	console.log(radius, wanted, location);
 	const url = process.env.URL + wanted.toString();
 	const options = {
 		headers: {
