@@ -37,10 +37,9 @@ async function init () {
 			}
 		}
 		else {
-			console.log('[SERVER PUSH] sending blacklist push', sub._id);
 			const lauraMobile = sub._id === process.env.LAURA_MOBILE_UUID;
-
 			if (lauraMobile) {
+				console.log('[SERVER PUSH] sending blacklist push', sub._id);
 				await webpush.send(pushSubscription, {
 					title: 'Mon Radar',
 					message: 'Heroku IP blacklisted. Stand by... 💀'

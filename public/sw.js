@@ -23,6 +23,9 @@ self.addEventListener('push', function (event) {
 	console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
 	const payload = event.data.json();
+
+	console.log(payload);
+
 	const title = payload.title;
 	const options = {
 		body: payload.message,
@@ -32,12 +35,19 @@ self.addEventListener('push', function (event) {
 });
 
 self.addEventListener('notificationclick', function (event) {
-	console.log('[Service Worker] Notification click Received.');
+	console.log('[Service Worker] Notification click Received.', event.notification.body);
+	let payload;
+	let target = '/';
+
+	if (typeof event.notification.body === 'Object') {
+		payload = JSON.parse(event.notification.body);
+		target = `https://maps.google.com/maps?q=${payload.location.lat},${payload.location.lng}`;
+		event.waitUntil(
+			clients.openWindow(target)
+		);
+	}
 
 	event.notification.close();
-	event.waitUntil(
-		clients.openWindow('https://londonpogomap.com')
-	);
 });
 
 self.addEventListener('pushsubscriptionchange', function (event) {
