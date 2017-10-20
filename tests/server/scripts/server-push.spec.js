@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const assert = require('assert');
-const proxyquire = require('proxyquire');
+const proxyquire = require('proxyquire').noCallThru();
 const fakeMons = require('../../../server/data/stub-found.json');
 
 let serverPush;
@@ -27,7 +27,8 @@ describe('The server-push script', () => {
 			'../server/lib/map': new sinon.stub().returns(Promise.resolve(fakeMons)),
 			'../server/models/sub': subModelStub.returns({
 				find: function (){}
-			})
+			}),
+			'../server/lib/mongo': new sinon.stub().returns(Promise.resolve())
 		});
 
 		webPushStub.send = new sinon.stub().returns(Promise.resolve());

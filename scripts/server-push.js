@@ -5,7 +5,7 @@ const mongoClient = require('../server/lib/mongo');
 const SubscriptionModel = require('../server/models/sub');
 
 async function init () {
-	console.log('[SERVER PUSH]');
+	console.log('[SERVER PUSH]', mongoClient);
 
 	await mongoClient;
 	const dataJSON = await SubscriptionModel.find();
