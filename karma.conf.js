@@ -14,7 +14,9 @@
 //     preprocessors: {
 //       '**/*.spec.js': ['webpack']
 //     },
+
 //     reporters: ['spec'],
+
 //     port: 9876, // karma web server port
 //     colors: true,
 //     logLevel: config.LOG_INFO,
@@ -57,7 +59,7 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: false,
     // browsers: ['ChromeHeadless'],
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
     singleRun: true,
     concurrency: Infinity,
     webpack: {
