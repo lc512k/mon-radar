@@ -1,4 +1,5 @@
 /* global uuidv4 initDialog Cookies */
+
 const randomUuid = uuidv4();
 
 if (!document.cookie){
@@ -24,49 +25,44 @@ submitBtn.addEventListener('click', (e) => {
 
 	const radius = radiusField.value;
 
-	// TODO tidy
-	navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
-	  // Do we already have a push message subscription?
-		serviceWorkerRegistration.pushManager.getSubscription()
-		.then(function (pushSubscription) {
-			console.log('pushSubscription', pushSubscription);
-			if (!pushSubscription) {
+	if (!window.subscription) {
+		initDialog({
+			status: 'Oops!',
+			statusText: 'Again, please, slowly?'
+		});
+		return;
+	}
 
-				// TODO tidy
-				initDialog({
-					status: 'Not subscribed',
-					statusText: 'Please try again'
-				});
-			}
-			window.fetch('/api/update-mons', {
-				method: 'POST',
-				headers: {
-					'content-type': 'application/json'
-				},
-				body: JSON.stringify({
-					mons: mons,
-					radius: radius,
-					location: {
-						lat: window.lat,
-						lng: window.lng
-					},
-					subscription: pushSubscription
-				}),
-				credentials: 'same-origin',
-				timeout: 5000
-			})
-			.then((res) => {
-				initDialog(res);
-			});
-		})
-		.catch(e =>{console.log(e);});
+	window.fetch('/api/save', {
+		method: 'POST',
+		headers: {
+			'content-type': 'application/json'
+		},
+		body: JSON.stringify({
+			mons: mons,
+			radius: radius,
+			location: {
+				lat: window.lat,
+				lng: window.lng
+			},
+			subscription: window.subscription
+		}),
+		credentials: 'same-origin',
+		timeout: 5000
+	})
+	.then((res) => {
+		console.log('server responded: ', res);
+		initDialog(res);
+	})
+	.catch(e => {
+		console.log(e);
 	});
+
 });
 
 radiusField.addEventListener('input', () => {
 	metresDisplay.innerText = `${radiusField.value}m`;
 });
-
 
 // UUID in the header
 const uuidContainer = document.querySelector('.uuid');

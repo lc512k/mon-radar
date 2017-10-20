@@ -1,5 +1,5 @@
 const assert = require('assert');
-const time = require('../../../util/time');
+const time = require('../../../server/lib/time');
 
 describe('The time utility', () => {
 	it('should return time in min and sec', async () => {

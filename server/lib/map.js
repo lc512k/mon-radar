@@ -1,12 +1,12 @@
 const fetch = require('isomorphic-fetch');
-const geo = require('../util/geo');
-const time = require('../util/time');
+const geo = require('./geo');
+const time = require('./time');
 const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const env = require('node-env-file');
-const ip = require('../lib/ip');
+const ip = require('./ip');
 
-if (!process.env.PRODUCTION) {
+if (!process.env.NODE_ENV) {
 	env(__dirname + '/../../.env');
 }
 
@@ -16,7 +16,6 @@ function find (data, radius, location) {
 	for (const mon of data.pokemons) {
 		const distance = geo.getDistance(location.lat, location.lng, mon.lat, mon.lng);
 		if (distance < radius) {
-			// console.log('nearby mon', mon);
 			nearbyMons.push({
 				name: dex[mon.pokemon_id],
 				id: mon.pokemon_id,
@@ -41,24 +40,24 @@ async function fetchPogoMap (radius, wanted, location) {
 	const response = await fetch(url,options);
 
 	if (response.status === 200) {
-		console.log('[MAP] lpm responded ok');
+		console.log('\n\n[MAP] lpm responded ok');
 		const jsonResponse = await response.json();
 		return find(jsonResponse, radius, location);
 	}
 	else {
 		const textResponse = await response.text();
-		console.log('[MAP] lpm fetch failed', response.status);
+		console.log('\n\n[MAP] lpm fetch failed', response.status);
 		console.log('[MAP] ip: ', ip.log());
 		console.log(`${response.status} ${textResponse.indexOf('banned') ? 'IP Banned' : textResponse}`);
 	}
 }
 
-function fetchTestData (data) {
-	return find(data);
+function fetchTestData (data, radius, location) {
+	return find(data, radius, location);
 }
 
 function init (radius, wanted, location) {
-	return process.env.TEST ? fetchTestData(testData) : fetchPogoMap(radius, wanted, location);
+	return process.env.TEST ? fetchTestData(testData, radius, location) : fetchPogoMap(radius, wanted, location);
 }
 
 module.exports = init;

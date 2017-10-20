@@ -1,12 +1,14 @@
+/* global updateBtn */
+
 const locationContainer = document.querySelector('#location');
 
 if (navigator.geolocation) {
 	console.log(navigator.geolocation);
-	const submitButton = document.querySelector('#submit');
-	submitButton.disabled = true;
 	window.geoPending = true;
+	updateBtn();
     navigator.geolocation.getCurrentPosition(showPosition);
-} else {
+}
+else {
     locationContainer.innerHTML = 'Geolocation is not supported by this browser.';
 }
 
@@ -14,13 +16,12 @@ function showPosition (position) {
 	window.lat = position.coords.latitude;
 	window.lng = position.coords.longitude;
 
-	const displayLat = Math.round((100 - window.lat * 100) * 100) / 100;
-	const displayLng = Math.round((100 - window.lng * 100) * 100) / 100;
-
-	const submitButton = document.querySelector('#submit');
-	window.geoPending = false;
-	submitButton.disabled = false;
+	const displayLat = window.lat;
+	const displayLng = window.lng;
     locationContainer.innerHTML = `<b>Lat</b>: ${displayLat}, <b>Long</b>: ${displayLng}<br>(Map soon)`;
+
+	window.geoPending = false;
+	updateBtn();
 }
 
 // function initMap () {

@@ -1,7 +1,8 @@
 const SubscriptionModel = require('../models/sub');
 const env = require('node-env-file');
 
-if (!process.env.PRODUCTION) {
+// TODO abstract out with path
+if (!process.env.NODE_ENV) {
 	env(__dirname + './../../.env');
 }
 
@@ -17,7 +18,8 @@ module.exports = async function (req, res) {
 	const subRadius = sub && sub.radius ? sub.radius : 500;
 	const baseMons = process.env.MONS.split(',');
 
-	console.log('this sub', sub);
+	console.log('\n\n[MAIN] This sub');
+	console.log(sub);
 
 	const mons = baseMons.map((monNumber) => {
 		return {

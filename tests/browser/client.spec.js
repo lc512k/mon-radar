@@ -1,19 +1,52 @@
 const sinon = require('sinon');
 
+process.env.CHROME_BIN = '/tmp/headlessDataDir';
+
 describe('The client script:', function () {
 
 	describe('Submit', function () {
-		const button = document.createElement('button');
-		button.id = 'submit';
-		document.body.appendChild(button);
+		const submitBtn = document.createElement('button');
+		submitBtn.id = 'submit';
+		document.body.appendChild(submitBtn);
+		const radiusBtn = document.createElement('button');
+		radiusBtn.id = 'radius';
+		document.body.appendChild(radiusBtn);
+		const metresSpan = document.createElement('span');
+		metresSpan.id = 'metres';
+		document.body.appendChild(metresSpan);
+		const uuid = document.createElement('div');
+		uuid.className = 'uuid';
+		document.body.appendChild(uuid);
+		const dialog = document.createElement('dialog');
+		document.body.appendChild(dialog);
+		const dialogTitle = document.createElement('div');
+		dialogTitle.className = '.mdl-dialog__title';
+		dialog.appendChild(dialogTitle);
+		const dialogContent = document.createElement('div');
+		dialogContent.className = '.mdl-dialog__content';
+		dialog.appendChild(dialogContent);
+		const closeBtn = document.createElement('button');
+		closeBtn.className = 'close';
+		dialog.appendChild(closeBtn);
+
+		window.lat = 'foo';
+		window.lng = 'foo';
+		window.subscription = 'bar';
 
 		let fetchStub = sinon.stub();
-		fetch = fetchStub;
+		window.fetch = fetchStub.returns(Promise.resolve('fetch resolve'));
+
+
+		// let initDialogStub = sinon.stub();
+		// initDialog = initDialogStub;
+		require('../../public/dialog');
 		require('../../public/client');
 
 		it('should call fetch once when clicking the submit button', function () {
 			const submitBtn = document.querySelector('#submit');
 			submitBtn.click();
+			console.log('[TEST] fetchStub')
+			console.log(fetchStub)
 			sinon.assert.calledOnce(fetchStub);
 		});
 	});

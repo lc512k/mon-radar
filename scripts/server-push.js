@@ -1,68 +1,45 @@
-const webpush = require('web-push');
 const sleep = require('sleep');
-const env = require('node-env-file');
 const fetchMons = require('../server/lib/map');
+const webpush = require('../server/lib/webpush');
 const mongoClient = require('../server/lib/mongo');
 const SubscriptionModel = require('../server/models/sub');
 
-if (!process.env.PRODUCTION) {
-	env(__dirname + '/../.env');
-}
+async function init () {
+	console.log('[SERVER PUSH]', mongoClient);
 
-function init () {
-	console.log('[SERVER PUSH]');
+	await mongoClient;
+	const dataJSON = await SubscriptionModel.find();
 
-	webpush.setGCMAPIKey('AIzaSyAQQ8SwlBJAoxkw82Rw5lUtxFpzmK8nZ5s');
-	webpush.setVapidDetails(
-		process.env.EMAIL,
-		process.env.PUBLIC_KEY,
-		process.env.PRIVATE_KEY
-	);
+	for (let sub of dataJSON) {
 
-	let dataJSON;
+		const pushSubscription = sub.subscription;
 
-	mongoClient.then(() => {
-		SubscriptionModel.find({}, async (err, result) => {
+		// TODO if duplicate locations (or close enough) fire off a single request
+		const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
-			dataJSON = result;
+		if (mons) {
+			console.log('[SERVER PUSH] uuid', sub._id);
+			console.log('[SERVER PUSH] mons fetched:', mons);
 
-			for (let sub of dataJSON) {
+			for (const key in mons) {
+				if (mons.hasOwnProperty(key)) {
+					const foundMon = mons[key];
+					console.log(`notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
 
-				const pushSubscription = sub.subscription;
+					const payload = {
+						message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
+						title: foundMon.name,
+						icon: `img/${foundMon.id}.png`
+					};
 
-				// TODO if duplicate locations (or close enough) fire off a single request
-				// const mons = await fetchMons(sub.radius, sub.mons, sub.location);
-				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
-
-				if (mons) {
-					console.log('\n\n[SERVER PUSH] uuid', sub._id);
-					console.log('[SERVER PUSH] mons fetched:', mons.length);
-
-					for (const key in mons) {
-						if (mons.hasOwnProperty(key)) {
-							const foundMon = mons[key];
-							console.log(`notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
-
-							const payload = {
-								message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
-								title: foundMon.name,
-								icon: `img/${foundMon.id}.png`
-							};
-
-							webpush.sendNotification(pushSubscription, JSON.stringify(payload)).catch(function (e) {
-								console.log('[SERVER PUSH] sent for', sub._id);
-								console.log(e);
-							});
-						}
-					}
+					await webpush.send(pushSubscription, payload);
 				}
-
-				console.log('sleeping for 10s');
-				sleep.sleep(10);
 			}
+		}
 
-		});
-	});
+		console.log('sleeping for 10s');
+		sleep.sleep(10);
+	}
 }
 
 module.exports = init;
