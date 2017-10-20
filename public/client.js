@@ -27,8 +27,8 @@ submitBtn.addEventListener('click', (e) => {
 
 	if (!window.subscription) {
 		initDialog({
-			status: 'Oops!',
-			statusText: 'Again, please, slowly?'
+			status: 'Client error.',
+			statusText: 'Try again.'
 		});
 		return;
 	}
