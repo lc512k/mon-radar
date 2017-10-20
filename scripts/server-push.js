@@ -24,12 +24,16 @@ async function init () {
 			for (const key in mons) {
 				if (mons.hasOwnProperty(key)) {
 					const foundMon = mons[key];
-					console.log(`notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
+					console.log(`[SERVER PUSH] notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
 
 					const payload = {
-						message: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`,
 						title: foundMon.name,
-						icon: `img/${foundMon.id}.png`
+						icon: `img/${foundMon.id}.png`,
+						message: JSON.stringify({
+							location: foundMon.location,
+							myLocation: sub.location,
+							text: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`
+						})
 					};
 
 					await webpush.send(pushSubscription, payload);
@@ -37,18 +41,20 @@ async function init () {
 			}
 		}
 		else {
-			console.log('[SERVER PUSH] sending blacklist push', sub._id);
 			const lauraMobile = sub._id === process.env.LAURA_MOBILE_UUID;
-
 			if (lauraMobile) {
+				console.log('[SERVER PUSH] sending blacklist push', sub._id);
 				await webpush.send(pushSubscription, {
+					icon: 'img/blacklist.png',
 					title: 'Mon Radar',
-					message: 'Heroku IP blacklisted. Stand by... 💀'
+					message: JSON.stringify({
+						text: 'Heroku IP blacklisted. Stand by... 💀'
+					})
 				});
 			}
 		}
 
-		console.log('sleeping for 10s');
+		console.log('[SERVER PUSH] sleeping for 10s');
 		sleep.sleep(10);
 	}
 }
