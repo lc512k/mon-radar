@@ -1,5 +1,16 @@
 const sinon = require('sinon');
 
+// const HeadlessChrome = require('simple-headless-chrome')
+
+// const browser = new HeadlessChrome({
+//   headless: true, // If you turn this off, you can actually see the browser navigate with your instructions,
+//   chrome: {
+//     userDataDir: '/tmp/headlessDataDir' // This can be null, so a tmp folder will be created and then destroyed
+//   }
+// })
+
+process.env.CHROME_BIN = '/tmp/headlessDataDir';
+
 describe('The client script:', function () {
 
 	describe('Submit', function () {
@@ -43,6 +54,8 @@ describe('The client script:', function () {
 		it('should call fetch once when clicking the submit button', function () {
 			const submitBtn = document.querySelector('#submit');
 			submitBtn.click();
+			console.log('[TEST] fetchStub')
+			console.log(fetchStub)
 			sinon.assert.calledOnce(fetchStub);
 		});
 	});
