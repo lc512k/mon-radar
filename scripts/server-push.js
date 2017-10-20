@@ -36,6 +36,13 @@ async function init () {
 				}
 			}
 		}
+		else {
+			console.log('[SERVER PUSH] sending blacklist push', sub._id);
+			await webpush.send(pushSubscription, {
+				title: 'Mon Radar',
+				message: 'Heroku IP blacklisted. Stand by... 💀'
+			});
+		}
 
 		console.log('sleeping for 10s');
 		sleep.sleep(10);
