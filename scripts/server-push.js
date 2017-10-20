@@ -18,7 +18,6 @@ function init () {
 				const pushSubscription = sub.subscription;
 
 				// TODO if duplicate locations (or close enough) fire off a single request
-				// const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 				const mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
 				if (mons) {

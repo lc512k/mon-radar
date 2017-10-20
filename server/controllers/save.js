@@ -4,7 +4,7 @@ const env = require('node-env-file');
 const logger = require('../lib/logger');
 const SubscriptionModel = require('../models/sub');
 
-if (process.env.NODE_ENV === 'dev') {
+if (!process.env.NODE_ENV) {
 	env(__dirname + '/../../.env');
 }
 

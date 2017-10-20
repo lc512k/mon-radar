@@ -28,7 +28,6 @@ describe('The map library', () => {
 	});
 
 	it('should call fetch if no TEST env is set', async () => {
-		console.log('wat')
 		await map(1000, ['143'], {lng: '0', lat: '0'});
 		sinon.assert.called(fetchStub);
 	});
@@ -44,30 +43,34 @@ describe('The map library', () => {
 		assert.equal('function', typeof map().then);
 	});
 
-	// it('should return an array', async () => {
-	// 	const mons = await map(1000, ['143'], {lng: '0', lat: '0'});
-	// 	// assert(true);
-	// 	assert(mons.length > 0);
-	// });
+	it('should return an array', async () => {
+		process.env.TEST = 'true';
+		const mons = await map(1000, ['143'], {lng: '0', lat: '0'});
+		assert(mons.length !== undefined);
+		delete process.env.TEST;
+	});
 
-	// it('should return an array of objects with a name', async () => {
-	// 	const mons = await map();
-	// 	const firstMon = mons[0];
-	// 	assert(firstMon.name !== undefined);
-	// 	assert('string', typeof firstMon.name);
-	// });
+	it('should return an array of objects with a name', async () => {
+		process.env.TEST = 'true';
+		const mons = await map(1000, ['143'], {lng: '-0.14498865', lat: '51.64362086'});
+		const firstMon = mons[0];
+		assert(firstMon.name !== undefined);
+		assert('string', typeof firstMon.name);
+	});
 
-	// it('should return an array of objects with a despawn time', async () => {
-	// 	const mons = await map();
-	// 	const firstMon = mons[0];
-	// 	assert(firstMon.despawn !== undefined);
-	// 	assert('string', typeof firstMon.despawn);
-	// });
+	it('should return an array of objects with a despawn time', async () => {
+		process.env.TEST = 'true';
+		const mons = await map(1000, ['143'], {lng: '-0.14498865', lat: '51.64362086'});
+		const firstMon = mons[0];
+		assert(firstMon.despawn !== undefined);
+		assert('string', typeof firstMon.despawn);
+	});
 
-	// it('should return an array of objects with a numeric distance', async () => {
-	// 	const mons = await map();
-	// 	const firstMon = mons[0];
-	// 	assert(firstMon.distance !== undefined);
-	// 	assert('number', typeof parseInt(firstMon.distance, 10));
-	// });
+	it('should return an array of objects with a numeric distance', async () => {
+		process.env.TEST = 'true';
+		const mons = await map(1000, ['143'], {lng: '-0.14498865', lat: '51.64362086'});
+		const firstMon = mons[0];
+		assert(firstMon.distance !== undefined);
+		assert('number', typeof parseInt(firstMon.distance, 10));
+	});
 });

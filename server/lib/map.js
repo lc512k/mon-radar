@@ -6,7 +6,7 @@ const dex = require('../data/lean-dex.json');
 const env = require('node-env-file');
 const ip = require('./ip');
 
-if (process.env.NODE_ENV === 'dev') {
+if (!process.env.NODE_ENV) {
 	env(__dirname + '/../../.env');
 }
 
@@ -48,7 +48,7 @@ async function fetchPogoMap (radius, wanted, location) {
 	else {
 		const textResponse = await response.text();
 		console.log('\n\n[MAP] lpm fetch failed', response.status);
-		console.log('[MAP] ip: ', ip.log());
+		// console.log('[MAP] ip: ', ip.log());
 		console.log(`${response.status} ${textResponse.indexOf('banned') ? 'IP Banned' : textResponse}`);
 	}
 }
