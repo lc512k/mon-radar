@@ -32,7 +32,7 @@ const updateMons = async (req) => {
 	const result = await SubscriptionModel.update({_id: uuid}, body, {upsert: true, setDefaultsOnInsert: true});
 	console.log(`[SAVE] Subs Added/Modified: ${JSON.stringify(result)}`);
 
-	await webpush.send(req.body.subscription, {title: 'Push set up correctly'});
+	await webpush.send(req.body.subscription, {title: 'Mon Radar 🤖', message:`Watching ${body.mons.length} pokémon in a ${body.radius}m radius`});
 	return 200;
 };
 
