@@ -1,38 +1,9 @@
-// module.exports = function (config) {
-//   config.set({
-//     // base path that will be used to resolve all patterns (eg. files, exclude)
-//     basePath: '',
-//     frameworks: ['mocha', 'sinon'],
-//         files: [
-//           'http://polyfill.webservices.ft.com/v1/polyfill.js?flags=gated',
-//           'http://wzrd.in/standalone/uuid%2Fv4@latest',
-//           'public/lib/js.cookie.js',
-//           'tests/browser/*.spec.js'
-//           ],
-//     // preprocess matching files before serving them to the browser
-//     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-//     preprocessors: {
-//       '**/*.spec.js': ['webpack']
-//     },
-
-//     reporters: ['spec'],
-
-//     port: 9876, // karma web server port
-//     colors: true,
-//     logLevel: config.LOG_INFO,
-//     autoWatch: false,
-//     browsers: ['Chrome'],
-//     singleRun: true,
-//     concurrency: Infinity
-//   });
-// };
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
     frameworks: ['mocha', 'sinon'],
     files: [
-      'http://polyfill.webservices.ft.com/v1/polyfill.js?flags=gated',
       'http://wzrd.in/standalone/uuid%2Fv4@latest',
       'public/lib/js.cookie.js',
       'tests/browser/*.spec.js'
@@ -42,7 +13,6 @@ module.exports = function (config) {
     plugins: [
       'karma-mocha',
       'karma-chrome-launcher',
-      'karma-phantomjs-launcher',
       'karma-coverage',
       'karma-sinon',
       'karma-webpack'
@@ -58,8 +28,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    // browsers: ['ChromeHeadless'],
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: true,
     concurrency: Infinity,
     webpack: {
@@ -70,23 +39,16 @@ module.exports = function (config) {
             test: /\.js$/,
             exclude: /node_modules/,
             loaders: []
-          },
-          {
-            test: /\.json$/,
-            loader: 'json'
           }
         ],
         postLoaders: [
           { //delays coverage til after tests are run, fixing transpiled source coverage error
             test: /\.js$/,
-            exclude: /(test|node_modules|bower_components)\//,
+            exclude: /(test|node_modules)\//,
             loader: 'istanbul-instrumenter'
           }
-        ],
-        noParse: [
-          /\/sinon\.js/,
         ]
-      },
+      }
     },
 
     // Hide webpack output logging
@@ -95,3 +57,25 @@ module.exports = function (config) {
     }
   });
 };
+
+// module.exports = function (config) {
+//   config.set({
+//     // base path that will be used to resolve all patterns (eg. files, exclude)
+//     basePath: '',
+//     frameworks: ['mocha', 'sinon'],
+//     files: [ '**/*.spec.js' ],
+//     // preprocess matching files before serving them to the browser
+//     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+//     preprocessors: {
+//       '**/*.spec.js': ['webpack']
+//     },
+//     reporters: ['spec'],
+//     port: 9876, // karma web server port
+//     colors: true,
+//     logLevel: config.LOG_INFO,
+//     autoWatch: false,
+//     browsers: ['Chrome'],
+//     singleRun: true,
+//     concurrency: Infinity
+//   });
+// };
