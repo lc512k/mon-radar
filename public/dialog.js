@@ -1,16 +1,7 @@
-const dialog = document.querySelector('dialog');
-
-const title = dialog.querySelector('.mdl-dialog__title');
-const content = dialog.querySelector('.mdl-dialog__content');
-const close = dialog.querySelector('.close');
-
-close.addEventListener('click', () => {
-   dialog.close();
-});
+const toast = document.querySelector('.mdl-js-snackbar');
 
 initDialog = (res) => {
-	// TODO add all possibilities
-	title.innerText = 'Server says:';
-	content.innerText = `${res.status} ${res.statusText}`;
-	dialog.showModal();
+	toast.MaterialSnackbar.showSnackbar({
+	    message: `${res.status} ${res.statusText}`
+	});
 };
