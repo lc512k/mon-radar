@@ -1,7 +1,8 @@
 const SubscriptionModel = require('../models/sub');
 const env = require('node-env-file');
 
-if (!process.env.PRODUCTION) {
+// TODO abstract out with path
+if (process.env.NODE_ENV === 'dev') {
 	env(__dirname + './../../.env');
 }
 
