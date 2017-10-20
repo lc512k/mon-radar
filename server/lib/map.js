@@ -47,8 +47,8 @@ async function fetchPogoMap (radius, wanted, location) {
 	else {
 		const textResponse = await response.text();
 		console.log('\n\n[MAP] lpm fetch failed', response.status);
-		console.log('[MAP] ip: ', ip.log());
 		console.log(`${response.status} ${textResponse.indexOf('banned') ? 'IP Banned' : textResponse}`);
+		ip.print();
 	}
 }
 
