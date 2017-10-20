@@ -1,4 +1,3 @@
-
 const webpush = require('../lib/webpush');
 const env = require('node-env-file');
 const logger = require('../lib/logger');
@@ -32,11 +31,13 @@ const updateMons = async (req) => {
 	const result = await SubscriptionModel.update({_id: uuid}, body, {upsert: true, setDefaultsOnInsert: true});
 	console.log(`[SAVE] Subs Added/Modified: ${JSON.stringify(result)}`);
 
-	await webpush.send(req.body.subscription, {title: 'Mon Radar 🤖', message: JSON.stringify({
-			location: body.location,
-			text:`Watching ${body.mons.length} pokémon in a ${body.radius}m radius`
-		})
-	});
+	await webpush.send(req.body.subscription, {
+			title: 'Mon Radar 🤖',
+			message: JSON.stringify({
+				icon: 'img/logo.png',
+				text:`Watching ${body.mons.length} pokémon in a ${body.radius}m radius`
+			})
+		});
 
 	return 200;
 };

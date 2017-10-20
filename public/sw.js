@@ -23,30 +23,31 @@ self.addEventListener('push', function (event) {
 	console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
 	const payload = event.data.json();
-
-	console.log(payload);
-
 	const title = payload.title;
 	const options = {
-		body: payload.message,
-		icon: payload.icon
+		body: JSON.parse(payload.message).text,
+		icon: payload.icon,
+		data: {
+			location: JSON.parse(payload.message).location,
+			myLocation: JSON.parse(payload.message).myLocation
+		}
 	};
 	event.waitUntil(self.registration.showNotification(title, options));
 });
 
 self.addEventListener('notificationclick', function (event) {
-	console.log('[Service Worker] Notification click Received.', event.notification.body);
-	let payload;
+	console.log('[Service Worker] Notification click Received.', event.notification);
 	let target = '/';
+	const loc = event.notification.data.location;
+	const myLoc = event.notification.data.myLocation;
 
-	if (typeof event.notification.body === 'Object') {
-		payload = JSON.parse(event.notification.body);
-		target = `https://maps.google.com/maps?q=${payload.location.lat},${payload.location.lng}`;
+	if (loc && myLoc) {
+		target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking`;
+		console.log('[Service Worker]', target);
 		event.waitUntil(
 			clients.openWindow(target)
 		);
 	}
-
 	event.notification.close();
 });
 
@@ -68,7 +69,7 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 	self.skipWaiting();
 	e.waitUntil(
-		caches.open('monradarv2').then((cache) => {
+		caches.open('monradarv3').then((cache) => {
 			return cache.addAll([
 				'/lib/js.cookie.js',
 				'/lib/material.min.css',
@@ -108,25 +109,30 @@ self.addEventListener('install', (e) => {
 				'/img/242.png',
 				'/img/246.png',
 				'/img/247.png',
-				'/img/248.png'
+				'/img/248.png',
+				'/img/302.png',
+				'/img/353.png',
+				'/img/354.png',
+				'/img/355.png',
+				'/img/356.png'
 			]);
 		})
 	);
 });
 
 self.addEventListener('fetch', (event) => {
-	console.log(event.request.url);
+	console.log('[SERVICE WORKER] ', event.request.url);
 	event.respondWith(
 		caches.match(event.request).then((response) => {
-			console.log('cache hit?', response);
+			console.log('[SERVICE WORKER] cache hit?', response);
 			return response || fetch(event.request);
 		})
 	);
 });
 
 self.addEventListener('activate', function (event) {
-	console.log('Activating new service worker...');
-	const cacheWhitelist = ['monradarv2'];
+	console.log('[SERVICE WORKER] Activating new service worker...');
+	const cacheWhitelist = ['monradarv3'];
 
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {

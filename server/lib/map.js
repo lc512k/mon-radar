@@ -20,7 +20,11 @@ function find (data, radius, location) {
 				name: dex[mon.pokemon_id],
 				id: mon.pokemon_id,
 				despawn: time(new Date(mon.despawn*1000) - new Date()),
-				distance: Math.ceil(distance)
+				distance: Math.ceil(distance),
+				location: {
+					lat: mon.lat,
+					lng: mon.lng
+				}
 			});
 		}
 	}
