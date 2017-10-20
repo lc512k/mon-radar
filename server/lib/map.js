@@ -33,8 +33,14 @@ async function fetchPogoMap (radius, wanted, location) {
 		headers: {
 			token: process.env.TOKEN,
 			referer: process.env.REFERER,
-			pragma: 'no-cache'
-		}
+			pragma: 'no-cache',
+			accept: '*/*',
+			'accept-encoding': 'gzip, deflate, br',
+			'accept-language': 'en-US,en;q=0.9,es;q=0.8',
+			'cookie': process.env.PROVIDER_COOKIE,
+			'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3243.0 Safari/537.36 x-requested-with:XMLHttpRequest'
+		},
+
 	};
 
 	const response = await fetch(url,options);
