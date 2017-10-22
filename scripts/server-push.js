@@ -81,7 +81,7 @@ async function init () {
 					await webpush.send(pushSubscription, payload);
 				}
 				catch (e) {
-					console.log(`[SERVER PUSH] webpush error for ${sub._id}`, e);
+					console.log(`[SERVER PUSH] SW not registered for ${sub._id}`);
 				}
 			}
 		}
