@@ -38,6 +38,18 @@ async function init () {
 
 		if (!mons) {
 			console.log(`[SERVER PUSH] Still no mons. Giving up on ${sub._id}`);
+
+			// TODO remove this after lambda's stable
+			if (sub._id === process.env.LAURA_MOBILE_UUID) {
+				console.log('[SERVER PUSH] sending blacklist push', sub._id);
+				await webpush.send(pushSubscription, {
+					icon: 'img/blacklist.png',
+					title: 'Mon Radar',
+					message: JSON.stringify({
+						text: 'Still no mons. Giving up 💀💀'
+					})
+				});
+			}
 			break;
 		}
 

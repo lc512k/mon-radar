@@ -2,7 +2,11 @@ const AWS = require('aws-sdk');
 
 const fetchMons = (pushSubscription) => {
 
-	AWS.config.update({accessKeyId: process.env.AWS_ID, secretAccessKey: process.env.AWS_SECRET});
+	AWS.config.update({
+		accessKeyId: process.env.AWS_ID,
+		secretAccessKey: process.env.AWS_SECRET,
+		region:'us-east-1'
+	});
 
 	const lambda = new AWS.Lambda();
 	const params = {
