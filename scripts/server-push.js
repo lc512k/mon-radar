@@ -11,6 +11,9 @@ async function init () {
 	await mongoClient;
 	const dataJSON = await SubscriptionModel.find();
 
+	// Heroku
+	let platform = '';
+
 	for (let sub of dataJSON) {
 
 		const pushSubscription = sub.subscription;
@@ -34,6 +37,7 @@ async function init () {
 
 			// Try to fetch them with the lambda
 			mons = await lambda.fetchMons(sub);
+			platform = '⚡';
 		}
 
 		if (!mons) {
@@ -64,7 +68,7 @@ async function init () {
 				console.log(`[SERVER PUSH] notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
 
 				const payload = {
-					title: `${foundMon.name}`,
+					title: `${foundMon.name} ${platform}`,
 					icon: `img/${foundMon.id}.png`,
 					message: JSON.stringify({
 						location: foundMon.location,
