@@ -50,7 +50,9 @@ async function init () {
 					})
 				});
 			}
-			break;
+			// TODO break here, if IP banned for one, IP banned for all
+			// abstract 'notify laura' bit elsewhere
+			// break;
 		}
 
 		console.log('[SERVER PUSH] uuid', sub._id);
