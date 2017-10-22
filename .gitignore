@@ -5,6 +5,7 @@ jspm_packages
 # Serverless directories
 .serverless
 backup
+my-project
 
 .env*
 /scripts/mongo/insert.js
