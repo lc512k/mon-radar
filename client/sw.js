@@ -69,14 +69,9 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 	self.skipWaiting();
 	e.waitUntil(
-		caches.open('monradarv3').then((cache) => {
+		caches.open('monradarv4').then((cache) => {
 			return cache.addAll([
-				'/lib/js.cookie.js',
-				'/lib/material.min.css',
-				'/lib/material.min.js',
-				'/lib/material.min.css.map',
-				'/lib/material.min.js.map',
-				'/lib/uuid-v4.js',
+				//TODO make two bundles, one we can cache (with libs)
 				'/img/25.png',
 				'/img/26.png',
 				'/img/45.png',
@@ -132,7 +127,7 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', function (event) {
 	console.log('[SERVICE WORKER] Activating new service worker...');
-	const cacheWhitelist = ['monradarv3'];
+	const cacheWhitelist = ['monradarv4'];
 
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {
