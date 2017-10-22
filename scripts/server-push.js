@@ -30,7 +30,7 @@ async function init () {
 					icon: 'img/blacklist.png',
 					title: 'Mon Radar',
 					message: JSON.stringify({
-						text: 'Heroku IP 💀. Going Serverless ⚡'
+						text: 'Heroku IP banned 💀. Going Serverless ⚡'
 					})
 				});
 			}
