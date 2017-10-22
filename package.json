@@ -7,7 +7,7 @@
     "test": "mocha tests/server/* && karma start --single-run true karma.conf.js",
     "build": "webpack && cp -r client/img public/img && cp -r client/lib public/lib",
     "clean": "rm -rf public/",
-    "prep-lambda": "cp server/lib/map.js serverless/server/lib/map.js"
+    "prep-lambda": "cp -r server/lib/ serverless/server/lib/ && cp -r server/data/ serverless/server/data/"
   },
   "author": "",
   "license": "ISC",
