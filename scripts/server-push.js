@@ -77,7 +77,12 @@ async function init () {
 					})
 				};
 
-				await webpush.send(pushSubscription, payload);
+				try {
+					await webpush.send(pushSubscription, payload);
+				}
+				catch (e) {
+					console.log(`[SERVER PUSH] webpush error for ${sub._id}`, e);
+				}
 			}
 		}
 
