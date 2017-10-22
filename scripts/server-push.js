@@ -1,8 +1,9 @@
-const sleep = require('sleep');
 const fetchMons = require('../server/lib/map');
 const webpush = require('../server/lib/webpush');
 const mongoClient = require('../server/lib/mongo');
 const SubscriptionModel = require('../server/models/sub');
+const lambda = require('./lambda');
+const sleep = require('system-sleep');
 
 async function init () {
 	console.log('[SERVER PUSH]');
@@ -14,48 +15,56 @@ async function init () {
 
 		const pushSubscription = sub.subscription;
 
-		// TODO if duplicate locations (or close enough) fire off a single request
-		const mons = await fetchMons(sub.radius, sub.mons, sub.location);
+		let mons = await fetchMons(sub.radius, sub.mons, sub.location);
 
-		if (mons) {
-			console.log('[SERVER PUSH] uuid', sub._id);
-			console.log('[SERVER PUSH] mons fetched:', mons);
+		const blacklistedHerokuIP = !mons;
 
-			for (const key in mons) {
-				if (mons.hasOwnProperty(key)) {
-					const foundMon = mons[key];
-					console.log(`[SERVER PUSH] notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
-
-					const payload = {
-						title: foundMon.name,
-						icon: `img/${foundMon.id}.png`,
-						message: JSON.stringify({
-							location: foundMon.location,
-							myLocation: sub.location,
-							text: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`
-						})
-					};
-
-					await webpush.send(pushSubscription, payload);
-				}
-			}
-		}
-		else {
-			const lauraMobile = sub._id === process.env.LAURA_MOBILE_UUID;
-			if (lauraMobile) {
+		if (blacklistedHerokuIP) {
+			// Let me know
+			if (sub._id === process.env.LAURA_MOBILE_UUID) {
 				console.log('[SERVER PUSH] sending blacklist push', sub._id);
 				await webpush.send(pushSubscription, {
 					icon: 'img/blacklist.png',
 					title: 'Mon Radar',
 					message: JSON.stringify({
-						text: 'Heroku IP blacklisted. Stand by... 💀'
+						text: 'Heroku IP 💀. Going Serverless ⚡'
 					})
 				});
+			}
+
+			// Try to fetch them with the lambda
+			mons = await lambda.fetchMons(sub);
+		}
+
+		if (!mons) {
+			console.log(`[SERVER PUSH] Still no mons. Giving up on ${sub._id}`);
+			break;
+		}
+
+		console.log('[SERVER PUSH] uuid', sub._id);
+		console.log('[SERVER PUSH] mons fetched:', mons);
+
+		for (const key in mons) {
+			if (mons.hasOwnProperty(key)) {
+				const foundMon = mons[key];
+				console.log(`[SERVER PUSH] notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
+
+				const payload = {
+					title: `${foundMon.name}`,
+					icon: `img/${foundMon.id}.png`,
+					message: JSON.stringify({
+						location: foundMon.location,
+						myLocation: sub.location,
+						text: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`
+					})
+				};
+
+				await webpush.send(pushSubscription, payload);
 			}
 		}
 
 		console.log('[SERVER PUSH] sleeping for 10s');
-		sleep.sleep(10);
+		sleep(10000);
 	}
 }
 

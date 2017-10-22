@@ -6,6 +6,6 @@ console.log('selectAll')
 mongoClient.then(() => {
 	console.log('mongo client done')
 	SubscriptionModel.find({}, (a, b) => {
-		console.log(a, b);
+		console.log(b[0]);
 	});
 });

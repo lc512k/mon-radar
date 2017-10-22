@@ -1,0 +1,16 @@
+service: serverless
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpackIncludeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  environment: ${file(.env.json)}
+
+functions:
+  push:
+    handler: handler.push

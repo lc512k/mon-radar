@@ -1,4 +1,4 @@
-/* global updateBtn */
+const updateBtn = require('./submit-logic.js');
 
 const locationContainer = document.querySelector('#location');
 

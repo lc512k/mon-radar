@@ -1,6 +1,6 @@
 const submitButton = document.querySelector('#submit');
 
-function updateBtn () {
+module.exports = () => {
 	console.log('updateBtn()');
 	if (!window.geoPending && window.subscription) {
 		submitButton.disabled = false;
@@ -8,4 +8,4 @@ function updateBtn () {
 	else {
 		submitButton.disabled = true;
 	}
-}
+};

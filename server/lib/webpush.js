@@ -1,7 +1,7 @@
 const webpush = require('web-push');
 const env = require('node-env-file');
 
-if (!process.env.NODE_ENV) {
+if (!NODE_ENV) {
 	env(__dirname + '/../../.env');
 }
 

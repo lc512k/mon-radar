@@ -1,4 +1,4 @@
-/* global updateBtn */
+const updateBtn = require('./submit-logic.js');
 
 // TODO key
 const applicationServerPublicKey = 'BOEwwTyknxDzuCzEEhZEj4Gu0P0ZnwBbhgaxRVIdwvhEhTpw68lAHXuNPqTvrIH6l2ONFbs4SVOP6SjswWB7bQ0';

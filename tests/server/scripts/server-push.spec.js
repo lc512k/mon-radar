@@ -10,17 +10,13 @@ const twoSubsFixture = '[{"location":{"lng":"-0.14498865", "lat":"51.64362086"},
 describe('The server-push script', () => {
 
 	let webPushStub;
-	let sleepStub;
 	let subModelStub;
 
 	beforeEach(() => {
-	 	sleepStub = sinon.stub();
 	 	webPushStub = sinon.stub();
 	 	subModelStub = sinon.stub();
 		serverPush = proxyquire('../../../scripts/server-push', {
-			'sleep': sleepStub.returns({
-				sleep: function (){}
-			}),
+			'system-sleep': new sinon.stub().returns(Promise.resolve()),
 			'../server/lib/webpush': webPushStub.returns({
 				send: function (){}
 			}),
@@ -32,7 +28,6 @@ describe('The server-push script', () => {
 		});
 
 		webPushStub.send = new sinon.stub().returns(Promise.resolve());
-		sleepStub.sleep = new sinon.stub().returns(function (){});
 		subModelStub.find = new sinon.stub().returns(Promise.resolve([]));
 		subModelStub.find = new sinon.stub().returns(Promise.resolve(JSON.parse(twoSubsFixture)));
 
@@ -44,7 +39,6 @@ describe('The server-push script', () => {
 		delete process.env.TEST;
 		delete process.env.MAX_RADIUS;
 		webPushStub.reset();
-		sleepStub.reset();
 		subModelStub.reset();
 	});
 
