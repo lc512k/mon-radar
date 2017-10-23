@@ -37,4 +37,7 @@ jobs:
       # run tests!
       - run: npm test
 
+      # TODO npm build here?
+      # What else can we do here pre deploy?
+
 

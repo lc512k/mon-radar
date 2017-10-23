@@ -1,5 +1,6 @@
 /* global clients */
 
+// FIX key
 const applicationServerPublicKey = 'BMsYwcbTzJziGq_ZUWclTO1OtYqmhP0K6xN94616BinBNTfxJyiEhIMS7B4iFpIkY2h79d6aAb1rkUhPeC41Ii8';
 
 function urlB64ToUint8Array (base64String) {
@@ -129,6 +130,9 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', function (event) {
 	console.log('[SERVICE WORKER] Activating new service worker...');
+	// FIX update on server here too
+	// if we don't and the user doesn't click Submit
+	// push notifications will fail (server will have the old version)
 	const cacheWhitelist = ['monradarv4'];
 
 	event.waitUntil(
