@@ -4,7 +4,6 @@ require('./geo.js');
 const uuidv4 = require('./lib/uuid-v4.js');
 const Cookies = require('./lib/js.cookie.js');
 const initDialog = require('./dialog.js');
-
 const randomUuid = uuidv4();
 
 if (!document.cookie){

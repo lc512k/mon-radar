@@ -1,11 +1,38 @@
 /* global google */
-
+const x= require('./lib/material.min.js');
 const updateBtn = require('./submit-logic.js');
+const toast = require('./dialog.js');
+console.log('material', x)
+
+const drawInfoWindows = (map, subLocData) => {
+	let locations = [
+		['You', window.lat, window.lng, 1],
+		['Your notifications',parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2],
+	];
+
+	console.log(locations, subLocData);
+
+	let infowindow = new google.maps.InfoWindow();
+
+	for (let i = 0; i < locations.length; i++) {
+
+		const marker = new google.maps.Marker({
+				position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+				map: map
+		});
+
+		google.maps.event.addListener(marker, 'click', ((marker, i) => {
+			return () => {
+				infowindow.setContent(locations[i][0]);
+				infowindow.open(map, marker);
+			};
+		})(marker, i));
+	}
+};
 
 if (navigator.geolocation) {
 	window.geoPending = true;
 	updateBtn();
-
 
 	const mapContainer = document.getElementById('map');
 	const subLocation = mapContainer.dataset.subLocation;
@@ -31,39 +58,17 @@ if (navigator.geolocation) {
 
 		const map = new google.maps.Map(mapContainer, mapOptions);
 
-		let locations = [
-			['You', window.lat, window.lng, 1],
-			['Your notifications',parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2],
-		];
+		drawInfoWindows(map, subLocData);
 
-		console.log(locations);
-
-	    let infowindow = new google.maps.InfoWindow();
-
-		for (let i = 0; i < locations.length; i++) {
-
-		  const marker = new google.maps.Marker({
-		  		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-		  		map: map
-		  });
-
-		  google.maps.event.addListener(marker, 'click', ((marker, i) => {
-		    return () => {
-		      infowindow.setContent(locations[i][0]);
-		      infowindow.open(map, marker);
-		    };
-		  })(marker, i));
-		}
-
-
-
-
-	// make a toast. say gps or refresh // reduce timeout to see it
-	}, () => {alert('Please enable your GPS');
-
-  }, {maximumAge:600000, timeout:15000, enableHighAccuracy: true});
-
+	}, () => {
+		toast({status: 'Oops, can\'t locate you. Is your GPS on?)'});
+	},
+	{
+		maximumAge:600000,
+		timeout:15000,
+		enableHighAccuracy: true
+	});
 }
 else {
-	alert('Geolocation API is not supported in your browser.');
+	console.error('Geolocation API is not supported in your browser.');
 }
