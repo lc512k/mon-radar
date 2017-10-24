@@ -15,6 +15,7 @@ module.exports = async function (req, res) {
 	const subscriptionRadius = sub && sub.radius ? sub.radius : 500;
 
 	const availableMons = process.env.MONS.split(',');
+	console.log('available', availableMons);
 
 	const mons = availableMons.map((monNumber) => {
 		return {
