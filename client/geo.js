@@ -1,5 +1,5 @@
 /* global google */
-const x= require('./lib/material.min.js');
+require('./lib/material.min.js');
 const updateBtn = require('./submit-logic.js');
 const toast = require('./dialog.js');
 

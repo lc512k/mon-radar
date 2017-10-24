@@ -237,7 +237,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* global google */
-	const x= __webpack_require__(1);
+	__webpack_require__(1);
 	const updateBtn = __webpack_require__(3);
 	const toast = __webpack_require__(5);
 
