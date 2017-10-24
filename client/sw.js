@@ -100,6 +100,7 @@ self.addEventListener('install', (e) => {
 				'/img/181.png',
 				'/img/191.png',
 				'/img/192.png',
+				'/img/193.png',
 				'/img/201.png',
 				'/img/236.png',
 				'/img/237.png',

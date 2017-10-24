@@ -43,7 +43,7 @@ describe('The client script:', function () {
 		// let initDialogStub = sinon.stub();
 		// initDialog = initDialogStub;
 		// require('../../public/dialog');
-		require('../../client/main');
+		// require('../../client/main');
 		// FIX use webpack & bundle for karma tests
 
 		// it('should call fetch once when clicking the submit button', function () {
