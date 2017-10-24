@@ -1,38 +1,85 @@
+/* global google */
+require('./lib/material.min.js');
 const updateBtn = require('./submit-logic.js');
+const toast = require('./dialog.js');
 
-const locationContainer = document.querySelector('#location');
+const drawInfoWindows = (map, subLocData) => {
+	let locations = [
+		['You', window.lat, window.lng, 1],
+	];
+
+	if (subLocData) {
+		locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2]);
+	}
+
+	console.log(locations, subLocData);
+
+	let infowindow = new google.maps.InfoWindow();
+
+	for (let i = 0; i < locations.length; i++) {
+
+		const marker = new google.maps.Marker({
+			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			map: map
+		});
+
+		google.maps.event.addListener(marker, 'click', ((marker, i) => {
+			return () => {
+				infowindow.setContent(locations[i][0]);
+				infowindow.open(map, marker);
+			};
+		})(marker, i));
+	}
+};
 
 if (navigator.geolocation) {
-	console.log(navigator.geolocation);
 	window.geoPending = true;
 	updateBtn();
-    navigator.geolocation.getCurrentPosition(showPosition);
+
+	const mapContainer = document.getElementById('map');
+	const subLocation = mapContainer.dataset.subLocation;
+
+	let subLocData;
+
+	try {
+		console.log('[GEO] parsing your old location', subLocData);
+		subLocData = JSON.parse(subLocation);
+	}
+	catch(e) {
+		subLocData = null;
+	}
+
+	navigator.geolocation.getCurrentPosition((position) => {
+		window.lat = position.coords.latitude;
+		window.lng = position.coords.longitude;
+
+		window.geoPending = false;
+		updateBtn(true);
+
+		const mapOptions = {
+			zoom: 9,
+			center: new google.maps.LatLng(window.lat, window.lng),
+			mapTypeControl: true,
+			navigationControlOptions: {
+				style: google.maps.NavigationControlStyle.SMALL
+			},
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+
+
+		const map = new google.maps.Map(mapContainer, mapOptions);
+
+		drawInfoWindows(map, subLocData);
+
+	}, () => {
+		toast({status: 'Oops, can\'t locate you. Is your GPS on?)'});
+	},
+	{
+		maximumAge:600000,
+		timeout:15000,
+		enableHighAccuracy: true
+	});
 }
 else {
-    locationContainer.innerHTML = 'Geolocation is not supported by this browser.';
+	console.error('Geolocation API is not supported in your browser.');
 }
-
-function showPosition (position) {
-	window.lat = position.coords.latitude;
-	window.lng = position.coords.longitude;
-
-	const displayLat = window.lat;
-	const displayLng = window.lng;
-    locationContainer.innerHTML = `<b>Lat</b>: ${displayLat}, <b>Long</b>: ${displayLng}<br>(Map soon)`;
-
-	window.geoPending = false;
-	updateBtn();
-}
-
-// function initMap () {
-// 	const uluru = {lat: -25.363, lng: 131.044};
-// 	const map = new google.maps.Map(document.getElementById('map'), {
-// 		zoom: 4,
-// 		center: uluru
-// 	});
-// 	console.log('MAP****', map)
-// 	const marker = new google.maps.Marker({
-// 		position: uluru,
-// 		map: map
-// 	});
-// }

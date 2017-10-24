@@ -1,11 +1,7 @@
 const webpush = require('web-push');
-const env = require('node-env-file');
 
-if (!process.env.NODE_ENV) {
-	env(__dirname + '/../../.env');
-}
-
-webpush.setGCMAPIKey('AIzaSyAQQ8SwlBJAoxkw82Rw5lUtxFpzmK8nZ5s');
+// FIX add GCM_API_KEY to heroku
+webpush.setGCMAPIKey(process.env.GCM_API_KEY);
 webpush.setVapidDetails(
 	process.env.EMAIL,
 	process.env.PUBLIC_KEY,

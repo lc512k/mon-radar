@@ -47,10 +47,9 @@
 	__webpack_require__(1);
 	__webpack_require__(2);
 	__webpack_require__(4);
-	const uuidv4 = __webpack_require__(5);
-	const Cookies = __webpack_require__(6);
-	const initDialog = __webpack_require__(7);
-
+	const uuidv4 = __webpack_require__(6);
+	const Cookies = __webpack_require__(7);
+	const initDialog = __webpack_require__(5);
 	const randomUuid = uuidv4();
 
 	if (!document.cookie){
@@ -142,7 +141,7 @@
 
 	const updateBtn = __webpack_require__(3);
 
-	// TODO key
+	// FIX key
 	const applicationServerPublicKey = 'BOEwwTyknxDzuCzEEhZEj4Gu0P0ZnwBbhgaxRVIdwvhEhTpw68lAHXuNPqTvrIH6l2ONFbs4SVOP6SjswWB7bQ0';
 
 	let swRegistration = null;
@@ -170,7 +169,7 @@
 		})
 		.then(function (subscription) {
 			console.log('User is subscribed.', subscription);
-			updateBtn();
+			updateBtn(true);
 		})
 		.catch(function (err) {
 			console.log('Failed to subscribe the user: ', err);
@@ -219,14 +218,17 @@
 
 	const submitButton = document.querySelector('#submit');
 
-	module.exports = () => {
+	module.exports = (update) => {
 		console.log('updateBtn()');
+
 		if (!window.geoPending && window.subscription) {
 			submitButton.disabled = false;
 		}
 		else {
 			submitButton.disabled = true;
 		}
+
+		submitButton.innerText = update ? 'Update' : 'Submit';
 	};
 
 
@@ -234,55 +236,118 @@
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	/* global google */
+	__webpack_require__(1);
 	const updateBtn = __webpack_require__(3);
+	const toast = __webpack_require__(5);
 
-	const locationContainer = document.querySelector('#location');
+	const drawInfoWindows = (map, subLocData) => {
+		let locations = [
+			['You', window.lat, window.lng, 1],
+		];
+
+		if (subLocData) {
+			locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2]);
+		}
+
+		console.log(locations, subLocData);
+
+		let infowindow = new google.maps.InfoWindow();
+
+		for (let i = 0; i < locations.length; i++) {
+
+			const marker = new google.maps.Marker({
+				position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+				map: map
+			});
+
+			google.maps.event.addListener(marker, 'click', ((marker, i) => {
+				return () => {
+					infowindow.setContent(locations[i][0]);
+					infowindow.open(map, marker);
+				};
+			})(marker, i));
+		}
+	};
 
 	if (navigator.geolocation) {
-		console.log(navigator.geolocation);
 		window.geoPending = true;
 		updateBtn();
-	    navigator.geolocation.getCurrentPosition(showPosition);
+
+		const mapContainer = document.getElementById('map');
+		const subLocation = mapContainer.dataset.subLocation;
+
+		let subLocData;
+
+		try {
+			console.log('[GEO] parsing your old location', subLocData);
+			subLocData = JSON.parse(subLocation);
+		}
+		catch(e) {
+			subLocData = null;
+		}
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			window.lat = position.coords.latitude;
+			window.lng = position.coords.longitude;
+
+			window.geoPending = false;
+			updateBtn(true);
+
+			const mapOptions = {
+				zoom: 9,
+				center: new google.maps.LatLng(window.lat, window.lng),
+				mapTypeControl: true,
+				navigationControlOptions: {
+					style: google.maps.NavigationControlStyle.SMALL
+				},
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+
+			const map = new google.maps.Map(mapContainer, mapOptions);
+
+			drawInfoWindows(map, subLocData);
+
+		}, () => {
+			toast({status: 'Oops, can\'t locate you. Is your GPS on?)'});
+		},
+		{
+			maximumAge:600000,
+			timeout:15000,
+			enableHighAccuracy: true
+		});
 	}
 	else {
-	    locationContainer.innerHTML = 'Geolocation is not supported by this browser.';
+		console.error('Geolocation API is not supported in your browser.');
 	}
-
-	function showPosition (position) {
-		window.lat = position.coords.latitude;
-		window.lng = position.coords.longitude;
-
-		const displayLat = window.lat;
-		const displayLng = window.lng;
-	    locationContainer.innerHTML = `<b>Lat</b>: ${displayLat}, <b>Long</b>: ${displayLng}<br>(Map soon)`;
-
-		window.geoPending = false;
-		updateBtn();
-	}
-
-	// function initMap () {
-	// 	const uluru = {lat: -25.363, lng: 131.044};
-	// 	const map = new google.maps.Map(document.getElementById('map'), {
-	// 		zoom: 4,
-	// 		center: uluru
-	// 	});
-	// 	console.log('MAP****', map)
-	// 	const marker = new google.maps.Marker({
-	// 		position: uluru,
-	// 		map: map
-	// 	});
-	// }
 
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+	const toast = document.querySelector('.mdl-js-snackbar');
+
+	module.exports = (res) => {
+		console.log('[TOAST]', toast)
+
+		console.log('[TOAST]', toast.MaterialSnackbar)
+		toast.MaterialSnackbar.showSnackbar({
+		    message: `${res.status ? res.status : ''} ${res.statusText ? res.statusText : ''}`
+		});
+	};
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var require;var require;/* WEBPACK VAR INJECTION */(function(global) {!function(n){if(true)module.exports=n();else if("function"==typeof define&&define.amd)define([],n);else{var e;e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,e.uuidv4=n()}}(function(){return function n(e,r,o){function t(f,u){if(!r[f]){if(!e[f]){var a="function"==typeof require&&require;if(!u&&a)return require(f,!0);if(i)return i(f,!0);var d=new Error("Cannot find module '"+f+"'");throw d.code="MODULE_NOT_FOUND",d}var l=r[f]={exports:{}};e[f][0].call(l.exports,function(n){var r=e[f][1][n];return t(r?r:n)},l,l.exports,n,e,r,o)}return r[f].exports}for(var i="function"==typeof require&&require,f=0;f<o.length;f++)t(o[f]);return t}({1:[function(n,e,r){function o(n,e){var r=e||0,o=t;return o[n[r++]]+o[n[r++]]+o[n[r++]]+o[n[r++]]+"-"+o[n[r++]]+o[n[r++]]+"-"+o[n[r++]]+o[n[r++]]+"-"+o[n[r++]]+o[n[r++]]+"-"+o[n[r++]]+o[n[r++]]+o[n[r++]]+o[n[r++]]+o[n[r++]]+o[n[r++]]}for(var t=[],i=0;i<256;++i)t[i]=(i+256).toString(16).substr(1);e.exports=o},{}],2:[function(n,e,r){(function(n){var r,o=n.crypto||n.msCrypto;if(o&&o.getRandomValues){var t=new Uint8Array(16);r=function(){return o.getRandomValues(t),t}}if(!r){var i=new Array(16);r=function(){for(var n,e=0;e<16;e++)0===(3&e)&&(n=4294967296*Math.random()),i[e]=n>>>((3&e)<<3)&255;return i}}e.exports=r}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],3:[function(n,e,r){function o(n,e,r){var o=e&&r||0;"string"==typeof n&&(e="binary"==n?new Array(16):null,n=null),n=n||{};var f=n.random||(n.rng||t)();if(f[6]=15&f[6]|64,f[8]=63&f[8]|128,e)for(var u=0;u<16;++u)e[o+u]=f[u];return e||i(f)}var t=n("./lib/rng"),i=n("./lib/bytesToUuid");e.exports=o},{"./lib/bytesToUuid":1,"./lib/rng":2}]},{},[3])(3)});
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -450,19 +515,6 @@
 
 		return init(function () {});
 	}));
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-	const toast = document.querySelector('.mdl-js-snackbar');
-
-	module.exports = (res) => {
-		toast.MaterialSnackbar.showSnackbar({
-		    message: `${res.status} ${res.statusText}`
-		});
-	};
 
 
 /***/ })

@@ -1,5 +1,6 @@
 /* global clients */
 
+// FIX key
 const applicationServerPublicKey = 'BMsYwcbTzJziGq_ZUWclTO1OtYqmhP0K6xN94616BinBNTfxJyiEhIMS7B4iFpIkY2h79d6aAb1rkUhPeC41Ii8';
 
 function urlB64ToUint8Array (base64String) {
@@ -42,9 +43,8 @@ self.addEventListener('notificationclick', function (event) {
 	const myLoc = event.notification.data.myLocation;
 
 	if (loc && myLoc) {
-		// FIX why myLoc is off :/
-		// target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
-		target = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}`;
+		target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
+		// target = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}`;
 		console.log('[Service Worker]', target);
 		event.waitUntil(
 			clients.openWindow(target)
@@ -71,20 +71,12 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 	self.skipWaiting();
 	e.waitUntil(
-		caches.open('monradarv4').then((cache) => {
+		caches.open('monradarv6').then((cache) => {
 			//TODO make two bundles, one we can cache (with libs)
 			return cache.addAll([
 				'/img/25.png',
-				'/img/26.png',
-				'/img/45.png',
-				'/img/63.png',
-				'/img/64.png',
-				'/img/65.png',
 				'/img/68.png',
-				'/img/71.png',
-				'/img/108.png',
 				'/img/113.png',
-				'/img/131.png',
 				'/img/143.png',
 				'/img/147.png',
 				'/img/148.png',
@@ -100,18 +92,14 @@ self.addEventListener('install', (e) => {
 				'/img/181.png',
 				'/img/191.png',
 				'/img/192.png',
+				'/img/193.png',
 				'/img/201.png',
 				'/img/236.png',
 				'/img/237.png',
 				'/img/242.png',
 				'/img/246.png',
 				'/img/247.png',
-				'/img/248.png',
-				'/img/302.png',
-				'/img/353.png',
-				'/img/354.png',
-				'/img/355.png',
-				'/img/356.png'
+				'/img/248.png'
 			]);
 		})
 	);
@@ -121,7 +109,9 @@ self.addEventListener('fetch', (event) => {
 	console.log('[SERVICE WORKER] ', event.request.url);
 	event.respondWith(
 		caches.match(event.request).then((response) => {
-			console.log('[SERVICE WORKER] cache hit?', response);
+			if (!response){
+				console.log('[SERVICE WORKER] cache not hit');
+			}
 			return response || fetch(event.request);
 		})
 	);
@@ -129,7 +119,10 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', function (event) {
 	console.log('[SERVICE WORKER] Activating new service worker...');
-	const cacheWhitelist = ['monradarv4'];
+	// FIX update on server here too
+	// if we don't and the user doesn't click Submit
+	// push notifications will fail (server will have the old version)
+	const cacheWhitelist = ['monradarv6'];
 
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {

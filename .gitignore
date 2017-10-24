@@ -49,5 +49,5 @@ serverless/.node_repl_history
 serverless/.webpack
 serverless/.serverless
 
-serverless/server/lib/*
+serverless/server/
 serverless/.env.*

@@ -1,13 +1,13 @@
 {
   "name": "mon-radar",
   "version": "1.0.0",
-  "description": "",
+  "description": "&& karma start --single-run true karma.conf.js",
   "main": "server/app.js",
   "scripts": {
-    "test": "mocha tests/server/* && karma start --single-run true karma.conf.js",
-    "build": "webpack && cp -r client/img public/img && cp -r client/lib public/lib && cp client/sw.js public/sw.js",
-    "clean": "rm -rf public/",
-    "prep-lambda": "cp -r server/lib/ serverless/server/lib/ && cp -r server/data/ serverless/server/data/"
+    "test": "mocha tests/server/*",
+    "build": "rm -rf public/ && webpack && cp -r client/img public/img && cp -r client/lib public/lib && cp client/sw.js public/sw.js",
+    "prep-lambda": "rm -r serverless/server/ && cp -r server/lib/ serverless/server/lib/ && cp -r server/data/ serverless/server/data/",
+    "env": "export $(cat .env | xargs)"
   },
   "author": "",
   "license": "ISC",
@@ -54,7 +54,6 @@
     "forever": "^0.15.3",
     "isomorphic-fetch": "^2.2.1",
     "mongoose": "4.10.8",
-    "node-env-file": "^0.1.8",
     "os": "^0.1.1",
     "path": "^0.12.7",
     "system-sleep": "^1.3.6",

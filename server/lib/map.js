@@ -3,12 +3,7 @@ const geo = require('./geo');
 const time = require('./time');
 const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
-const env = require('node-env-file');
 const ip = require('./ip');
-
-if (!process.env.NODE_ENV) {
-	env(__dirname + '/../../.env');
-}
 
 function find (data, radius, location) {
 

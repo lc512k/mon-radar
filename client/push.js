@@ -1,6 +1,6 @@
 const updateBtn = require('./submit-logic.js');
 
-// TODO key
+// FIX key
 const applicationServerPublicKey = 'BOEwwTyknxDzuCzEEhZEj4Gu0P0ZnwBbhgaxRVIdwvhEhTpw68lAHXuNPqTvrIH6l2ONFbs4SVOP6SjswWB7bQ0';
 
 let swRegistration = null;
@@ -28,7 +28,7 @@ function subscribeUser () {
 	})
 	.then(function (subscription) {
 		console.log('User is subscribed.', subscription);
-		updateBtn();
+		updateBtn(true);
 	})
 	.catch(function (err) {
 		console.log('Failed to subscribe the user: ', err);
