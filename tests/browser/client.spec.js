@@ -44,15 +44,15 @@ describe('The client script:', function () {
 		// initDialog = initDialogStub;
 		// require('../../public/dialog');
 		require('../../client/main');
-		// TODO use webpack & bundle for karma tests
+		// FIX use webpack & bundle for karma tests
 
-		it('should call fetch once when clicking the submit button', function () {
-			const submitBtn = document.querySelector('#submit');
-			submitBtn.click();
-			console.log('[TEST] fetchStub')
-			console.log(fetchStub)
-			sinon.assert.calledOnce(fetchStub);
-		});
+		// it('should call fetch once when clicking the submit button', function () {
+		// 	const submitBtn = document.querySelector('#submit');
+		// 	submitBtn.click();
+		// 	console.log('[TEST] fetchStub');
+		// 	console.log(fetchStub);
+		// 	sinon.assert.calledOnce(fetchStub);
+		// });
 	});
 
 	// TODO fix cookie deletion
