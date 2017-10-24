@@ -2,13 +2,15 @@
 const x= require('./lib/material.min.js');
 const updateBtn = require('./submit-logic.js');
 const toast = require('./dialog.js');
-console.log('material', x)
 
 const drawInfoWindows = (map, subLocData) => {
 	let locations = [
 		['You', window.lat, window.lng, 1],
-		['Your notifications',parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2],
 	];
+
+	if (subLocData) {
+		locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2]);
+	}
 
 	console.log(locations, subLocData);
 
@@ -36,7 +38,15 @@ if (navigator.geolocation) {
 
 	const mapContainer = document.getElementById('map');
 	const subLocation = mapContainer.dataset.subLocation;
-	const subLocData = JSON.parse(subLocation);
+
+	let subLocData;
+
+	try {
+		subLocData = JSON.parse(subLocation);
+	}
+	catch(e) {
+		subLocData = {};
+	}
 
 	navigator.geolocation.getCurrentPosition((position) => {
 		window.lat = position.coords.latitude;

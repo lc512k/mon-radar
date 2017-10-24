@@ -240,13 +240,15 @@
 	const x= __webpack_require__(1);
 	const updateBtn = __webpack_require__(3);
 	const toast = __webpack_require__(5);
-	console.log('material', x)
 
 	const drawInfoWindows = (map, subLocData) => {
 		let locations = [
 			['You', window.lat, window.lng, 1],
-			['Your notifications',parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2],
 		];
+
+		if (subLocData) {
+			locations.push(['Your notifications (previous location)',parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2]);
+		}
 
 		console.log(locations, subLocData);
 
@@ -255,8 +257,8 @@
 		for (let i = 0; i < locations.length; i++) {
 
 			const marker = new google.maps.Marker({
-					position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-					map: map
+				position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+				map: map
 			});
 
 			google.maps.event.addListener(marker, 'click', ((marker, i) => {
@@ -272,14 +274,17 @@
 		window.geoPending = true;
 		updateBtn();
 
-
-		setTimeout(function () {
-			toast({status: 'Oops, can\'t locate you (GPS on?)'});
-		}, 15000)
-
 		const mapContainer = document.getElementById('map');
 		const subLocation = mapContainer.dataset.subLocation;
-		const subLocData = JSON.parse(subLocation);
+
+		let subLocData;
+
+		try {
+			subLocData = JSON.parse(subLocation);
+		}
+		catch(e) {
+			subLocData = {};
+		}
 
 		navigator.geolocation.getCurrentPosition((position) => {
 			window.lat = position.coords.latitude;
@@ -304,7 +309,7 @@
 			drawInfoWindows(map, subLocData);
 
 		}, () => {
-			toast({status: 'Oops, can\'t locate you (GPS on?)'});
+			toast({status: 'Oops, can\'t locate you. Is your GPS on?)'});
 		},
 		{
 			maximumAge:600000,
