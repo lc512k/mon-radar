@@ -42,10 +42,11 @@ if (navigator.geolocation) {
 	let subLocData;
 
 	try {
+		console.log('[GEO] parsing your old location', subLocData);
 		subLocData = JSON.parse(subLocation);
 	}
 	catch(e) {
-		subLocData = {};
+		subLocData = null;
 	}
 
 	navigator.geolocation.getCurrentPosition((position) => {

@@ -247,7 +247,7 @@
 		];
 
 		if (subLocData) {
-			locations.push(['Your notifications (previous location)',parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2]);
+			locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2]);
 		}
 
 		console.log(locations, subLocData);
@@ -280,10 +280,11 @@
 		let subLocData;
 
 		try {
+			console.log('[GEO] parsing your old location', subLocData);
 			subLocData = JSON.parse(subLocation);
 		}
 		catch(e) {
-			subLocData = {};
+			subLocData = null;
 		}
 
 		navigator.geolocation.getCurrentPosition((position) => {
