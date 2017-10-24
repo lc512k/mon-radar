@@ -1,10 +1,4 @@
 const SubscriptionModel = require('../models/sub');
-const env = require('node-env-file');
-
-// TODO abstract out with path
-if (!process.env.NODE_ENV) {
-	env(__dirname + './../../.env');
-}
 
 module.exports = async function (req, res) {
 
@@ -14,23 +8,25 @@ module.exports = async function (req, res) {
 		sub = await SubscriptionModel.findOne({_id: req.cookies.uuid});
 	}
 
-	const subMons = sub && sub.mons ? sub.mons : [];
-	const subRadius = sub && sub.radius ? sub.radius : 500;
-	const baseMons = process.env.MONS.split(',');
-
 	console.log('\n\n[MAIN] This sub');
 	console.log(sub);
 
-	const mons = baseMons.map((monNumber) => {
+	const subscriptionMons = sub && sub.mons ? sub.mons : [];
+	const subscriptionRadius = sub && sub.radius ? sub.radius : 500;
+
+	const availableMons = process.env.MONS.split(',');
+
+	const mons = availableMons.map((monNumber) => {
 		return {
 			number: monNumber,
-			checked: subMons.includes(monNumber) ? 'checked' : ''
+			checked: subscriptionMons.includes(monNumber) ? 'checked' : ''
 		};
 	});
 
 	req.app.locals.layout = 'main';
 	res.render('subs', {
 		mons: mons,
-		radius: subRadius
+		radius: subscriptionRadius,
+		location: JSON.stringify(sub.location)
 	});
 };

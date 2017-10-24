@@ -28,7 +28,7 @@ function subscribeUser () {
 	})
 	.then(function (subscription) {
 		console.log('User is subscribed.', subscription);
-		updateBtn();
+		updateBtn(true);
 	})
 	.catch(function (err) {
 		console.log('Failed to subscribe the user: ', err);

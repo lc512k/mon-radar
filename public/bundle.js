@@ -142,7 +142,7 @@
 
 	const updateBtn = __webpack_require__(3);
 
-	// TODO key
+	// FIX key
 	const applicationServerPublicKey = 'BOEwwTyknxDzuCzEEhZEj4Gu0P0ZnwBbhgaxRVIdwvhEhTpw68lAHXuNPqTvrIH6l2ONFbs4SVOP6SjswWB7bQ0';
 
 	let swRegistration = null;
@@ -170,7 +170,7 @@
 		})
 		.then(function (subscription) {
 			console.log('User is subscribed.', subscription);
-			updateBtn();
+			updateBtn(true);
 		})
 		.catch(function (err) {
 			console.log('Failed to subscribe the user: ', err);
@@ -219,14 +219,17 @@
 
 	const submitButton = document.querySelector('#submit');
 
-	module.exports = () => {
+	module.exports = (update) => {
 		console.log('updateBtn()');
+
 		if (!window.geoPending && window.subscription) {
 			submitButton.disabled = false;
 		}
 		else {
 			submitButton.disabled = true;
 		}
+
+		submitButton.innerText = update ? 'Update' : 'Submit';
 	};
 
 
@@ -234,45 +237,75 @@
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	/* global google */
+
 	const updateBtn = __webpack_require__(3);
 
-	const locationContainer = document.querySelector('#location');
-
 	if (navigator.geolocation) {
-		console.log(navigator.geolocation);
 		window.geoPending = true;
 		updateBtn();
-	    navigator.geolocation.getCurrentPosition(showPosition);
+
+
+		const mapContainer = document.getElementById('map');
+		const subLocation = mapContainer.dataset.subLocation;
+		const subLocData = JSON.parse(subLocation);
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			window.lat = position.coords.latitude;
+			window.lng = position.coords.longitude;
+
+			window.geoPending = false;
+			updateBtn(true);
+
+			const mapOptions = {
+				zoom: 9,
+				center: new google.maps.LatLng(window.lat, window.lng),
+				mapTypeControl: true,
+				navigationControlOptions: {
+					style: google.maps.NavigationControlStyle.SMALL
+				},
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+
+			const map = new google.maps.Map(mapContainer, mapOptions);
+
+			let locations = [
+				['You', window.lat, window.lng, 1],
+				['Your notifications',parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2],
+			];
+
+			console.log(locations);
+
+		    let infowindow = new google.maps.InfoWindow();
+
+			for (let i = 0; i < locations.length; i++) {
+
+			  const marker = new google.maps.Marker({
+			  		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			  		map: map
+			  });
+
+			  google.maps.event.addListener(marker, 'click', ((marker, i) => {
+			    return () => {
+			      infowindow.setContent(locations[i][0]);
+			      infowindow.open(map, marker);
+			    };
+			  })(marker, i));
+			}
+
+
+
+
+		// make a toast. say gps or refresh // reduce timeout to see it
+		}, () => {alert('Please enable your GPS');
+
+	  }, {maximumAge:600000, timeout:15000, enableHighAccuracy: true});
+
 	}
 	else {
-	    locationContainer.innerHTML = 'Geolocation is not supported by this browser.';
+		alert('Geolocation API is not supported in your browser.');
 	}
-
-	function showPosition (position) {
-		window.lat = position.coords.latitude;
-		window.lng = position.coords.longitude;
-
-		const displayLat = window.lat;
-		const displayLng = window.lng;
-	    locationContainer.innerHTML = `<b>Lat</b>: ${displayLat}, <b>Long</b>: ${displayLng}<br>(Map soon)`;
-
-		window.geoPending = false;
-		updateBtn();
-	}
-
-	// function initMap () {
-	// 	const uluru = {lat: -25.363, lng: 131.044};
-	// 	const map = new google.maps.Map(document.getElementById('map'), {
-	// 		zoom: 4,
-	// 		center: uluru
-	// 	});
-	// 	console.log('MAP****', map)
-	// 	const marker = new google.maps.Marker({
-	// 		position: uluru,
-	// 		map: map
-	// 	});
-	// }
-
 
 /***/ }),
 /* 5 */

@@ -43,9 +43,8 @@ self.addEventListener('notificationclick', function (event) {
 	const myLoc = event.notification.data.myLocation;
 
 	if (loc && myLoc) {
-		// FIX why myLoc is off :/
-		// target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
-		target = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}`;
+		target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
+		// target = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}`;
 		console.log('[Service Worker]', target);
 		event.waitUntil(
 			clients.openWindow(target)
@@ -122,7 +121,7 @@ self.addEventListener('fetch', (event) => {
 	console.log('[SERVICE WORKER] ', event.request.url);
 	event.respondWith(
 		caches.match(event.request).then((response) => {
-			console.log('[SERVICE WORKER] cache hit?', response);
+			console.log('[SERVICE WORKER] cache not hit');
 			return response || fetch(event.request);
 		})
 	);

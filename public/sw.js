@@ -1,5 +1,6 @@
 /* global clients */
 
+// FIX key
 const applicationServerPublicKey = 'BMsYwcbTzJziGq_ZUWclTO1OtYqmhP0K6xN94616BinBNTfxJyiEhIMS7B4iFpIkY2h79d6aAb1rkUhPeC41Ii8';
 
 function urlB64ToUint8Array (base64String) {
@@ -42,9 +43,8 @@ self.addEventListener('notificationclick', function (event) {
 	const myLoc = event.notification.data.myLocation;
 
 	if (loc && myLoc) {
-		// FIX why myLoc is off :/
-		// target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
-		target = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}`;
+		target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
+		// target = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}`;
 		console.log('[Service Worker]', target);
 		event.waitUntil(
 			clients.openWindow(target)
@@ -121,7 +121,7 @@ self.addEventListener('fetch', (event) => {
 	console.log('[SERVICE WORKER] ', event.request.url);
 	event.respondWith(
 		caches.match(event.request).then((response) => {
-			console.log('[SERVICE WORKER] cache hit?', response);
+			console.log('[SERVICE WORKER] cache not hit');
 			return response || fetch(event.request);
 		})
 	);
@@ -129,6 +129,9 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('activate', function (event) {
 	console.log('[SERVICE WORKER] Activating new service worker...');
+	// FIX update on server here too
+	// if we don't and the user doesn't click Submit
+	// push notifications will fail (server will have the old version)
 	const cacheWhitelist = ['monradarv4'];
 
 	event.waitUntil(
