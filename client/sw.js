@@ -121,7 +121,9 @@ self.addEventListener('fetch', (event) => {
 	console.log('[SERVICE WORKER] ', event.request.url);
 	event.respondWith(
 		caches.match(event.request).then((response) => {
-			console.log('[SERVICE WORKER] cache not hit');
+			if (!response){
+				console.log('[SERVICE WORKER] cache not hit');
+			}
 			return response || fetch(event.request);
 		})
 	);
