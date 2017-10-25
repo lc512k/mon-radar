@@ -43,11 +43,11 @@ const update = (newLocation) => {
 		let subLocData;
 
 		try {
-			console.log('[GEO] parsing your old location', subLocData);
-			subLocData = JSON.parse(subLocation);
+			console.log('[GEO] parsing your old location', subLocation, 'or using', newLocation);
+			subLocData = newLocation || JSON.parse(subLocation);
 		}
 		catch(e) {
-			subLocData = newLocation ? newLocation : null;
+			subLocData = null;
 		}
 
 		navigator.geolocation.getCurrentPosition((position) => {
@@ -66,7 +66,6 @@ const update = (newLocation) => {
 				},
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-
 
 			const map = new google.maps.Map(mapContainer, mapOptions);
 
