@@ -49,5 +49,6 @@ module.exports = async function (req, res) {
 
 	const status = await updateMons(req);
 	console.log(`[SAVE] ${req.path} responded with ${status}`);
-	res.sendStatus(status);
+	res.status(status);
+	res.send(req.body.location);
 };

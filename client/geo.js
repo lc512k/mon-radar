@@ -32,7 +32,7 @@ const drawInfoWindows = (map, subLocData) => {
 	}
 };
 
-const update = () => {
+const update = (newLocation) => {
 	if (navigator.geolocation) {
 		window.geoPending = true;
 		updateBtn();
@@ -42,11 +42,15 @@ const update = () => {
 
 		let subLocData;
 
+		// You either just updated (newLocation) or had one set in the server earlier (subLocation)
+		subLocData = newLocation || subLocation;
+
 		try {
 			console.log('[GEO] parsing your old location', subLocData);
 			subLocData = JSON.parse(subLocation);
 		}
 		catch(e) {
+			// If neither, you're brand new
 			subLocData = null;
 		}
 

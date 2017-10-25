@@ -105,7 +105,11 @@
 		.then((res) => {
 			console.log('server responded: ', res);
 			initDialog(res);
-			geo.update();
+			return res.json();
+		})
+		.then((body) => {
+			console.log('server responded (body): ', body);
+			geo.update(body);
 		})
 		.catch(e => {
 			console.log(e);
@@ -273,7 +277,7 @@
 		}
 	};
 
-	const update = () => {
+	const update = (newLocation) => {
 		if (navigator.geolocation) {
 			window.geoPending = true;
 			updateBtn();
@@ -283,11 +287,15 @@
 
 			let subLocData;
 
+			// You either just updated (newLocation) or had one set in the server earlier (subLocation)
+			subLocData = newLocation || subLocation;
+
 			try {
 				console.log('[GEO] parsing your old location', subLocData);
 				subLocData = JSON.parse(subLocation);
 			}
 			catch(e) {
+				// If neither, you're brand new
 				subLocData = null;
 			}
 

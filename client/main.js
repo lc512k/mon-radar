@@ -59,7 +59,11 @@ submitBtn.addEventListener('click', (e) => {
 	.then((res) => {
 		console.log('server responded: ', res);
 		initDialog(res);
-		geo.update();
+		return res.json();
+	})
+	.then((body) => {
+		console.log('server responded (body): ', body);
+		geo.update(body);
 	})
 	.catch(e => {
 		console.log(e);
