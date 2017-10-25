@@ -3,13 +3,14 @@ require('./lib/material.min.js');
 const updateBtn = require('./submit-logic.js');
 const toast = require('./dialog.js');
 
-const drawInfoWindows = (map, subLocData) => {
+const drawMarkersAndInfo = (map, subLocData) => {
 	let locations = [
-		['You', window.lat, window.lng, 1],
+		['You', window.lat, window.lng, 1, null],
 	];
 
 	if (subLocData) {
-		locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2]);
+		const icon = 'https://mt.googleapis.com/vt/icon/name=icons/onion/22-blue-dot.png';
+		locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2, icon]);
 	}
 
 	console.log(locations, subLocData);
@@ -17,11 +18,14 @@ const drawInfoWindows = (map, subLocData) => {
 	let infowindow = new google.maps.InfoWindow();
 
 	for (let i = 0; i < locations.length; i++) {
-
-		const marker = new google.maps.Marker({
+		const markerData = {
 			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
 			map: map
-		});
+		};
+		if (locations[i][4]) {
+			markerData.icon = locations[i][4];
+		}
+		const marker = new google.maps.Marker(markerData);
 
 		google.maps.event.addListener(marker, 'click', ((marker, i) => {
 			return () => {
@@ -70,7 +74,7 @@ const update = (newLocation) => {
 
 			const map = new google.maps.Map(mapContainer, mapOptions);
 
-			drawInfoWindows(map, subLocData);
+			drawMarkersAndInfo(map, subLocData);
 
 		}, () => {
 			toast({status: 'Oops, can\'t locate you. Is your GPS on?'});
