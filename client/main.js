@@ -1,10 +1,12 @@
 require('./lib/material.min.js');
 require('./push.js');
-require('./geo.js');
+const geo = require('./geo.js');
 const uuidv4 = require('./lib/uuid-v4.js');
 const Cookies = require('./lib/js.cookie.js');
 const initDialog = require('./dialog.js');
 const randomUuid = uuidv4();
+
+geo.update();
 
 if (!document.cookie){
 	document.cookie = `uuid=${randomUuid}; expires=Thu, 18 Dec 2021 12:00:00 UTC; path=/`;
@@ -57,6 +59,7 @@ submitBtn.addEventListener('click', (e) => {
 	.then((res) => {
 		console.log('server responded: ', res);
 		initDialog(res);
+		geo.update();
 	})
 	.catch(e => {
 		console.log(e);

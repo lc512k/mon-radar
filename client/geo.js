@@ -32,54 +32,58 @@ const drawInfoWindows = (map, subLocData) => {
 	}
 };
 
-if (navigator.geolocation) {
-	window.geoPending = true;
-	updateBtn();
+const update = () => {
+	if (navigator.geolocation) {
+		window.geoPending = true;
+		updateBtn();
 
-	const mapContainer = document.getElementById('map');
-	const subLocation = mapContainer.dataset.subLocation;
+		const mapContainer = document.getElementById('map');
+		const subLocation = mapContainer.dataset.subLocation;
 
-	let subLocData;
+		let subLocData;
 
-	try {
-		console.log('[GEO] parsing your old location', subLocData);
-		subLocData = JSON.parse(subLocation);
+		try {
+			console.log('[GEO] parsing your old location', subLocData);
+			subLocData = JSON.parse(subLocation);
+		}
+		catch(e) {
+			subLocData = null;
+		}
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			window.lat = position.coords.latitude;
+			window.lng = position.coords.longitude;
+
+			window.geoPending = false;
+			updateBtn(true);
+
+			const mapOptions = {
+				zoom: 9,
+				center: new google.maps.LatLng(window.lat, window.lng),
+				mapTypeControl: true,
+				navigationControlOptions: {
+					style: google.maps.NavigationControlStyle.SMALL
+				},
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+
+			const map = new google.maps.Map(mapContainer, mapOptions);
+
+			drawInfoWindows(map, subLocData);
+
+		}, () => {
+			toast({status: 'Oops, can\'t locate you. Is your GPS on?'});
+		},
+		{
+			maximumAge: 600000,
+			timeout: 15000,
+			enableHighAccuracy: true
+		});
 	}
-	catch(e) {
-		subLocData = null;
+	else {
+		console.error('Geolocation API is not supported in your browser.');
 	}
+};
 
-	navigator.geolocation.getCurrentPosition((position) => {
-		window.lat = position.coords.latitude;
-		window.lng = position.coords.longitude;
-
-		window.geoPending = false;
-		updateBtn(true);
-
-		const mapOptions = {
-			zoom: 9,
-			center: new google.maps.LatLng(window.lat, window.lng),
-			mapTypeControl: true,
-			navigationControlOptions: {
-				style: google.maps.NavigationControlStyle.SMALL
-			},
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-
-
-		const map = new google.maps.Map(mapContainer, mapOptions);
-
-		drawInfoWindows(map, subLocData);
-
-	}, () => {
-		toast({status: 'Oops, can\'t locate you. Is your GPS on?)'});
-	},
-	{
-		maximumAge:600000,
-		timeout:15000,
-		enableHighAccuracy: true
-	});
-}
-else {
-	console.error('Geolocation API is not supported in your browser.');
-}
+module.exports = {update};

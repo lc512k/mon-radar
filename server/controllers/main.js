@@ -28,6 +28,6 @@ module.exports = async function (req, res) {
 	res.render('subs', {
 		mons: mons,
 		radius: subscriptionRadius,
-		location: JSON.stringify(sub.location)
+		location: sub ? JSON.stringify(sub.location) : ''
 	});
 };
