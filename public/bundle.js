@@ -303,6 +303,7 @@
 				updateBtn(true);
 
 				const mapOptions = {
+					scrollwheel: false,
 					zoom: 9,
 					center: new google.maps.LatLng(window.lat, window.lng),
 					mapTypeControl: true,
