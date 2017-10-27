@@ -6,11 +6,9 @@ const parse = require('parse-aws-lambda-name');
 
 // TODO use https://www.npmjs.com/package/aws-lambda-invoke, make a PR first to accept region
 
-AWS.config.update({
-	accessKeyId: process.env.AWS_ID,
-	secretAccessKey: process.env.AWS_SECRET,
-	region:'us-east-1'
-});
+module.exports.updateConfig = (config) => {
+	AWS.config.update(config);
+};
 
 module.exports.raw = new AWS.Lambda();
 

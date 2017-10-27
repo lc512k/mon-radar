@@ -54,9 +54,7 @@ async function init () {
 					})
 				});
 			}
-			// TODO break here, if IP banned for one, IP banned for all
-			// abstract 'notify laura' bit elsewhere
-			// break;
+			// TODO abstract 'notify laura' bit elsewhere
 		}
 
 		console.log('[SERVER PUSH] uuid', sub._id);
@@ -66,6 +64,17 @@ async function init () {
 			if (mons.hasOwnProperty(key)) {
 				const foundMon = mons[key];
 				console.log(`[SERVER PUSH] notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
+
+				const shinies = [129,355];
+
+				if (shinies.includes(foundMon.id)) {
+
+					const isShiny = foundMon.shiny === '1';
+
+					// We add magikarp and duskull for everyone
+					// Ignore the ones that aren't shiny
+					if (!isShiny) break;
+				}
 
 				const payload = {
 					title: `${foundMon.name} ${platform}`,
