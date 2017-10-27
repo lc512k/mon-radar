@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', mainController);
-app.get('/test', mainController);
 app.post('/api/save', saveController);
 
 // wait until we're connected to mongo

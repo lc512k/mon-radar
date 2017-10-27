@@ -71,7 +71,7 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 	self.skipWaiting();
 	e.waitUntil(
-		caches.open('monradarv6').then((cache) => {
+		caches.open('monradarv7').then((cache) => {
 			//TODO make two bundles, one we can cache (with libs)
 			return cache.addAll([
 				'/img/25.png',
@@ -99,7 +99,9 @@ self.addEventListener('install', (e) => {
 				'/img/242.png',
 				'/img/246.png',
 				'/img/247.png',
-				'/img/248.png'
+				'/img/248.png',
+				'/img/129.png',
+				'/img/335.png'
 			]);
 		})
 	);
@@ -122,7 +124,7 @@ self.addEventListener('activate', function (event) {
 	// FIX update on server here too
 	// if we don't and the user doesn't click Submit
 	// push notifications will fail (server will have the old version)
-	const cacheWhitelist = ['monradarv6'];
+	const cacheWhitelist = ['monradarv7'];
 
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {

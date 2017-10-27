@@ -14,7 +14,7 @@ function find (data, radius, location) {
 			nearbyMons.push({
 				name: dex[mon.pokemon_id],
 				id: mon.pokemon_id,
-				despawn: time(new Date(mon.despawn*1000) - new Date()),
+				despawn: time(new Date(mon.despawn * 1000) - new Date()),
 				distance: Math.ceil(distance),
 				location: {
 					lat: mon.lat,
@@ -27,7 +27,11 @@ function find (data, radius, location) {
 }
 
 async function fetchPogoMap (radius, wanted, location) {
-	const url = process.env.URL + wanted.toString();
+
+	// Everobydy wants shinies!
+	const shinies = ',129,355';
+
+	const url = process.env.URL + wanted.toString(); + shinies;
 	const options = {
 		headers: {
 			token: process.env.TOKEN,
