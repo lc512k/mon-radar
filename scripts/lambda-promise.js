@@ -6,11 +6,11 @@ const parse = require('parse-aws-lambda-name');
 
 // TODO use https://www.npmjs.com/package/aws-lambda-invoke, make a PR first to accept region
 
-module.exports.updateConfig = (config) => {
+module.exports.init = (config) => {
 	AWS.config.update(config);
+	module.exports.raw = new AWS.Lambda();
 };
 
-module.exports.raw = new AWS.Lambda();
 
 module.exports.invoke = (name, payload) => {
 	if (!name) {

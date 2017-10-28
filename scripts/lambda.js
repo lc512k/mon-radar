@@ -9,9 +9,10 @@ const fetchMons = async (sub) => {
 	let mons;
 
 	for (let region of regions) {
+		console.log('REGION', region);
 		debugPush.send(sub, `Trying ${region} region`);
 
-		lambda.updateConfig({
+		lambda.init({
 			accessKeyId: process.env.AWS_ID,
 			secretAccessKey: process.env.AWS_SECRET,
 			region: region
