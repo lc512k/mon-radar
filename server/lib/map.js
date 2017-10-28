@@ -29,7 +29,7 @@ function find (data, radius, location) {
 async function fetchPogoMap (radius, wanted, location) {
 
 	// Everobydy wants shinies!
-	const shinies = ',129,355';
+	const shinies = ',129,302,355';
 
 	const url = process.env.URL + wanted.toString(); + shinies;
 	const options = {
