@@ -44,7 +44,6 @@ self.addEventListener('notificationclick', function (event) {
 
 	if (loc && myLoc) {
 		target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
-		// target = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}`;
 		console.log('[Service Worker]', target);
 		event.waitUntil(
 			clients.openWindow(target)
