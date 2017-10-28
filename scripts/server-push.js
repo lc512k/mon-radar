@@ -3,6 +3,7 @@ const webpush = require('../server/lib/webpush');
 const mongoClient = require('../server/lib/mongo');
 const SubscriptionModel = require('../server/models/sub');
 const lambda = require('./lambda');
+const debugPush = require('./debug-push');
 const sleep = require('system-sleep');
 
 async function init () {
@@ -23,38 +24,14 @@ async function init () {
 		const blacklistedHerokuIP = !mons;
 
 		if (blacklistedHerokuIP) {
-			// Let me know
-			if (sub._id === process.env.LAURA_MOBILE_UUID) {
-				console.log('[SERVER PUSH] sending blacklist push', sub._id);
-				await webpush.send(pushSubscription, {
-					icon: 'img/blacklist.png',
-					title: 'Mon Radar',
-					message: JSON.stringify({
-						text: 'Heroku IP banned 💀. Going Serverless ⚡'
-					})
-				});
-			}
-
+			await debugPush.send(sub, 'Heroku IP blacklisted 💀. Going Serverless ⚡');
 			// Try to fetch them with the lambda
 			mons = await lambda.fetchMons(sub);
 			platform = '⚡';
 		}
 
 		if (!mons) {
-			console.log(`[SERVER PUSH] Still no mons. Giving up on ${sub._id}`);
-
-			// TODO remove this after lambda's stable
-			if (sub._id === process.env.LAURA_MOBILE_UUID) {
-				console.log('[SERVER PUSH] sending blacklist push', sub._id);
-				await webpush.send(pushSubscription, {
-					icon: 'img/blacklist.png',
-					title: 'Mon Radar',
-					message: JSON.stringify({
-						text: 'Still no mons. Giving up 💀💀'
-					})
-				});
-			}
-			// TODO abstract 'notify laura' bit elsewhere
+			await debugPush.send(sub, 'Still no mons. Giving up 💀💀');
 		}
 
 		console.log('[SERVER PUSH] uuid', sub._id);
