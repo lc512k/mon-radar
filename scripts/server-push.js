@@ -73,7 +73,6 @@ async function init () {
 
 				try {
 					await webpush.send(pushSubscription, payload);
-					await debugPush.send(sub, `🚧 Your location ${sub.location}`);
 				}
 				catch (e) {
 					console.log(`[SERVER PUSH] SW not registered for ${sub._id}`);
