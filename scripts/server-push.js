@@ -9,6 +9,15 @@ const sleep = require('system-sleep');
 async function init () {
 	console.log('[SERVER PUSH]');
 
+	const now = new Date();
+	const hours = now.getUTCHours();
+
+	// Don't run when no one's looking (reserve dyno-hours)
+	if (hours > 22 || hours < 5) {
+		console.log('Not running at night', now);
+		return;
+	}
+
 	await mongoClient;
 	const dataJSON = await SubscriptionModel.find();
 
@@ -58,12 +67,13 @@ async function init () {
 					message: JSON.stringify({
 						location: foundMon.location,
 						myLocation: sub.location,
-						text: `${foundMon.distance}m away for ${foundMon.despawn} more minutes`
+						text: `${foundMon.distance}m away for ${foundMon.despawn} min`
 					})
 				};
 
 				try {
 					await webpush.send(pushSubscription, payload);
+					await debugPush.send(sub, `🚧 Your location ${sub.location}`);
 				}
 				catch (e) {
 					console.log(`[SERVER PUSH] SW not registered for ${sub._id}`);
