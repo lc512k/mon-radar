@@ -63,15 +63,15 @@ async function init () {
 
 				// Timestamp
 				let time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-				time = hours < 12 ? time + 'AM' : time + 'PM';
+				time = hours < 12 ? time + 'am' : time + 'pm';
 
 				const payload = {
-					title: `[${time}] ${isShiny ? 'Shiny ' : ''}${foundMon.name} ${platform}`,
+					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${platform}`,
 					icon: `img/${foundMon.id}.png`,
 					message: JSON.stringify({
 						location: foundMon.location,
 						myLocation: sub.location,
-						text: `${foundMon.distance}m away for ${foundMon.despawn} min`
+						text: `${time}: ${foundMon.distance}m away for ${foundMon.despawn} min`
 					})
 				};
 
