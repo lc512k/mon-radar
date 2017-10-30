@@ -61,8 +61,9 @@ async function init () {
 					if (!isShiny) break;
 				}
 
-				// Hours and minutes
-				const time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+				// Timestamp
+				let time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+				time = hours < 12 ? time + 'AM' : time + 'PM';
 
 				const payload = {
 					title: `[${time}] ${isShiny ? 'Shiny ' : ''}${foundMon.name} ${platform}`,
