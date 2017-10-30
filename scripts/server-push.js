@@ -13,7 +13,7 @@ async function init () {
 	const hours = now.getUTCHours();
 
 	// Don't run when no one's looking (reserve dyno-hours)
-	if (hours > 22 || hours < 5) {
+	if (hours > 22 || hours < 6) {
 		console.log('Not running at night', now);
 		return;
 	}
@@ -61,8 +61,11 @@ async function init () {
 					if (!isShiny) break;
 				}
 
+				// Hours and minutes
+				const time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
 				const payload = {
-					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${platform}`,
+					title: `[${time}] ${isShiny ? 'Shiny ' : ''}${foundMon.name} ${platform}`,
 					icon: `img/${foundMon.id}.png`,
 					message: JSON.stringify({
 						location: foundMon.location,
