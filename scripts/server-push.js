@@ -71,7 +71,7 @@ async function init () {
 					message: JSON.stringify({
 						location: foundMon.location,
 						myLocation: sub.location,
-						text: `${time}: ${foundMon.distance}m away for ${foundMon.despawn} min`
+						text: `${foundMon.distance}m away for ${foundMon.despawn} min\nFound at${time}`
 					})
 				};
 
