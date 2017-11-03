@@ -13,7 +13,7 @@ async function init () {
 	const hours = now.getUTCHours();
 
 	// Don't run when no one's looking (reserve dyno-hours)
-	if (hours > 22 || hours < 6) {
+	if (hours > 21 || hours < 6) {
 		console.log('Not running at night', now);
 		return;
 	}
@@ -40,7 +40,7 @@ async function init () {
 		}
 
 		if (!mons) {
-			await debugPush.send(sub, 'Still no mons. Giving up 💀💀');
+			await debugPush.send(sub, 'Still no mons. Giving up 💀💀', true);
 		}
 
 		console.log('[SERVER PUSH] uuid', sub._id);
