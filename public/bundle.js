@@ -297,14 +297,15 @@
 					infowindow.open(map, marker);
 				};
 			})(marker, i));
-
-			map.fitBounds(markerBounds);
-			map.setZoom(map.getZoom() - 2);
-
 		}
+
+		map.fitBounds(markerBounds);
+		map.setZoom(map.getZoom() - 3);
+		console.timeEnd('marker');
 	};
 
 	const update = (radius = 0, newLocation) => {
+
 		if (navigator.geolocation) {
 			window.geoPending = true;
 			updateBtn();
@@ -321,14 +322,17 @@
 			catch(e) {
 				subLocData = null;
 			}
-
+			console.time('position');
 			navigator.geolocation.getCurrentPosition((position) => {
+				console.timeEnd('position');
+
 				window.lat = position.coords.latitude;
 				window.lng = position.coords.longitude;
 
 				window.geoPending = false;
 				updateBtn(true);
 
+				console.time('map');
 				const mapOptions = {
 					gestureHandling: 'cooperative',
 					zoom: 9,
@@ -342,6 +346,8 @@
 
 				const map = new google.maps.Map(mapContainer, mapOptions);
 
+				console.timeEnd('map');
+				console.time('marker');
 				drawMarkersAndInfo(map, subLocData, radius);
 
 			}, () => {
