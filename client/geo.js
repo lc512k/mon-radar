@@ -37,57 +37,57 @@ const drawMarkersAndInfo = (map, subLocData) => {
 };
 
 const update = (newLocation) => {
-	if (navigator.geolocation) {
-		window.geoPending = true;
-		updateBtn();
+	// if (navigator.geolocation) {
+	// 	window.geoPending = true;
+	// 	updateBtn();
 
-		const mapContainer = document.getElementById('map');
-		const subLocation = mapContainer.dataset.subLocation;
+	// 	const mapContainer = document.getElementById('map');
+	// 	const subLocation = mapContainer.dataset.subLocation;
 
-		let subLocData;
+	// 	let subLocData;
 
-		try {
-			console.log('[GEO] parsing your old location', subLocation, 'or using', newLocation);
-			subLocData = newLocation || JSON.parse(subLocation);
-		}
-		catch(e) {
-			subLocData = null;
-		}
+	// 	try {
+	// 		console.log('[GEO] parsing your old location', subLocation, 'or using', newLocation);
+	// 		subLocData = newLocation || JSON.parse(subLocation);
+	// 	}
+	// 	catch(e) {
+	// 		subLocData = null;
+	// 	}
 
-		navigator.geolocation.getCurrentPosition((position) => {
-			window.lat = position.coords.latitude;
-			window.lng = position.coords.longitude;
+	// 	navigator.geolocation.getCurrentPosition((position) => {
+	// 		window.lat = position.coords.latitude;
+	// 		window.lng = position.coords.longitude;
 
-			window.geoPending = false;
-			updateBtn(true);
+	// 		window.geoPending = false;
+	// 		updateBtn(true);
 
-			const mapOptions = {
-				gestureHandling: 'cooperative',
-				zoom: 9,
-				center: new google.maps.LatLng(window.lat, window.lng),
-				mapTypeControl: true,
-				navigationControlOptions: {
-					style: google.maps.NavigationControlStyle.SMALL
-				},
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
+	// 		const mapOptions = {
+	// 			gestureHandling: 'cooperative',
+	// 			zoom: 9,
+	// 			center: new google.maps.LatLng(window.lat, window.lng),
+	// 			mapTypeControl: true,
+	// 			navigationControlOptions: {
+	// 				style: google.maps.NavigationControlStyle.SMALL
+	// 			},
+	// 			mapTypeId: google.maps.MapTypeId.ROADMAP
+	// 		};
 
-			const map = new google.maps.Map(mapContainer, mapOptions);
+	// 		const map = new google.maps.Map(mapContainer, mapOptions);
 
-			drawMarkersAndInfo(map, subLocData);
+	// 		drawMarkersAndInfo(map, subLocData);
 
-		}, () => {
-			toast({status: 'Oops, can\'t locate you. Is your GPS on?'});
-		},
-		{
-			maximumAge: 600000,
-			timeout: 15000,
-			enableHighAccuracy: true
-		});
-	}
-	else {
-		console.error('Geolocation API is not supported in your browser.');
-	}
+	// 	}, () => {
+	// 		toast({status: 'Oops, can\'t locate you. Is your GPS on?'});
+	// 	},
+	// 	{
+	// 		maximumAge: 600000,
+	// 		timeout: 15000,
+	// 		enableHighAccuracy: true
+	// 	});
+	// }
+	// else {
+	// 	console.error('Geolocation API is not supported in your browser.');
+	// }
 };
 
 module.exports = {update};

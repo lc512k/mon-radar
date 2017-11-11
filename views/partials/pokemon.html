@@ -1,8 +1,16 @@
 <div class="part mdl-card mdl-shadow--2dp">
-	<div class="mdl-card__supporting-text">
+	<div class="mdl-card__supporting-text card">
 		{{#each mons}}
 		<div class="mon">
-			<label for="{{number}}"><span class="visually-hidden">Pokemon number {{number}}</span><img width="60" alt="{{number}}" src="img/{{number}}.png"></label><br>
+			<label for="{{number}}">
+				<span class="visually-hidden">Pokemon number {{number}}</span>
+				<picture>
+					<source srcset="img/{{number}}.webp" type="image/webp">
+					<source srcset="img/{{number}}.png" type="image/png">
+					<img height="50" alt="{{number}}" src="img/{{number}}.png">
+				</picture>
+			</label>
+			<br>
 			<input type="checkbox" id="{{number}}" name="mons" value="{{number}}" {{checked}}>
 		</div>
 		{{/each}}

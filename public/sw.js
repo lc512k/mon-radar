@@ -43,7 +43,8 @@ self.addEventListener('notificationclick', function (event) {
 	const myLoc = event.notification.data.myLocation;
 
 	if (loc && myLoc) {
-		target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
+		// target = `https://www.google.com/maps/dir/?api=1&${myLoc.lat},${myLoc.lng}&destination=${loc.lat},${loc.lng}&travelmode=walking&amp;ll=`;
+		target = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}&travelmode=walking`;
 		console.log('[Service Worker]', target);
 		event.waitUntil(
 			clients.openWindow(target)
@@ -70,33 +71,33 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 	self.skipWaiting();
 	e.waitUntil(
-		caches.open('monradarv8').then((cache) => {
+		caches.open('monradar2-webp').then((cache) => {
 			//TODO make two bundles, one we can cache (with libs)
 			return cache.addAll([
-				'/img/25.png',
-				'/img/68.png',
-				'/img/113.png',
-				'/img/143.png',
-				'/img/147.png',
-				'/img/148.png',
-				'/img/149.png',
-				'/img/152.png',
-				'/img/153.png',
-				'/img/154.png',
-				'/img/179.png',
-				'/img/180.png',
-				'/img/181.png',
-				'/img/191.png',
-				'/img/192.png',
-				'/img/193.png',
-				'/img/201.png',
-				'/img/236.png',
-				'/img/242.png',
-				'/img/246.png',
-				'/img/247.png',
-				'/img/248.png',
-				'/img/129.png'
+				'/lib/material.min.js',
+				'/lib/material.min.css',
+				'/img/25.webp',
+				'/img/113.webp',
+				'/img/143.webp',
+				'/img/147.webp',
+				'/img/148.webp',
+				'/img/149.webp',
+				'/img/152.webp',
+				'/img/153.webp',
+				'/img/154.webp',
+				'/img/179.webp',
+				'/img/180.webp',
+				'/img/181.webp',
+				'/img/201.webp',
+				'/img/236.webp',
+				'/img/242.webp',
+				'/img/246.webp',
+				'/img/247.webp',
+				'/img/248.webp'
 			]);
+		})
+		.catch(e => {
+			console.log('ERROR', e);
 		})
 	);
 });
@@ -118,7 +119,7 @@ self.addEventListener('activate', function (event) {
 	// FIX update on server here too
 	// if we don't and the user doesn't click Submit
 	// push notifications will fail (server will have the old version)
-	const cacheWhitelist = ['monradarv8'];
+	const cacheWhitelist = ['monradar2-webp'];
 
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {

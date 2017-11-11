@@ -67,7 +67,7 @@ async function init () {
 
 				const payload = {
 					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${platform}`,
-					icon: `img/${foundMon.id}.png`,
+					icon: `img/${foundMon.id}.webp`,
 					message: JSON.stringify({
 						location: foundMon.location,
 						myLocation: sub.location,
