@@ -2,7 +2,15 @@
 	<div class="mdl-card__supporting-text">
 		{{#each mons}}
 		<div class="mon">
-			<label for="{{number}}"><span class="visually-hidden">Pokemon number {{number}}</span><img width="60" alt="{{number}}" src="img/{{number}}.png"></label><br>
+			<label for="{{number}}">
+				<span class="visually-hidden">Pokemon number {{number}}</span>
+				<picture>
+					<source srcset="img/{{number}}.png, img/{{number}}@2x.png 2x">
+					<source srcset="img/{{number}}.webp, img/{{number}}@2x.webp 2x">
+					<img height="50" alt="{{number}}" src="img/{{number}}.png" srcset="img/{{number}}@2x.png 2x">
+				</picture>
+			</label>
+			<br>
 			<input type="checkbox" id="{{number}}" name="mons" value="{{number}}" {{checked}}>
 		</div>
 		{{/each}}
