@@ -6,8 +6,6 @@ const Cookies = require('./lib/js.cookie.js');
 const initDialog = require('./dialog.js');
 const randomUuid = uuidv4();
 
-geo.update();
-
 if (!document.cookie){
 	document.cookie = `uuid=${randomUuid}; expires=Thu, 18 Dec 2021 12:00:00 UTC; path=/`;
 }
@@ -15,6 +13,8 @@ if (!document.cookie){
 const submitBtn = document.querySelector('#submit');
 const radiusField = document.querySelector('#radius');
 const metresDisplay = document.querySelector('#metres');
+
+geo.update(parseInt(radiusField.value, 10));
 
 submitBtn.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -63,7 +63,7 @@ submitBtn.addEventListener('click', (e) => {
 	})
 	.then((body) => {
 		console.log('server responded (body): ', body);
-		geo.update(body);
+		geo.update(parseInt(radius, 10), body);
 	})
 	.catch(e => {
 		console.log(e);

@@ -5,3 +5,4 @@
 
 TODO
 https://serverless-stack.com/chapters/serverless-es7-service.html
+http://pokemongo.wikia.com/wiki/File:Magikarp.png

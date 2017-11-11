@@ -26,7 +26,7 @@ const updateMons = async (req) => {
 		await webpush.send(req.body.subscription, {
 				title: 'Mon Radar 🤖',
 				message: JSON.stringify({
-					icon: 'img/logo.png',
+					icon: 'img/logo.png', // TODO
 					text:`Watching ${body.mons.length} pokémon in a ${body.radius}m radius`
 				})
 			});

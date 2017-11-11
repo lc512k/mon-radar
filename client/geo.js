@@ -3,13 +3,16 @@ require('./lib/material.min.js');
 const updateBtn = require('./submit-logic.js');
 const toast = require('./dialog.js');
 
-const drawMarkersAndInfo = (map, subLocData) => {
+const drawMarkersAndInfo = (map, subLocData, radius) => {
+
+	const markerBounds = new google.maps.LatLngBounds();
+
 	let locations = [
 		['You', window.lat, window.lng, 1, null],
 	];
 
 	if (subLocData) {
-		const icon = 'https://mt.googleapis.com/vt/icon/name=icons/onion/22-blue-dot.png';
+		const icon = 'img/location-blue.png';
 		locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2, icon]);
 	}
 
@@ -18,12 +21,28 @@ const drawMarkersAndInfo = (map, subLocData) => {
 	let infowindow = new google.maps.InfoWindow();
 
 	for (let i = 0; i < locations.length; i++) {
+		const position = new google.maps.LatLng(locations[i][1], locations[i][2]);
 		const markerData = {
-			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			position: position,
 			map: map
 		};
+
+		markerBounds.extend(position);
+
+		// Your notifications location
 		if (locations[i][4]) {
 			markerData.icon = locations[i][4];
+
+			new google.maps.Circle({
+				strokeColor: '#3f51b5',
+				strokeOpacity: 0.7,
+				strokeWeight: 2,
+				fillColor: '#3f51b5',
+				fillOpacity: 0.3,
+				map: map,
+				center: position,
+				radius: radius
+			});
 		}
 		const marker = new google.maps.Marker(markerData);
 
@@ -33,10 +52,14 @@ const drawMarkersAndInfo = (map, subLocData) => {
 				infowindow.open(map, marker);
 			};
 		})(marker, i));
+
+		map.fitBounds(markerBounds);
+		map.setZoom(map.getZoom() - 2);
+
 	}
 };
 
-const update = (newLocation) => {
+const update = (radius = 0, newLocation) => {
 	if (navigator.geolocation) {
 		window.geoPending = true;
 		updateBtn();
@@ -74,7 +97,7 @@ const update = (newLocation) => {
 
 			const map = new google.maps.Map(mapContainer, mapOptions);
 
-			drawMarkersAndInfo(map, subLocData);
+			drawMarkersAndInfo(map, subLocData, radius);
 
 		}, () => {
 			toast({status: 'Oops, can\'t locate you. Is your GPS on?'});
