@@ -258,7 +258,7 @@
 
 		if (subLocData) {
 			const icon = 'img/location-blue.png';
-			locations.push(['Your notifications', parseFloat(subLocData.lat), -0.0948288, 2, icon]);
+			locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2, icon]);
 		}
 
 		console.log(locations, subLocData);
