@@ -54,7 +54,7 @@ const drawMarkersAndInfo = (map, subLocData, radius) => {
 		})(marker, i));
 
 		map.fitBounds(markerBounds);
-		map.setZoom(map.getZoom() - 2);
+		map.setZoom(map.getZoom() - 3);
 
 	}
 };
