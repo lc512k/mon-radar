@@ -104,12 +104,11 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('fetch', (event) => {
-	console.log('[SERVICE WORKER] ', event.request.url);
 	if (event.request.mode === 'same-origin') {
 		event.respondWith(
 			caches.match(event.request).then((response) => {
 				if (!response){
-					console.log('[SERVICE WORKER] cache not hit');
+					console.log('[SERVICE WORKER] cache MISS for ', event.request.url);
 				}
 				return response || fetch(event.request);
 			})
