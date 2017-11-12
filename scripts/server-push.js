@@ -49,7 +49,7 @@ const mons = async (dataJSON, time, isRaids) => {
 				}
 
 				const payload = {
-					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${isRaids? 'Raid' : ''} ${platform}`,
+					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${isRaids ? 'Raid ' : ''}${platform}`,
 					icon: `img/${foundMon.id}@2x.webp`,
 					message: JSON.stringify({
 						location: foundMon.location,
@@ -91,8 +91,8 @@ async function init () {
 	await mongoClient;
 	const dataJSON = await SubscriptionModel.find();
 
-	mons(dataJSON, time);
-	mons(dataJSON, time, true);
+	await mons(dataJSON, time);
+	await mons(dataJSON, time, true);
 }
 
 module.exports = init;
