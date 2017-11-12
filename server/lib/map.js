@@ -16,6 +16,8 @@ function find (data, radius, location) {
 		const distance = geo.getDistance(location.lat, location.lng, mon.lat, mon.lng);
 		const endTime = isRaid ? mon.raid_end : mon.despawn;
 
+		// FIX not filtering by raid mon yet - it will notify you of ALL of the raids nearby \o/
+
 		if (distance < radius) {
 			nearby.push({
 				name: dex[mon.pokemon_id] || 'egg',
