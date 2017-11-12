@@ -59,6 +59,8 @@
 	const submitBtn = document.querySelector('#submit');
 	const radiusField = document.querySelector('#radius');
 	const metresDisplay = document.querySelector('#metres');
+	const raidsRadiusField = document.querySelector('#raidsRadius');
+	const raidsMetresDisplay = document.querySelector('#raidsMetres');
 
 	geo.update(parseInt(radiusField.value, 10));
 
@@ -70,12 +72,14 @@
 			return;
 		}
 
-		const mons = [].filter.call(document.querySelectorAll('input[type=checkbox]'), (c) => c.checked).map(c => c.value);
+		const mons = [].filter.call(document.querySelectorAll('input[type=checkbox][data-mons="true"]'), (c) => c.checked).map(c => c.value);
+		const raids = [].filter.call(document.querySelectorAll('input[type=checkbox][data-raids="true"]'), (c) => c.checked).map(c => c.value);
 
 		console.log('mons');
 		console.log(mons);
 
 		const radius = radiusField.value;
+		const raidsRadius = raidsRadiusField.value;
 
 		if (!window.subscription) {
 			initDialog({
@@ -92,7 +96,9 @@
 			},
 			body: JSON.stringify({
 				mons: mons,
+				raids: raids,
 				radius: radius,
+				raidsRadius: raidsRadius,
 				location: {
 					lat: window.lat,
 					lng: window.lng
@@ -119,6 +125,9 @@
 
 	radiusField.addEventListener('input', () => {
 		metresDisplay.innerText = `${radiusField.value}m`;
+	});
+	raidsRadiusField.addEventListener('input', () => {
+		raidsMetresDisplay.innerText = `${raidsRadiusField.value}m`;
 	});
 
 	// UUID in the header
@@ -259,6 +268,7 @@
 		if (subLocData) {
 			const icon = 'img/location-blue.png';
 			locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2, icon]);
+
 		}
 
 		console.log(locations, subLocData);
@@ -289,6 +299,7 @@
 					radius: radius
 				});
 			}
+
 			const marker = new google.maps.Marker(markerData);
 
 			google.maps.event.addListener(marker, 'click', ((marker, i) => {
@@ -300,11 +311,12 @@
 		}
 
 		map.fitBounds(markerBounds);
-		map.setZoom(map.getZoom() - 3);
+		map.setZoom(map.getZoom() - 6);
 		console.timeEnd('marker');
 	};
 
 	const update = (radius = 0, newLocation) => {
+		console.log('update, ', radius, newLocation);
 
 		if (navigator.geolocation) {
 			window.geoPending = true;

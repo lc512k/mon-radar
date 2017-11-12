@@ -13,6 +13,8 @@ if (!document.cookie){
 const submitBtn = document.querySelector('#submit');
 const radiusField = document.querySelector('#radius');
 const metresDisplay = document.querySelector('#metres');
+const raidsRadiusField = document.querySelector('#raidsRadius');
+const raidsMetresDisplay = document.querySelector('#raidsMetres');
 
 geo.update(parseInt(radiusField.value, 10));
 
@@ -24,12 +26,14 @@ submitBtn.addEventListener('click', (e) => {
 		return;
 	}
 
-	const mons = [].filter.call(document.querySelectorAll('input[type=checkbox]'), (c) => c.checked).map(c => c.value);
+	const mons = [].filter.call(document.querySelectorAll('input[type=checkbox][data-mons="true"]'), (c) => c.checked).map(c => c.value);
+	const raids = [].filter.call(document.querySelectorAll('input[type=checkbox][data-raids="true"]'), (c) => c.checked).map(c => c.value);
 
 	console.log('mons');
 	console.log(mons);
 
 	const radius = radiusField.value;
+	const raidsRadius = raidsRadiusField.value;
 
 	if (!window.subscription) {
 		initDialog({
@@ -46,7 +50,9 @@ submitBtn.addEventListener('click', (e) => {
 		},
 		body: JSON.stringify({
 			mons: mons,
+			raids: raids,
 			radius: radius,
+			raidsRadius: raidsRadius,
 			location: {
 				lat: window.lat,
 				lng: window.lng
@@ -73,6 +79,9 @@ submitBtn.addEventListener('click', (e) => {
 
 radiusField.addEventListener('input', () => {
 	metresDisplay.innerText = `${radiusField.value}m`;
+});
+raidsRadiusField.addEventListener('input', () => {
+	raidsMetresDisplay.innerText = `${raidsRadiusField.value}m`;
 });
 
 // UUID in the header

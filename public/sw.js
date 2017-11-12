@@ -80,9 +80,13 @@ self.addEventListener('install', (e) => {
 				'/img/25@2x.webp',
 				'/img/113@2x.webp',
 				'/img/143@2x.webp',
+				'/img/144@2x.webp',
+				'/img/145@2x.webp',
+				'/img/146@2x.webp',
 				'/img/147@2x.webp',
 				'/img/148@2x.webp',
 				'/img/149@2x.webp',
+				'/img/150@2x.webp',
 				'/img/152@2x.webp',
 				'/img/153@2x.webp',
 				'/img/154@2x.webp',
@@ -92,9 +96,13 @@ self.addEventListener('install', (e) => {
 				'/img/201@2x.webp',
 				'/img/236@2x.webp',
 				'/img/242@2x.webp',
+				'/img/243@2x.webp',
+				'/img/244@2x.webp',
+				'/img/245@2x.webp',
 				'/img/246@2x.webp',
 				'/img/247@2x.webp',
-				'/img/248@2x.webp'
+				'/img/248@2x.webp',
+				'/img/249@2x.webp'
 			]);
 		})
 		.catch(e => {

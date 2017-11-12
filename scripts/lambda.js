@@ -1,10 +1,10 @@
 const lambda = require('./lambda-promise');
 const debugPush = require('./debug-push');
 
-const fetchMons = async (sub) => {
+const fetchMons = async (sub, isRaids) => {
 	console.log('[LAMBDA] about to invoke');
 
-	const regions = ['us-east-1', 'eu-central-1'];
+	const regions = ['us-east-1', 'eu-central-1', 'us-west-2'];
 
 	let mons;
 
@@ -17,7 +17,7 @@ const fetchMons = async (sub) => {
 			secretAccessKey: process.env.AWS_SECRET,
 			region: region
 		});
-		mons = await lambda.invoke('serverless-dev-push', sub);
+		mons = await lambda.invoke('serverless-dev-push', {sub, isRaids});
 
 		// If the lambda in this region didn't fail we're good to go
 		if (mons) {

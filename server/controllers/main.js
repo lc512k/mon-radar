@@ -13,9 +13,15 @@ module.exports = async function (req, res) {
 
 	const subscriptionMons = sub && sub.mons ? sub.mons : [];
 	const subscriptionRadius = sub && sub.radius ? sub.radius : 500;
+	const subscriptionRaids = sub && sub.raids ? sub.raids : [];
+	const raidsRadius = sub && sub.raidsRadius ? sub.raidsRadius : 1500;
 
 	const availableMons = process.env.MONS.split(',');
-	console.log('available', availableMons);
+	const availableRaids = process.env.RAIDS.split(',');
+	const disabledRaids = process.env.DISABLED_RAIDS.split(',');
+	console.log('available mons', availableMons);
+	console.log('available raids', availableRaids);
+	console.log('disabled raids', disabledRaids);
 
 	const mons = availableMons.map((monNumber) => {
 		return {
@@ -24,10 +30,21 @@ module.exports = async function (req, res) {
 		};
 	});
 
+	const raids = availableRaids.map((raidNumber) => {
+		console.log('disabledRaids.includes(raidNumber)', disabledRaids.includes(raidNumber))
+		return {
+			number: raidNumber,
+			checked: subscriptionRaids.includes(raidNumber) ? 'checked' : '',
+			disabled: disabledRaids.includes(raidNumber) ? 'disabled' : ''
+		};
+	});
+
 	req.app.locals.layout = 'main';
 	res.render('subs', {
 		mons: mons,
 		radius: subscriptionRadius,
+		raids: raids,
+		raidsRadius: raidsRadius,
 		location: sub ? JSON.stringify(sub.location) : ''
 	});
 };

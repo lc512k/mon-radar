@@ -14,6 +14,8 @@ const updateMons = async (req) => {
 	const body = {
 		mons: (userMons.length > 0 && userMons[0] !== '') ? userMons : process.env.DEFAULT_MON_LIST,
 		radius: req.body.radius,
+		raids: req.body.raids,
+		raidsRadius: req.body.raidsRadius,
 		location: req.body.location,
 		subscription: req.body.subscription
 	};
@@ -27,7 +29,7 @@ const updateMons = async (req) => {
 				title: 'Mon Radar 🤖',
 				message: JSON.stringify({
 					icon: 'img/logo.png', // TODO
-					text:`Watching ${body.mons.length} pokémon in a ${body.radius}m radius`
+					text:`Watching ${body.mons.length} mon in ${body.radius}m & ${body.raids.length} raid mons at ${req.body.raidsRadius}m`
 				})
 			});
 	}

@@ -51,3 +51,8 @@ serverless/.serverless
 
 serverless/server/
 serverless/.env.*
+
+client/img/full/
+client/img/raw/
+
+imgconvert-script

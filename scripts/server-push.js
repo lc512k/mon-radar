@@ -6,20 +6,7 @@ const lambda = require('./lambda');
 const debugPush = require('./debug-push');
 const sleep = require('system-sleep');
 
-async function init () {
-	console.log('[SERVER PUSH]');
-
-	const now = new Date();
-	const hours = now.getUTCHours();
-
-	// Don't run when no one's looking (reserve dyno-hours)
-	if (hours > 21 || hours < 6) {
-		console.log('Not running at night', now);
-		return;
-	}
-
-	await mongoClient;
-	const dataJSON = await SubscriptionModel.find();
+const mons = async (dataJSON, time, isRaids) => {
 
 	// Heroku
 	let platform = '';
@@ -28,7 +15,7 @@ async function init () {
 
 		const pushSubscription = sub.subscription;
 
-		let mons = await fetchMons(sub.radius, sub.mons, sub.location);
+		let mons = await fetchMons(sub.radius, sub.mons, sub.location, isRaids);
 
 		const blacklistedHerokuIP = !mons;
 
@@ -61,13 +48,9 @@ async function init () {
 					if (!isShiny) break;
 				}
 
-				// Timestamp
-				let time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-				time = hours < 12 ? time + 'am' : time + 'pm';
-
 				const payload = {
-					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${platform}`,
-					icon: `img/${foundMon.id}.webp`,
+					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${isRaids? 'Raid' : ''} ${platform}`,
+					icon: `img/${foundMon.id}@2x.webp`,
 					message: JSON.stringify({
 						location: foundMon.location,
 						myLocation: sub.location,
@@ -87,6 +70,29 @@ async function init () {
 		console.log('[SERVER PUSH] sleeping for 10s');
 		sleep(10000);
 	}
+};
+
+async function init () {
+	console.log('[SERVER PUSH]');
+
+	const now = new Date();
+	const hours = now.getUTCHours();
+	// Timestamp
+	let time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+	time = hours < 12 ? time + 'am' : time + 'pm';
+
+
+	// Don't run when no one's looking (save dyno-hours)
+	if (hours > 21 || hours < 5) {
+		console.log('Not running at night', now);
+		return;
+	}
+
+	await mongoClient;
+	const dataJSON = await SubscriptionModel.find();
+
+	mons(dataJSON, time);
+	mons(dataJSON, time, true);
 }
 
 module.exports = init;

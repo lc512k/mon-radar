@@ -1,0 +1,22 @@
+<div class="part mdl-card mdl-shadow--2dp">
+	<div class="mdl-card__supporting-text card">
+		{{#each raids}}
+		<div class="mon">
+			<label for="{{number}}">
+				<span class="visually-hidden">Pokemon number {{number}}</span>
+				<picture>
+					<source srcset="img/{{number}}.webp, img/{{number}}@2x.webp 2x">
+					<source srcset="img/{{number}}.png, img/{{number}}@2x.png 2x">
+					<img height="50" alt="{{number}}" src="img/{{number}}.png" srcset="img/{{number}}@2x.png 2x" class="{{disabled}}-mon">
+				</picture>
+			</label>
+			<br>
+			<input {{disabled}} type="checkbox" id="{{number}}" name="mons" value="{{number}}" {{checked}} data-raids="true">
+		</div>
+		{{/each}}
+	</div>
+	<div class="mdl-card__supporting-text slider">
+		<label for="raidsRadius">How far are you willing to raid?</label> <b><span id="raidsMetres">{{raidsRadius}}m</span></b>
+		<input id="raidsRadius" class="mdl-slider mdl-js-slider" type="range" min="100" max="2500" value="{{raidsRadius}}" step="100" tabind slider mdl-js-slider">
+	</div>
+</div>
