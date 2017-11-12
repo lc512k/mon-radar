@@ -22,7 +22,7 @@ const mons = async (dataJSON, time, isRaids) => {
 		if (blacklistedHerokuIP) {
 			await debugPush.send(sub, 'Heroku IP banned 💀. Going Serverless ⚡');
 			// Try to fetch them with the lambda
-			mons = await lambda.fetchMons(sub);
+			mons = await lambda.fetchMons(sub, isRaids);
 			platform = '⚡';
 		}
 
