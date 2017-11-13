@@ -5,7 +5,7 @@ const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const ip = require('./ip');
 
-function find (data, radius, location) {
+function find (data, radius, location, wanted) {
 
 	const nearby = [];
 	const isRaid = !!data.raids;
@@ -16,7 +16,12 @@ function find (data, radius, location) {
 		const distance = geo.getDistance(location.lat, location.lng, mon.lat, mon.lng);
 		const endTime = isRaid ? mon.raid_end : mon.despawn;
 
-		// FIX not filtering by raid mon yet - it will notify you of ALL of the raids nearby \o/
+		// Raids response is not filtered
+		// filter them here
+		if (wanted && isRaid) {
+			!wanted.includes(mon.pokemon_id);
+			break;
+		}
 
 		if (distance < radius) {
 			nearby.push({
@@ -54,12 +59,12 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 		}
 	};
 
-	const response = await fetch(url,options);
+	const response = await fetch(url, options);
 
 	if (response.status === 200) {
 		console.log(`\n\n[MAP] ${isRaids ? 'raids map' : 'lpm' } responded ok`);
 		const jsonResponse = await response.json();
-		return find(jsonResponse, radius, location);
+		return find(jsonResponse, radius, location, wanted);
 	}
 	else {
 		const textResponse = await response.text();
@@ -69,12 +74,12 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 	}
 }
 
-function fetchTestData (data, radius, location) {
-	return find(data, radius, location);
+function fetchTestData (data, radius, wanted, location) {
+	return find(data, radius, location, wanted);
 }
 
 function init (radius, wanted, location, isRaids) {
-	return process.env.TEST ? fetchTestData(testData, radius, location, isRaids) : fetchPogoMap(radius, wanted, location, isRaids);
+	return process.env.TEST ? fetchTestData(testData, radius, wanted, location) : fetchPogoMap(radius, wanted, location, isRaids);
 }
 
 module.exports = init;

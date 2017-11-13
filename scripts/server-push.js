@@ -7,7 +7,6 @@ const debugPush = require('./debug-push');
 const sleep = require('system-sleep');
 
 const mons = async (dataJSON, time, isRaids) => {
-
 	// Heroku
 	let platform = '';
 
@@ -15,7 +14,14 @@ const mons = async (dataJSON, time, isRaids) => {
 
 		const pushSubscription = sub.subscription;
 
-		let mons = await fetchMons(sub.radius, sub.mons, sub.location, isRaids);
+		let mons;
+
+		if (isRaids) {
+			mons = await fetchMons(sub.raidsRadius, sub.raids, sub.location, isRaids);
+		}
+		else {
+			mons = await fetchMons(sub.radius, sub.mons, sub.location);
+		}
 
 		const blacklistedHerokuIP = !mons;
 
