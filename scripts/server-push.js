@@ -48,9 +48,10 @@ const mons = async (dataJSON, time, isRaids) => {
 
 				const isShiny = foundMon.shiny === '1';
 
-				if (shinies.includes(foundMon.id)) {
+				if (shinies.includes(parseInt(foundMon.id, 10))) {
 					// We add magikarp and duskull for everyone
 					// Ignore the ones that aren't shiny
+					console.log('[SERVER PUSH] found potential shiny', foundMon)
 					if (!isShiny) break;
 				}
 

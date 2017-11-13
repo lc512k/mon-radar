@@ -19,9 +19,9 @@ function find (data, radius, location, wanted) {
 		// Raids response is not filtered
 		// filter them here
 		if (wanted && isRaid) {
-			console.log('Wanted raids:');
+			console.log('[MAP] Wanted raids:');
 			console.log(wanted);
-			console.log('this mon:');
+			console.log('[MAP] this mon:');
 			console.log(mon.pokemon_id);
 			!wanted.includes(parseInt(mon.pokemon_id, 10));
 			break;
