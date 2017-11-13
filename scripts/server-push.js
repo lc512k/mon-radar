@@ -75,7 +75,7 @@ const mons = async (dataJSON, time, isRaids) => {
 			}
 		}
 
-		console.log('[SERVER PUSH] sleeping for 10s 😴😴');
+		console.log('[SERVER PUSH] sleeping for 10s 😴😴 (original)');
 		sleep(10000);
 	}
 };
@@ -99,8 +99,10 @@ async function init () {
 	await mongoClient;
 	const dataJSON = await SubscriptionModel.find();
 
-	mons(dataJSON, time);
-	mons(dataJSON, time, true);
+	await mons(dataJSON, time);
+	console.log('[SERVER PUSH] sleeping for 5s before fetching for safety 😴');
+	sleep(5000);
+	await mons(dataJSON, time, true);
 }
 
 module.exports = init;
