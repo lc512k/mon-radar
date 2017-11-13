@@ -100,8 +100,8 @@ async function init () {
 
 	await mons(dataJSON, time);
 	console.log('[SERVER PUSH] sleeping for 5s before fetching for safety 😴');
-	sleep(5000);
-	await mons(dataJSON, time, true);
+	// sleep(5000);
+	// await mons(dataJSON, time, true);
 }
 
 module.exports = init;

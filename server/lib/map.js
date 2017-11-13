@@ -9,6 +9,7 @@ const sleep = require('system-sleep');
 function find (data, radius, location, wanted) {
 
 	const nearby = [];
+
 	const isRaid = !!data.raids;
 	const mons = isRaid ? data.raids : data.pokemons;
 
