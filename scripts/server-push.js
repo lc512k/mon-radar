@@ -100,8 +100,8 @@ async function init () {
 	const dataJSON = await SubscriptionModel.find();
 
 	mons(dataJSON, time);
-	console.log('[SERVER PUSH] sleeping for 15s before fetching raids');
-	sleep(15000);
+	console.log('[SERVER PUSH] sleeping for 5s before fetching raids');
+	sleep(5000);
 	mons(dataJSON, time, true);
 }
 
