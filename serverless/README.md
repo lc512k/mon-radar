@@ -12,3 +12,4 @@ serverless deploy --function push --region eu-central-1
 serverless deploy --function push --region us-east-1
 serverless deploy --function push --region us-west-2
 serverless deploy --function push --region ap-northeast-2
+
