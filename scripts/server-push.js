@@ -74,9 +74,8 @@ const mons = async (dataJSON, time, isRaids) => {
 				}
 			}
 		}
-
-		console.log('[SERVER PUSH] sleeping for 10s 😴😴 (original)');
-		sleep(10000);
+		// console.log('[SERVER PUSH] sleeping for 10s 😴😴 (original)');
+		// sleep(10000);
 	}
 };
 

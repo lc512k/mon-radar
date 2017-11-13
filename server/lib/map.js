@@ -63,10 +63,11 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 			'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3243.0 Safari/537.36 x-requested-with:XMLHttpRequest'
 		}
 	};
-	console.log('[MAP] sleeping for 10s before fetching for safety 😴😴');
-	sleep(10000);
 	console.log('[MAP] fetch going out 🚨🚨🚨🚨🚨🚨');
 	const response = await fetch(url, options);
+	console.log('[MAP] sleeping for 10s AFTER fetching for safety 😴😴');
+	sleep(10000);
+
 
 	if (response.status === 200) {
 		console.log(`\n\n[MAP] ${isRaids ? 'raids map' : 'lpm' } responded ok`);
