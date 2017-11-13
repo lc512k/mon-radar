@@ -4,7 +4,7 @@
   "description": "&& karma start --single-run true karma.conf.js",
   "main": "server/app.js",
   "scripts": {
-    "test": "mocha tests/server/*",
+    "test": "mocha tests/server/* --timeout 150000",
     "build": "rm -rf public/ && webpack && cp -r client/img public/img && cp -r client/lib public/lib && cp client/sw.js public/sw.js && cp client/manifest.json public/manifest.json",
     "prep-lambda": "rm -r serverless/server/; mkdir serverless/server/ && cp -r server/lib/ serverless/server/lib/ && cp -r server/data/ serverless/server/data/",
     "env": "export $(cat .env | xargs)"
