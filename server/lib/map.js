@@ -65,8 +65,9 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 	};
 	console.log('[MAP] fetch going out 🚨🚨🚨🚨🚨🚨');
 	const response = await fetch(url, options);
-	console.log('[MAP] sleeping for 10s AFTER fetching for safety 😴😴');
-	sleep(10000);
+	console.log('[MAP] sleeping for 5s AFTER fetching for safety 😴😴');
+	// lambda timesout at 30s
+	sleep(5000);
 
 
 	if (response.status === 200) {

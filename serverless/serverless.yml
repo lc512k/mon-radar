@@ -12,6 +12,7 @@ provider:
   name: aws
   runtime: nodejs6.10
   environment: ${file(.env.json)}
+  timeout: 300
 
 functions:
   push:

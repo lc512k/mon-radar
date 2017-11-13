@@ -3,8 +3,8 @@ const debugPush = require('./debug-push');
 
 const fetchMons = async (sub, isRaids) => {
 
-	const regions = ['eu-west-1', 'eu-west-2'];
-	// const regions = ['eu-west-1','eu-west-2', 'eu-central-1', 'us-east-1', 'us-west-2', 'ap-northeast-2', 'sa-east-1'];
+	// const regions = ['eu-west-1', 'eu-west-2'];
+	const regions = ['eu-west-1','eu-west-2', 'eu-central-1', 'us-east-1', 'us-west-2', 'ap-northeast-2', 'sa-east-1'];
 
 	let mons;
 
