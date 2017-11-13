@@ -23,7 +23,7 @@ function find (data, radius, location, wanted) {
 			console.log(wanted);
 			console.log('[MAP] this mon:');
 			console.log(mon.pokemon_id);
-			!wanted.includes(parseInt(mon.pokemon_id, 10));
+			!wanted.includes(mon.pokemon_id);
 			break;
 		}
 
