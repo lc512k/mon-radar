@@ -33,6 +33,7 @@ const mons = async (dataJSON, time, isRaids) => {
 		}
 
 		if (!mons) {
+			console.log('[SERVER PUSH] Still no mons, giving up:', mons);
 			await debugPush.send(sub, 'Still no mons. Giving up 💀💀', true);
 		}
 
@@ -98,8 +99,10 @@ async function init () {
 	await mongoClient;
 	const dataJSON = await SubscriptionModel.find();
 
-	await mons(dataJSON, time);
-	await mons(dataJSON, time, true);
+	mons(dataJSON, time);
+	console.log('[SERVER PUSH] sleeping for 15s before fetching raids');
+	sleep(15000);
+	mons(dataJSON, time, true);
 }
 
 module.exports = init;

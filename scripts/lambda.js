@@ -2,14 +2,13 @@ const lambda = require('./lambda-promise');
 const debugPush = require('./debug-push');
 
 const fetchMons = async (sub, isRaids) => {
-	console.log('[LAMBDA] about to invoke');
 
-	const regions = ['us-east-1', 'eu-central-1', 'us-west-2'];
+	const regions = ['eu-west-1','eu-west-2', 'eu-central-1', 'eu-central-2', 'us-east-1', 'us-west-2', 'ap-northeast-2'];
 
 	let mons;
 
 	for (let region of regions) {
-		console.log('REGION', region);
+		console.log('[LAMBDA] trying', region);
 		debugPush.send(sub, `Trying ${region} ⚡`);
 
 		lambda.init({
@@ -18,6 +17,8 @@ const fetchMons = async (sub, isRaids) => {
 			region: region
 		});
 		mons = await lambda.invoke('serverless-dev-push', {sub, isRaids});
+
+		console.log('[LAMBDA] mons', mons ? mons.length : mons);
 
 		// If the lambda in this region didn't fail we're good to go
 		if (mons) {
@@ -28,7 +29,6 @@ const fetchMons = async (sub, isRaids) => {
 		}
 	}
 
-	console.log('[LAMBDA] mons', mons ? mons.length : mons);
 	return mons;
 };
 
