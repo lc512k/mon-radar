@@ -63,6 +63,7 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 		}
 	};
 
+	console.log('[MAP] fetch going out 🚨🚨🚨🚨🚨🚨');
 	const response = await fetch(url, options);
 
 	if (response.status === 200) {

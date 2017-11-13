@@ -268,7 +268,6 @@
 		if (subLocData) {
 			const icon = 'img/location-blue.png';
 			locations.push(['Your notifications', parseFloat(subLocData.lat), parseFloat(subLocData.lng), 2, icon]);
-
 		}
 
 		console.log(locations, subLocData);
@@ -299,7 +298,6 @@
 					radius: radius
 				});
 			}
-
 			const marker = new google.maps.Marker(markerData);
 
 			google.maps.event.addListener(marker, 'click', ((marker, i) => {
@@ -316,7 +314,6 @@
 	};
 
 	const update = (radius = 0, newLocation) => {
-		console.log('update, ', radius, newLocation);
 
 		if (navigator.geolocation) {
 			window.geoPending = true;
