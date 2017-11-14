@@ -62,7 +62,7 @@
 	const raidsRadiusField = document.querySelector('#raidsRadius');
 	const raidsMetresDisplay = document.querySelector('#raidsMetres');
 
-	geo.update(parseInt(radiusField.value, 10));
+	geo.update(parseInt(radiusField.value, 10), parseInt(raidsRadiusField.value, 10));
 
 	submitBtn.addEventListener('click', (e) => {
 		e.preventDefault();
@@ -115,7 +115,7 @@
 		})
 		.then((body) => {
 			console.log('server responded (body): ', body);
-			geo.update(parseInt(radius, 10), body);
+			geo.update(parseInt(radius, 10),parseInt(raidsRadius, 10), body);
 		})
 		.catch(e => {
 			console.log(e);
@@ -257,7 +257,7 @@
 	const updateBtn = __webpack_require__(3);
 	const toast = __webpack_require__(5);
 
-	const drawMarkersAndInfo = (map, subLocData, radius) => {
+	const drawMarkersAndInfo = (map, subLocData, radius, raidRadius) => {
 
 		const markerBounds = new google.maps.LatLngBounds();
 
@@ -297,6 +297,18 @@
 					center: position,
 					radius: radius
 				});
+
+				new google.maps.Circle({
+					strokeColor: '#000',
+					strokeOpacity: 0.4,
+					strokeWeight: 2,
+					fillColor: '#000',
+					fillOpacity: 0.2,
+					map: map,
+					center: position,
+					radius: raidRadius
+				});
+
 			}
 			const marker = new google.maps.Marker(markerData);
 
@@ -313,7 +325,7 @@
 		console.timeEnd('marker');
 	};
 
-	const update = (radius = 0, newLocation) => {
+	const update = (radius = 0, raidRadius = 0, newLocation) => {
 
 		if (navigator.geolocation) {
 			window.geoPending = true;
@@ -357,7 +369,7 @@
 
 				console.timeEnd('map');
 				console.time('marker');
-				drawMarkersAndInfo(map, subLocData, radius);
+				drawMarkersAndInfo(map, subLocData, radius, raidRadius);
 
 			}, () => {
 				toast({status: 'Oops, can\'t locate you. Is your GPS on?'});

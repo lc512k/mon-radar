@@ -16,7 +16,7 @@ const metresDisplay = document.querySelector('#metres');
 const raidsRadiusField = document.querySelector('#raidsRadius');
 const raidsMetresDisplay = document.querySelector('#raidsMetres');
 
-geo.update(parseInt(radiusField.value, 10));
+geo.update(parseInt(radiusField.value, 10), parseInt(raidsRadiusField.value, 10));
 
 submitBtn.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -69,7 +69,7 @@ submitBtn.addEventListener('click', (e) => {
 	})
 	.then((body) => {
 		console.log('server responded (body): ', body);
-		geo.update(parseInt(radius, 10), body);
+		geo.update(parseInt(radius, 10),parseInt(raidsRadius, 10), body);
 	})
 	.catch(e => {
 		console.log(e);

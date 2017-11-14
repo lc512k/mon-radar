@@ -3,7 +3,7 @@ require('./lib/material.min.js');
 const updateBtn = require('./submit-logic.js');
 const toast = require('./dialog.js');
 
-const drawMarkersAndInfo = (map, subLocData, radius) => {
+const drawMarkersAndInfo = (map, subLocData, radius, raidRadius) => {
 
 	const markerBounds = new google.maps.LatLngBounds();
 
@@ -43,6 +43,18 @@ const drawMarkersAndInfo = (map, subLocData, radius) => {
 				center: position,
 				radius: radius
 			});
+
+			new google.maps.Circle({
+				strokeColor: '#000',
+				strokeOpacity: 0.4,
+				strokeWeight: 2,
+				fillColor: '#000',
+				fillOpacity: 0.2,
+				map: map,
+				center: position,
+				radius: raidRadius
+			});
+
 		}
 		const marker = new google.maps.Marker(markerData);
 
@@ -59,7 +71,7 @@ const drawMarkersAndInfo = (map, subLocData, radius) => {
 	console.timeEnd('marker');
 };
 
-const update = (radius = 0, newLocation) => {
+const update = (radius = 0, raidRadius = 0, newLocation) => {
 
 	if (navigator.geolocation) {
 		window.geoPending = true;
@@ -103,7 +115,7 @@ const update = (radius = 0, newLocation) => {
 
 			console.timeEnd('map');
 			console.time('marker');
-			drawMarkersAndInfo(map, subLocData, radius);
+			drawMarkersAndInfo(map, subLocData, radius, raidRadius);
 
 		}, () => {
 			toast({status: 'Oops, can\'t locate you. Is your GPS on?'});

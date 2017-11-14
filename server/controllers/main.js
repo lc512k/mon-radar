@@ -19,9 +19,6 @@ module.exports = async function (req, res) {
 	const availableMons = process.env.MONS.split(',');
 	const availableRaids = process.env.RAIDS.split(',');
 	const disabledRaids = process.env.DISABLED_RAIDS.split(',');
-	console.log('available mons', availableMons);
-	console.log('available raids', availableRaids);
-	console.log('disabled raids', disabledRaids);
 
 	const mons = availableMons.map((monNumber) => {
 		return {
@@ -31,7 +28,6 @@ module.exports = async function (req, res) {
 	});
 
 	const raids = availableRaids.map((raidNumber) => {
-		console.log('disabledRaids.includes(raidNumber)', disabledRaids.includes(raidNumber))
 		return {
 			number: raidNumber,
 			checked: subscriptionRaids.includes(raidNumber) ? 'checked' : '',
