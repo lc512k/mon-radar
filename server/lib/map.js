@@ -4,7 +4,6 @@ const time = require('./time');
 const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const ip = require('./ip');
-const sleep = require('system-sleep');
 
 function find (data, radius, location, wanted) {
 
@@ -20,13 +19,8 @@ function find (data, radius, location, wanted) {
 
 		// Raids response is not filtered
 		// filter them here
-		if (wanted && isRaid) {
-			console.log('[MAP] Wanted raids:');
-			console.log(wanted);
-			console.log('[MAP] this mon:');
-			console.log(mon.pokemon_id);
-			!wanted.includes(mon.pokemon_id);
-			break;
+		if (wanted && isRaid && !wanted.includes(mon.pokemon_id)) {
+			continue;
 		}
 
 		if (distance < radius) {
@@ -66,10 +60,6 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 	};
 	console.log('[MAP] fetch going out 🚨🚨🚨🚨🚨🚨');
 	const response = await fetch(url, options);
-	console.log('[MAP] sleeping for 5s AFTER fetching for safety 😴😴');
-	// lambda timesout at 30s
-	sleep(5000);
-
 
 	if (response.status === 200) {
 		console.log(`\n\n[MAP] ${isRaids ? 'raids map' : 'lpm' } responded ok`);

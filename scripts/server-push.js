@@ -53,7 +53,7 @@ const mons = async (dataJSON, time, isRaids) => {
 					// We add magikarp and duskull for everyone
 					// Ignore the ones that aren't shiny
 					console.log('[SERVER PUSH] found potential shiny', foundMon);
-					if (!isShiny) break;
+					if (!isShiny) continue;
 				}
 
 				const payload = {
@@ -74,12 +74,12 @@ const mons = async (dataJSON, time, isRaids) => {
 				}
 			}
 		}
-		// console.log('[SERVER PUSH] sleeping for 10s 😴😴 (original)');
-		// sleep(10000);
+		console.log('[SERVER PUSH] sleeping for 10s 😴😴 (original)');
+		sleep(10000);
 	}
 };
 
-async function init () {
+async function init (isRaids) {
 	console.log('[SERVER PUSH]');
 
 	const now = new Date();
@@ -90,18 +90,15 @@ async function init () {
 
 
 	// Don't run when no one's looking (save dyno-hours)
-	if (hours > 21 || hours < 5) {
-		console.log('Not running at night', now);
+	if (hours > 21 || hours < 6) {
+		console.log('[SERVER-PUSH] Not running at night', now);
 		return;
 	}
 
 	await mongoClient;
 	const dataJSON = await SubscriptionModel.find();
 
-	await mons(dataJSON, time);
-	console.log('[SERVER PUSH] sleeping for 5s before fetching for safety 😴');
-	// sleep(5000);
-	// await mons(dataJSON, time, true);
+	await mons(dataJSON, time, isRaids);
 }
 
 module.exports = init;
