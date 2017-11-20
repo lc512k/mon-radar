@@ -45,7 +45,7 @@ const mons = async (dataJSON, time, isRaids) => {
 				const foundMon = mons[key];
 				console.log(`[SERVER PUSH] notifying ${sub._id} about ${JSON.stringify(mons[key])}`);
 
-				const shinies = [129,302,355];
+				const shinies = [25,129,302,355];
 
 				const isShiny = foundMon.shiny === '1';
 

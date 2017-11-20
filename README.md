@@ -6,3 +6,9 @@
 TODO
 https://serverless-stack.com/chapters/serverless-es7-service.html
 http://pokemongo.wikia.com/wiki/File:Magikarp.png
+cwebp client/img/190\@2x.png -o client/img/190\@2x.webp
+cwebp client/img/189\@2x.png -o client/img/189\@2x.webp
+cwebp client/img/188\@2x.png -o client/img/188\@2x.webp
+cwebp client/img/187\@2x.png -o client/img/187\@2x.webp
+cwebp client/img/205\@2x.png -o client/img/205\@2x.webp
+cwebp client/img/204\@2x.png -o client/img/189\@2x.webp
