@@ -23,9 +23,16 @@ function find (data, radius, location, wanted) {
 			continue;
 		}
 
+		const monName = dex[mon.pokemon_id] || 'egg';
+
+		// Ignore non-legendary eggs
+		if (monName === 'egg' && mon.level !== '5') {
+			continue;
+		}
+
 		if (distance < radius) {
 			nearby.push({
-				name: dex[mon.pokemon_id] || 'egg',
+				name: monName,
 				id: mon.pokemon_id,
 				despawn: time(new Date(endTime * 1000) - new Date()),
 				distance: Math.ceil(distance),
