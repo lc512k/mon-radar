@@ -50,7 +50,7 @@ const mons = async (dataJSON, time, isRaids) => {
 				const isShiny = foundMon.shiny === '1';
 
 				if (shinies.includes(foundMon.id, 10)) {
-					// We add magikarp and duskull for everyone
+					// We add potential shinies for everyone
 					// Ignore the ones that aren't shiny
 					console.log('[SERVER PUSH] found potential shiny', foundMon);
 					if (!isShiny) continue;
@@ -58,7 +58,7 @@ const mons = async (dataJSON, time, isRaids) => {
 
 				const payload = {
 					title: `${isShiny ? 'Shiny ' : ''}${foundMon.name} ${isRaids ? 'Raid ' : ''}${platform}`,
-					icon: `img/${foundMon.id}@2x.webp`,
+					icon: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${foundMon.id}.png`,
 					message: JSON.stringify({
 						location: foundMon.location,
 						myLocation: sub.location,
