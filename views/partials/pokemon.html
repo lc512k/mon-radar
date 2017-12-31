@@ -4,11 +4,7 @@
 		<div class="mon">
 			<label for="{{number}}">
 				<span class="visually-hidden">Pokemon number {{number}}</span>
-				<picture>
-					<source srcset="img/{{number}}.webp, img/{{number}}@2x.webp 2x">
-					<source srcset="img/{{number}}.png, img/{{number}}@2x.png 2x">
-					<img height="50" alt="{{number}}" src="img/{{number}}.png" srcset="img/{{number}}@2x.png 2x">
-				</picture>
+				<img height="60" alt="{{number}}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{number}}.png">
 			</label>
 			<br>
 			<input type="checkbox" id="{{number}}" name="mons" value="{{number}}" {{checked}} data-mons="true">

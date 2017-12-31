@@ -71,42 +71,12 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 	self.skipWaiting();
 	e.waitUntil(
-		caches.open('monradar2.2-newmons').then((cache) => {
+		caches.open('monradar2.3-cors').then((cache) => {
 			//TODO make two bundles, one we can cache (with libs)
 			return cache.addAll([
 				'/img/location-blue.png',
 				'/lib/google.min.js',
-				'/lib/material.min.css',
-				'/img/113@2x.webp',
-				'/img/143@2x.webp',
-				'/img/144@2x.webp',
-				'/img/145@2x.webp',
-				'/img/146@2x.webp',
-				'/img/147@2x.webp',
-				'/img/148@2x.webp',
-				'/img/149@2x.webp',
-				'/img/150@2x.webp',
-				'/img/152@2x.webp',
-				'/img/153@2x.webp',
-				'/img/154@2x.webp',
-				'/img/179@2x.webp',
-				'/img/180@2x.webp',
-				'/img/181@2x.webp',
-				'/img/187@2x.webp',
-				'/img/188@2x.webp',
-				'/img/189@2x.webp',
-				'/img/201@2x.webp',
-				'/img/204@2x.webp',
-				'/img/205@2x.webp',
-				'/img/236@2x.webp',
-				'/img/242@2x.webp',
-				'/img/243@2x.webp',
-				'/img/244@2x.webp',
-				'/img/245@2x.webp',
-				'/img/246@2x.webp',
-				'/img/247@2x.webp',
-				'/img/248@2x.webp',
-				'/img/249@2x.webp'
+				'/lib/material.min.css'
 			]);
 		})
 		.catch(e => {
@@ -133,7 +103,7 @@ self.addEventListener('activate', function (event) {
 	// FIX update on server here too
 	// if we don't and the user doesn't click Submit
 	// push notifications will fail (server will have the old version)
-	const cacheWhitelist = ['monradar2.2-newmons'];
+	const cacheWhitelist = ['monradar2.3-cors'];
 
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {

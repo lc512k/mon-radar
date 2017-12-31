@@ -1,7 +1,8 @@
 .mon {
 	display: inline-block;
 	text-align: center;
-	margin: 0 1vw 3vh;
+	margin: 0 -3px 2vh;
+	width: 55px;
 }
 div.part {
 	width: 90vw;
@@ -15,12 +16,15 @@ div.part {
 }
 .uuid {
 	font-size: 10px;
-    font-weight: 200;
-    margin-top: 2px;
+	font-weight: 200;
+	margin-top: 2px;
 }
 .header {
 	padding: 0 6vw;
 }
 div.part.submit-card {
 	min-height: 0;
+}
+.card {
+    margin: auto;
 }
