@@ -135,6 +135,24 @@
 	uuidContainer.innerHTML = Cookies.get('uuid');
 
 
+	// select/deselect all
+	document.querySelector('#all').addEventListener('change', (e) => {
+
+		const checkboxes = document.querySelectorAll('input[type=checkbox][data-mons="true"]');
+
+		if (e.target.checked) {
+			for (let box of checkboxes) {
+				box.checked = true;
+			}
+		}
+		else {
+			for (let box of checkboxes) {
+				box.checked = false;
+			}
+		}
+	});
+
+
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
