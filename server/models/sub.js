@@ -2,8 +2,14 @@ const mongoose = require('mongoose');
 
 const subscriptionSchema = new mongoose.Schema({
 	_id: String,
-	mons: [],
-	raids: [],
+	mons: [{
+		number: String,
+		radius: String
+	}],
+	raids: [{
+		number: String,
+		radius: String
+	}],
 	subscription: {
 		endpoint: String,
 		expirationTime: String,
@@ -13,7 +19,7 @@ const subscriptionSchema = new mongoose.Schema({
 		}
 	},
 	radius: String,
-	raidsRadius: String,
+	raidRadius: String,
 	location: {
 		lat: String,
 		lng: String

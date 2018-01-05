@@ -5,7 +5,7 @@ const testData = require('../data/stub.json');
 const dex = require('../data/lean-dex.json');
 const ip = require('./ip');
 
-function find (data, radius, location, wanted) {
+function find (data, location, wanted) {
 
 	const nearby = [];
 
@@ -30,7 +30,7 @@ function find (data, radius, location, wanted) {
 			continue;
 		}
 
-		if (distance < radius) {
+		if (distance < mon.radius) {
 			nearby.push({
 				name: monName,
 				id: mon.pokemon_id,
@@ -47,7 +47,7 @@ function find (data, radius, location, wanted) {
 	return nearby;
 }
 
-async function fetchPogoMap (radius, wanted, location, isRaids) {
+async function fetchPogoMap (wanted, location, isRaids) {
 
 	// Everobydy wants shinies!
 	const shinies = ',129,302,355';
@@ -71,7 +71,7 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 	if (response.status === 200) {
 		console.log(`\n\n[MAP] ${isRaids ? 'raids map' : 'lpm' } responded ok`);
 		const jsonResponse = await response.json();
-		return find(jsonResponse, radius, location, wanted);
+		return find(jsonResponse, location, wanted);
 	}
 	else {
 		const textResponse = await response.text();
@@ -81,12 +81,12 @@ async function fetchPogoMap (radius, wanted, location, isRaids) {
 	}
 }
 
-function fetchTestData (data, radius, wanted, location) {
-	return find(data, radius, location, wanted);
+function fetchTestData (data, wanted, location) {
+	return find(data, location, wanted);
 }
 
-function init (radius, wanted, location, isRaids) {
-	return process.env.TEST ? fetchTestData(testData, radius, wanted, location) : fetchPogoMap(radius, wanted, location, isRaids);
+function init (wanted, location, isRaids) {
+	return process.env.TEST ? fetchTestData(testData, wanted, location) : fetchPogoMap(wanted, location, isRaids);
 }
 
 module.exports = init;

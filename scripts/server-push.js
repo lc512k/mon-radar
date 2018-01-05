@@ -17,10 +17,10 @@ const mons = async (dataJSON, time, isRaids) => {
 		let mons;
 
 		if (isRaids) {
-			mons = await fetchMons(sub.raidsRadius, sub.raids, sub.location, isRaids);
+			mons = await fetchMons(sub.raids, sub.location, isRaids);
 		}
 		else {
-			mons = await fetchMons(sub.radius, sub.mons, sub.location);
+			mons = await fetchMons(sub.mons, sub.location);
 		}
 
 		const blacklistedHerokuIP = !mons;

@@ -61,6 +61,8 @@
 	const metresDisplay = document.querySelector('#metres');
 	const raidsRadiusField = document.querySelector('#raidsRadius');
 	const raidsMetresDisplay = document.querySelector('#raidsMetres');
+	const allMonSliders = document.querySelectorAll('input[type=range][data-mons="true"]');
+	const allRaidSliders = document.querySelectorAll('input[type=range][data-raids="true"]');
 
 	geo.update(parseInt(radiusField.value, 10), parseInt(raidsRadiusField.value, 10));
 
@@ -72,9 +74,12 @@
 			return;
 		}
 
-		const mons = [].filter.call(document.querySelectorAll('input[type=checkbox][data-mons="true"]'), (c) => c.checked).map(c => c.value);
-		const raids = [].filter.call(document.querySelectorAll('input[type=checkbox][data-raids="true"]'), (c) => c.checked).map(c => c.value);
-
+		const mons = [].filter.call(allMonSliders, (s) => s.value > 0).map((s) => {
+			return {number: s.id, radius: s.value};
+		});
+		const raids = [].filter.call(allRaidSliders, (s) => s.value > 0).map((s) => {
+			return {number: s.id, radius: s.value};
+		});
 		console.log('mons');
 		console.log(mons);
 
@@ -123,8 +128,20 @@
 
 	});
 
+	for (let monSlider of allMonSliders) {
+		monSlider.addEventListener('input', () => {
+			const metresDisplay = document.querySelector(`#metres-${monSlider.id}`);
+			metresDisplay.innerText = `${monSlider.value}m`;
+		});
+	}
+
 	radiusField.addEventListener('input', () => {
 		metresDisplay.innerText = `${radiusField.value}m`;
+		for (let monSlider of allMonSliders) {
+			monSlider.value = radiusField.value;
+			const evt = new Event('input');
+			monSlider.dispatchEvent(evt);
+		}
 	});
 	raidsRadiusField.addEventListener('input', () => {
 		raidsMetresDisplay.innerText = `${raidsRadiusField.value}m`;
@@ -136,21 +153,21 @@
 
 
 	// select/deselect all
-	document.querySelector('#all').addEventListener('change', (e) => {
+	// document.querySelector('#all').addEventListener('change', (e) => {
 
-		const checkboxes = document.querySelectorAll('input[type=checkbox][data-mons="true"]');
+	// 	const checkboxes = document.querySelectorAll('input[type=checkbox][data-mons="true"]');
 
-		if (e.target.checked) {
-			for (let box of checkboxes) {
-				box.checked = true;
-			}
-		}
-		else {
-			for (let box of checkboxes) {
-				box.checked = false;
-			}
-		}
-	});
+	// 	if (e.target.checked) {
+	// 		for (let box of checkboxes) {
+	// 			box.checked = true;
+	// 		}
+	// 	}
+	// 	else {
+	// 		for (let box of checkboxes) {
+	// 			box.checked = false;
+	// 		}
+	// 	}
+	// });
 
 
 /***/ }),
@@ -412,9 +429,9 @@
 	const toast = document.querySelector('.mdl-js-snackbar');
 
 	module.exports = (res) => {
-		console.log('[TOAST]', toast)
+		console.log('[TOAST]', toast);
 
-		console.log('[TOAST]', toast.MaterialSnackbar)
+		console.log('[TOAST]', toast.MaterialSnackbar);
 		toast.MaterialSnackbar.showSnackbar({
 		    message: `${res.status ? res.status : ''} ${res.statusText ? res.statusText : ''}`
 		});

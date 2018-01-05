@@ -1,5 +1,15 @@
 const SubscriptionModel = require('../models/sub');
 
+const getMon = function (number, subMons) {
+	let foundMon;
+	for (let subMon of subMons) {
+		if (subMon.number === number) {
+			foundMon = subMon;
+		}
+	}
+	return foundMon;
+};
+
 module.exports = async function (req, res) {
 
 	let sub;
@@ -12,26 +22,30 @@ module.exports = async function (req, res) {
 	console.log(sub);
 
 	const subscriptionMons = sub && sub.mons ? sub.mons : [];
-	const subscriptionRadius = sub && sub.radius ? sub.radius : 500;
+	const subscriptionRadius = sub && sub.radius ? sub.radius : null;
 	const subscriptionRaids = sub && sub.raids ? sub.raids : [];
-	const raidsRadius = sub && sub.raidsRadius ? sub.raidsRadius : 1500;
+	const raidsRadius = sub && sub.raidsRadius ? sub.raidsRadius : null;
 
 	const availableMons = process.env.MONS.split(',');
 	const availableRaids = process.env.RAIDS.split(',');
 	const disabledRaids = process.env.DISABLED_RAIDS.split(',');
 
-	const mons = availableMons.map((monNumber) => {
+	const mons = availableMons.map((number) => {
+		const thisMon = getMon(number, subscriptionMons);
 		return {
-			number: monNumber,
-			checked: subscriptionMons.includes(monNumber) ? 'checked' : ''
+			number: number,
+			radius: thisMon ? thisMon.radius : 0,
+			checked: thisMon ? 'checked' : ''
 		};
 	});
 
-	const raids = availableRaids.map((raidNumber) => {
+	const raids = availableRaids.map((number) => {
+		const thisMon = getMon(number, subscriptionRaids);
 		return {
-			number: raidNumber,
-			checked: subscriptionRaids.includes(raidNumber) ? 'checked' : '',
-			disabled: disabledRaids.includes(raidNumber) ? 'disabled' : ''
+			number: number,
+			radius: thisMon ? thisMon.radius : 0,
+			checked: thisMon ? 'checked' : '',
+			disabled: disabledRaids.includes(number) ? 'disabled' : ''
 		};
 	});
 

@@ -15,6 +15,8 @@ const radiusField = document.querySelector('#radius');
 const metresDisplay = document.querySelector('#metres');
 const raidsRadiusField = document.querySelector('#raidsRadius');
 const raidsMetresDisplay = document.querySelector('#raidsMetres');
+const allMonSliders = document.querySelectorAll('input[type=range][data-mons="true"]');
+const allRaidSliders = document.querySelectorAll('input[type=range][data-raids="true"]');
 
 geo.update(parseInt(radiusField.value, 10), parseInt(raidsRadiusField.value, 10));
 
@@ -26,9 +28,12 @@ submitBtn.addEventListener('click', (e) => {
 		return;
 	}
 
-	const mons = [].filter.call(document.querySelectorAll('input[type=checkbox][data-mons="true"]'), (c) => c.checked).map(c => c.value);
-	const raids = [].filter.call(document.querySelectorAll('input[type=checkbox][data-raids="true"]'), (c) => c.checked).map(c => c.value);
-
+	const mons = [].filter.call(allMonSliders, (s) => s.value > 0).map((s) => {
+		return {number: s.id, radius: s.value};
+	});
+	const raids = [].filter.call(allRaidSliders, (s) => s.value > 0).map((s) => {
+		return {number: s.id, radius: s.value};
+	});
 	console.log('mons');
 	console.log(mons);
 
@@ -77,8 +82,20 @@ submitBtn.addEventListener('click', (e) => {
 
 });
 
+for (let monSlider of allMonSliders) {
+	monSlider.addEventListener('input', () => {
+		const metresDisplay = document.querySelector(`#metres-${monSlider.id}`);
+		metresDisplay.innerText = `${monSlider.value}m`;
+	});
+}
+
 radiusField.addEventListener('input', () => {
 	metresDisplay.innerText = `${radiusField.value}m`;
+	for (let monSlider of allMonSliders) {
+		monSlider.value = radiusField.value;
+		const evt = new Event('input');
+		monSlider.dispatchEvent(evt);
+	}
 });
 raidsRadiusField.addEventListener('input', () => {
 	raidsMetresDisplay.innerText = `${raidsRadiusField.value}m`;
@@ -90,18 +107,18 @@ uuidContainer.innerHTML = Cookies.get('uuid');
 
 
 // select/deselect all
-document.querySelector('#all').addEventListener('change', (e) => {
+// document.querySelector('#all').addEventListener('change', (e) => {
 
-	const checkboxes = document.querySelectorAll('input[type=checkbox][data-mons="true"]');
+// 	const checkboxes = document.querySelectorAll('input[type=checkbox][data-mons="true"]');
 
-	if (e.target.checked) {
-		for (let box of checkboxes) {
-			box.checked = true;
-		}
-	}
-	else {
-		for (let box of checkboxes) {
-			box.checked = false;
-		}
-	}
-});
+// 	if (e.target.checked) {
+// 		for (let box of checkboxes) {
+// 			box.checked = true;
+// 		}
+// 	}
+// 	else {
+// 		for (let box of checkboxes) {
+// 			box.checked = false;
+// 		}
+// 	}
+// });

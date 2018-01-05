@@ -4,8 +4,9 @@
   "description": "&& karma start --single-run true karma.conf.js",
   "main": "server/app.js",
   "scripts": {
+    "start": "export $(cat .env | xargs) && nodemon server/app.js",
     "test": "mocha tests/server/* --timeout 150000",
-    "build": "rm -rf public/ && webpack && cp -r client/img public/img && cp -r client/lib public/lib && cp client/sw.js public/sw.js && cp client/manifest.json public/manifest.json",
+    "build": "rm -rf public/ && webpack && cp -r client/img public/img && cp -r client/lib public/lib && cp client/sw.js public/sw.js && cp client/manifest.json public/manifest.json && cp client/css/main.css public/main.css",
     "prep-lambda": "rm -r serverless/server/; mkdir serverless/server/ && cp -r server/lib/ serverless/server/lib/ && cp -r server/data/ serverless/server/data/",
     "env": "export $(cat .env | xargs)"
   },
@@ -34,6 +35,7 @@
     "minify": "^3.0.2",
     "mocha": "^4.0.1",
     "mock-cookie": "^0.3.2",
+    "nodemon": "^1.14.7",
     "proxyquire": "^1.8.0",
     "sinon": "^4.0.1",
     "uuid": "^3.1.0",

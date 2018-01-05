@@ -12,14 +12,15 @@ const updateMons = async (req) => {
 	const userMons = req.body.mons;
 
 	const body = {
-		mons: (userMons.length > 0 && userMons[0] !== '') ? userMons : process.env.DEFAULT_MON_LIST,
+		mons: (userMons.length > 0) ? userMons : process.env.DEFAULT_MON_LIST,
 		radius: req.body.radius,
 		raids: req.body.raids,
 		raidsRadius: req.body.raidsRadius,
 		location: req.body.location,
 		subscription: req.body.subscription
 	};
-	console.log(`[SAVE] ${body.mons.length} mons at ${body.radius}m. Subs? ${!!body.subscription}. Location? ${!!body.location}`);
+	console.log(`[SAVE]`, body)
+	console.log(`[SAVE] ${body.mons.length} mons. Subs? ${!!body.subscription}. Location? ${!!body.location}`);
 
 	try {
 		const result = await SubscriptionModel.update({_id: uuid}, body, {upsert: true, setDefaultsOnInsert: true});
@@ -29,7 +30,7 @@ const updateMons = async (req) => {
 				title: 'Mon Radar 🤖',
 				message: JSON.stringify({
 					icon: 'img/logo.png', // TODO
-					text:`Watching ${body.mons.length} mon in ${body.radius}m & ${body.raids.length} raid mons at ${req.body.raidsRadius}m`
+					text:`Watching ${body.mons.length} mons and ${body.raids.length} raids`
 				})
 			});
 	}
