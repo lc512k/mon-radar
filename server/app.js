@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const mongoClient = require('./lib/mongo');
 const mainController = require('./controllers/main');
 const saveController = require('./controllers/save');
+const updateLocationController = require('./controllers/updateLocation');
 const sslRedirect = require('./middleware/https');
 
 const app = new express();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.get('/', mainController);
 app.post('/api/save', saveController);
+app.post('/api/updateLocation/', updateLocationController);
 
 // wait until we're connected to mongo
 const listen = mongoClient
