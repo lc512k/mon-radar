@@ -117,10 +117,6 @@ const update = (radius = 0, raidRadius = 0, newLocation) => {
 			console.time('marker');
 			drawMarkersAndInfo(map, subLocData, radius, raidRadius);
 
-			const rawLocation = document.querySelector('#rawLocation');
-			console.log('rawLocation',rawLocation, window.lat, window.lng);
-			rawLocation.innerText = `lat:${window.lat} lng:${window.lng}`;
-
 		}, () => {
 			toast({status: 'Oops, can\'t locate you. Is your GPS on?'});
 		},

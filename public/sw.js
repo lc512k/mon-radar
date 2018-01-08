@@ -71,11 +71,10 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 self.addEventListener('install', (e) => {
 	self.skipWaiting();
 	e.waitUntil(
-		caches.open('monradar2.3-cors').then((cache) => {
+		caches.open('monradar2.3-nogoogle').then((cache) => {
 			//TODO make two bundles, one we can cache (with libs)
 			return cache.addAll([
 				'/img/location-blue.png',
-				'/lib/google.min.js',
 				'/lib/material.min.css'
 			]);
 		})
@@ -103,7 +102,7 @@ self.addEventListener('activate', function (event) {
 	// FIX update on server here too
 	// if we don't and the user doesn't click Submit
 	// push notifications will fail (server will have the old version)
-	const cacheWhitelist = ['monradar2.3-cors'];
+	const cacheWhitelist = ['monradar2.3-nogoogle'];
 
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {
