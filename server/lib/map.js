@@ -50,7 +50,7 @@ function find (data, radius, location, wanted) {
 async function fetchPogoMap (radius, wanted, location, isRaids) {
 
 	// Everobydy wants shinies!
-	const shinies = ',129,302,355';
+	const shinies = '25,129,302,355';
 
 	const url = isRaids ? process.env.RAIDS_URL : process.env.URL + wanted.toString(); + shinies;
 	const options = {
